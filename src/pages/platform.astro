@@ -1,9 +1,9 @@
 ---
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 import { getEntry } from 'astro:content';
 import Layout   from '@/components/layout/Layout.astro';
 import PageHero from '@/components/layout/PageHero.astro';
 import PageCTA  from '@/components/layout/PageCTA.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const entry = await getEntry('products', 'platform');
 if (!entry) throw new Error('Platform MDX missing');

@@ -1,9 +1,9 @@
 ---
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 // landing_page/src/components/home/Hero.astro
 // Clean hero — headline, sub, CTAs, globe + WebGL atmosphere. Cascade lives in its own section.
 import Globe3D    from '@/components/interactive/Globe3D';
 import HeroShader from '@/components/interactive/HeroShader';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <section class="relative overflow-hidden" style="background: var(--obsidian); border-bottom: 1px solid var(--steel); min-height: 88vh;">
   <!-- WebGL signal backdrop -->
