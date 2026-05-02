@@ -1,50 +1,176 @@
 ---
 // landing_page/src/components/home/HowItWorks.astro
-// The platform pipeline — same three steps for every module on the twin.
-// Vegetation is shown as the working example.
-const steps = [
-  {
-    n: '01',
-    title: 'We watch your physical world from space',
-    body: 'Satellites and sensors feed a single live model — your assets, terrain, weather, vegetation, all in one place.'
-  },
-  {
-    n: '02',
-    title: 'AI does the work for the use case you care about',
-    body: 'Trees about to hit power lines. Canopy gaps in a city. Crews in the wrong place. The same twin, different questions.'
-  },
-  {
-    n: '03',
-    title: 'You act on it',
-    body: 'A ranked list of decisions goes straight into the system your team already uses. Red first, then amber, then green.'
-  }
-];
+// Vegetation section 01 — problem-led headline + 3 vegetation-specific steps with SVG animations.
 ---
 <section id="how-it-works" class="relative" style="border-bottom: 1px solid var(--steel); background: var(--obsidian-d);">
   <div class="container-page py-24 md:py-32">
+
+    <!-- Chapter marker -->
     <div class="chapter reveal">
       <span class="num">[ 01 ]</span>
       <span class="rule"></span>
-      <span class="label">How the twin works</span>
+      <span class="label">How it works</span>
     </div>
 
+    <!-- Headline block -->
     <div class="grid lg:grid-cols-12 gap-10 items-end mb-16">
-      <h2 class="lg:col-span-8 text-balance reveal">
-        Three steps. <em>Same pipeline</em> for every module.
+      <h2 class="lg:col-span-7 text-balance reveal" style="line-height:1.1;">
+        Trees take down your grid.<br/>
+        <em>Most could be prevented.</em>
       </h2>
-      <p class="lg:col-span-4 reveal" style="color: var(--fog); font-size: 17px; line-height: 1.6; transition-delay: 120ms;">
-        Build the twin once. Run as many modules on it as you need.
+      <p class="lg:col-span-5 reveal" style="color: var(--fog); font-size: 17px; line-height: 1.7; transition-delay: 120ms;">
+        38% of outages are caused by vegetation — yet most utilities still inspect by route, not by risk.
+        Sat Lab shows you which spans will fail, ranked by probability, up to 18 months before they do.
       </p>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-0 plate reveal" style="transition-delay: 200ms;">
-      {steps.map((s, i) => (
-        <article class="relative p-10" style={i < 2 ? 'border-right: 1px solid var(--steel);' : ''}>
-          <p class="kicker-accent" style="font-size: 11px;">Step · {s.n}</p>
-          <h3 class="mt-6" style="font-size: 1.5rem; line-height: 1.2;">{s.title}</h3>
-          <p class="mt-5" style="color: var(--fog); line-height: 1.6;">{s.body}</p>
+    <!-- Step cards -->
+    <div class="reveal" style="transition-delay: 200ms;">
+      <div class="grid md:grid-cols-3" style="border: 1px solid var(--steel);">
+
+        <!-- Step 01 -->
+        <article class="p-10 md:p-12 flex flex-col" style="border-right: 1px solid var(--steel);">
+          <p class="kicker-accent" style="font-size: 11px;">Step · 01</p>
+          <h3 class="mt-6" style="font-size: 1.25rem; line-height: 1.25;">We map every tree near your lines</h3>
+          <p class="mt-4 flex-1" style="color: var(--fog); font-size: 14px; line-height: 1.7;">
+            Sentinel-2 satellite imagery fused with LiDAR builds a live canopy model of your entire corridor — updated every 6 days, no ground crews required.
+          </p>
+
+          <!-- SVG: satellite scan grid -->
+          <div class="mt-8 flex justify-center items-center" style="height: 100px;" aria-hidden="true">
+            <svg width="120" height="90" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg" class="hiw-svg">
+              <style>
+                @media (prefers-reduced-motion: no-preference) {
+                  .hiw-cell { animation: hiwCellFade 2.4s ease-in-out infinite; }
+                  .hiw-cell:nth-child(2)  { animation-delay: .2s; }
+                  .hiw-cell:nth-child(3)  { animation-delay: .5s; }
+                  .hiw-cell:nth-child(4)  { animation-delay: .8s; }
+                  .hiw-cell:nth-child(5)  { animation-delay: .3s; }
+                  .hiw-cell:nth-child(6)  { animation-delay: .9s; }
+                  .hiw-cell:nth-child(7)  { animation-delay: .1s; }
+                  .hiw-cell:nth-child(8)  { animation-delay: .6s; }
+                  .hiw-cell:nth-child(9)  { animation-delay: .4s; }
+                  .hiw-cell:nth-child(10) { animation-delay: .7s; }
+                  .hiw-cell:nth-child(11) { animation-delay: .2s; }
+                  .hiw-cell:nth-child(12) { animation-delay: 1s;  }
+                  .hiw-scanline { animation: hiwScan 2.4s linear infinite; }
+                  @keyframes hiwCellFade  { 0%,100%{opacity:.15} 50%{opacity:.85} }
+                  @keyframes hiwScan      { 0%{transform:translateY(0);opacity:.7} 90%{opacity:.7} 100%{transform:translateY(80px);opacity:0} }
+                }
+              </style>
+              <!-- 4×3 grid of cells -->
+              <rect x="6"  y="6"  width="22" height="18" rx="2" fill="#1a3a1a" class="hiw-cell"/>
+              <rect x="32" y="6"  width="22" height="18" rx="2" fill="#5EE26B" opacity=".75" class="hiw-cell"/>
+              <rect x="58" y="6"  width="22" height="18" rx="2" fill="#1a3a1a" class="hiw-cell"/>
+              <rect x="84" y="6"  width="22" height="18" rx="2" fill="#5EE26B" opacity=".45" class="hiw-cell"/>
+
+              <rect x="6"  y="28" width="22" height="18" rx="2" fill="#5EE26B" opacity=".9"  class="hiw-cell"/>
+              <rect x="32" y="28" width="22" height="18" rx="2" fill="#1a3a1a" class="hiw-cell"/>
+              <rect x="58" y="28" width="22" height="18" rx="2" fill="#5EE26B" opacity=".6"  class="hiw-cell"/>
+              <rect x="84" y="28" width="22" height="18" rx="2" fill="#1a3a1a" class="hiw-cell"/>
+
+              <rect x="6"  y="50" width="22" height="18" rx="2" fill="#1a3a1a" class="hiw-cell"/>
+              <rect x="32" y="50" width="22" height="18" rx="2" fill="#5EE26B" opacity=".55" class="hiw-cell"/>
+              <rect x="58" y="50" width="22" height="18" rx="2" fill="#1a3a1a" class="hiw-cell"/>
+              <rect x="84" y="50" width="22" height="18" rx="2" fill="#5EE26B" opacity=".8"  class="hiw-cell"/>
+
+              <!-- scanline -->
+              <rect x="0" y="6" width="120" height="2" rx="1" fill="#5EE26B" opacity=".7" class="hiw-scanline"/>
+            </svg>
+          </div>
+
+          <div class="mt-6 pt-5" style="border-top: 1px solid var(--steel);">
+            <span class="kicker" style="color: var(--chlorophyll); font-size: 10px;">↳ 98% detection accuracy</span>
+          </div>
         </article>
-      ))}
+
+        <!-- Step 02 -->
+        <article class="p-10 md:p-12 flex flex-col" style="border-right: 1px solid var(--steel);">
+          <p class="kicker-accent" style="font-size: 11px;">Step · 02</p>
+          <h3 class="mt-6" style="font-size: 1.25rem; line-height: 1.25;">AI ranks every span by outage risk</h3>
+          <p class="mt-4 flex-1" style="color: var(--fog); font-size: 14px; line-height: 1.7;">
+            Growth rate, species, encroachment distance, voltage class, and historical storm data — combined into a single risk tier for every span in your network.
+          </p>
+
+          <!-- SVG: risk tier bars -->
+          <div class="mt-8 flex justify-center items-end" style="height: 100px;" aria-hidden="true">
+            <svg width="120" height="90" viewBox="0 0 120 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <style>
+                @media (prefers-reduced-motion: no-preference) {
+                  .hiw-bar1 { animation: hiwGrow1 1.8s ease-in-out infinite alternate; transform-origin: 50% 84px; }
+                  .hiw-bar2 { animation: hiwGrow2 1.8s ease-in-out infinite alternate; transform-origin: 50% 84px; }
+                  .hiw-bar3 { animation: hiwGrow3 1.8s ease-in-out infinite alternate; transform-origin: 50% 84px; }
+                  .hiw-bar4 { animation: hiwGrow4 1.8s ease-in-out infinite alternate; transform-origin: 50% 84px; }
+                  @keyframes hiwGrow1 { from{transform:scaleY(.25)} to{transform:scaleY(1)}   }
+                  @keyframes hiwGrow2 { from{transform:scaleY(.35)} to{transform:scaleY(.75)} }
+                  @keyframes hiwGrow3 { from{transform:scaleY(.2)}  to{transform:scaleY(.5)}  }
+                  @keyframes hiwGrow4 { from{transform:scaleY(.1)}  to{transform:scaleY(.3)}  }
+                }
+              </style>
+              <!-- tier labels -->
+              <text x="10"  y="10" font-size="8" fill="#8B95A8" font-family="monospace">T1</text>
+              <text x="38"  y="10" font-size="8" fill="#8B95A8" font-family="monospace">T2</text>
+              <text x="66"  y="10" font-size="8" fill="#8B95A8" font-family="monospace">T3</text>
+              <text x="94"  y="10" font-size="8" fill="#8B95A8" font-family="monospace">T4</text>
+              <!-- bars -->
+              <rect x="6"  y="14" width="22" height="70" rx="2" fill="#FF6B57" class="hiw-bar1"/>
+              <rect x="34" y="14" width="22" height="70" rx="2" fill="#F4B84A" class="hiw-bar2"/>
+              <rect x="62" y="14" width="22" height="70" rx="2" fill="#46993F" class="hiw-bar3"/>
+              <rect x="90" y="14" width="22" height="70" rx="2" fill="#5EE26B" class="hiw-bar4"/>
+              <!-- baseline -->
+              <line x1="0" y1="84" x2="120" y2="84" stroke="#2A3140" stroke-width="1"/>
+            </svg>
+          </div>
+
+          <div class="mt-6 pt-5" style="border-top: 1px solid var(--steel);">
+            <span class="kicker" style="color: var(--chlorophyll); font-size: 10px;">↳ Tier-1 spans flagged 18 mo ahead</span>
+          </div>
+        </article>
+
+        <!-- Step 03 -->
+        <article class="p-10 md:p-12 flex flex-col">
+          <p class="kicker-accent" style="font-size: 11px;">Step · 03</p>
+          <h3 class="mt-6" style="font-size: 1.25rem; line-height: 1.25;">Crews go to the right span, every time</h3>
+          <p class="mt-4 flex-1" style="color: var(--fog); font-size: 14px; line-height: 1.7;">
+            Ranked work orders flow into your existing GIS. Red first, then amber. A full NERC FAC-003 audit trail is generated automatically — no extra paperwork.
+          </p>
+
+          <!-- SVG: work order list sliding in -->
+          <div class="mt-8 flex flex-col justify-center" style="height: 100px; gap: 10px;" aria-hidden="true">
+            <style>
+              @media (prefers-reduced-motion: no-preference) {
+                .hiw-wo { animation: hiwSlide 2.4s ease-out infinite; opacity: 0; }
+                .hiw-wo:nth-child(1) { animation-delay: .1s; }
+                .hiw-wo:nth-child(2) { animation-delay: .5s; }
+                .hiw-wo:nth-child(3) { animation-delay: .9s; }
+                @keyframes hiwSlide {
+                  0%          { opacity:0; transform:translateX(-10px); }
+                  20%, 70%    { opacity:1; transform:translateX(0); }
+                  90%, 100%   { opacity:0; transform:translateX(0); }
+                }
+              }
+            </style>
+            <div class="hiw-wo" style="display:flex;align-items:center;gap:10px;">
+              <span style="width:8px;height:8px;border-radius:50%;background:#FF6B57;flex-shrink:0;"></span>
+              <span style="font-family:monospace;font-size:11px;color:#E6EAF0;letter-spacing:.05em;">S-0042 · T1 · Trim now</span>
+            </div>
+            <div class="hiw-wo" style="display:flex;align-items:center;gap:10px;">
+              <span style="width:8px;height:8px;border-radius:50%;background:#F4B84A;flex-shrink:0;"></span>
+              <span style="font-family:monospace;font-size:11px;color:#E6EAF0;letter-spacing:.05em;">S-0107 · T2 · 4 mo</span>
+            </div>
+            <div class="hiw-wo" style="display:flex;align-items:center;gap:10px;">
+              <span style="width:8px;height:8px;border-radius:50%;background:#46993F;flex-shrink:0;"></span>
+              <span style="font-family:monospace;font-size:11px;color:#E6EAF0;letter-spacing:.05em;">S-0219 · T3 · 11 mo</span>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-5" style="border-top: 1px solid var(--steel);">
+            <span class="kicker" style="color: var(--chlorophyll); font-size: 10px;">↳ 40% fewer crew-hours wasted</span>
+          </div>
+        </article>
+
+      </div>
     </div>
+
   </div>
 </section>
