@@ -11,7 +11,7 @@ export const DEFAULT_SEO: Required<Omit<SeoProps, 'canonical'>> = {
   title: 'Sat Lab — Digital twins for critical infrastructure',
   description:
     'Sat Lab builds AI-powered digital twins of the world\'s critical infrastructure — starting with the power grid. Satellite, AI, and 3D twins that predict vegetation-caused outages before they happen.',
-  image: '/og-image.png',
+  image: 'og-image.png',
   type: 'website'
 };
 

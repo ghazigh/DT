@@ -5,6 +5,7 @@
 // nothing leaks globally. Pick one — we then apply it site-wide.
 import '../styles/globals.css';
 import '@fontsource-variable/bricolage-grotesque/index.css';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <!doctype html>
 <html lang="en">
@@ -12,7 +13,7 @@ import '@fontsource-variable/bricolage-grotesque/index.css';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Three Directions — Sat Lab Rebranding</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
     <style is:global>
       /* --------- Page chrome (neutral shell around the three theme cards) --------- */
       html, body { background: #0a0a0a; color: #f4f4f0; }
@@ -538,7 +539,7 @@ import '@fontsource-variable/bricolage-grotesque/index.css';
     <!-- Sticky shell nav -->
     <div class="shell-nav">
       <div class="shell-nav-inner">
-        <a href="/">← BACK TO CURRENT SITE</a>
+        <a href={`${base}/`}>← BACK TO CURRENT SITE</a>
         <div class="chips">
           <a href="#observatory" class="chip">01 · Observatory</a>
           <a href="#atlas"       class="chip">02 · Atlas</a>
@@ -647,7 +648,7 @@ import '@fontsource-variable/bricolage-grotesque/index.css';
       </div>
 
       <div class="theme-choose">
-        <a href="/api/choose-theme?t=observatory" data-theme="observatory">Choose Observatory →</a>
+        <a href={`${base}/api/choose-theme?t=observatory`} data-theme="observatory">Choose Observatory →</a>
         <span class="hint">Clinical · rigorous · buyer-credible to engineers</span>
       </div>
     </section>
@@ -781,7 +782,7 @@ import '@fontsource-variable/bricolage-grotesque/index.css';
       </div>
 
       <div class="theme-choose">
-        <a href="/api/choose-theme?t=atlas" data-theme="atlas">Choose Atlas →</a>
+        <a href={`${base}/api/choose-theme?t=atlas`} data-theme="atlas">Choose Atlas →</a>
         <span class="hint">Monumental · prestige · buyer-credible to CEOs & investors</span>
       </div>
     </section>
@@ -865,7 +866,7 @@ import '@fontsource-variable/bricolage-grotesque/index.css';
       </div>
 
       <div class="theme-choose">
-        <a href="/api/choose-theme?t=signal" data-theme="signal">Choose Signal →</a>
+        <a href={`${base}/api/choose-theme?t=signal`} data-theme="signal">Choose Signal →</a>
         <span class="hint">Confident · graphic · buyer-credible to product & design</span>
       </div>
     </section>
