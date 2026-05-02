@@ -35,7 +35,7 @@ export default function ContactForm({ defaultInterest }: { defaultInterest?: str
 
     setStatus('submitting');
     try {
-      const res = await fetch(`${import.meta.env.BASE_URL}api/pilot-request`, {
+      const res = await fetch(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/api/pilot-request`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(result.data satisfies PilotRequest)

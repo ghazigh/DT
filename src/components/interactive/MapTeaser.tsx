@@ -78,7 +78,7 @@ export default function MapTeaser() {
 
     map.on('load', async () => {
       try {
-        const res = await fetch(`${import.meta.env.BASE_URL}data/sample-risk.geojson`);
+        const res = await fetch(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/data/sample-risk.geojson`);
         const data = await res.json();
 
         map.addSource('risk', { type: 'geojson', data });
