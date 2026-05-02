@@ -5,6 +5,7 @@ import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   site: 'https://ghazigh.github.io/DT',
+  base: '/DT',
   output: 'static',
   integrations: [
     mdx(),
