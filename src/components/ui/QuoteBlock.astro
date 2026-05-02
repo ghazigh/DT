@@ -1,0 +1,14 @@
+---
+// landing_page/src/components/ui/QuoteBlock.astro
+interface Props {
+  quote: string;
+  source?: string;
+}
+const { quote, source } = Astro.props;
+---
+<figure class="border-l-2 border-signal-mint pl-6 my-12">
+  <blockquote class="font-display italic text-2xl md:text-3xl text-ink-high leading-snug">
+    &ldquo;{quote}&rdquo;
+  </blockquote>
+  {source && <figcaption class="mt-4 font-mono text-xs text-ink-low">— {source}</figcaption>}
+</figure>

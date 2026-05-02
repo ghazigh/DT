@@ -1,0 +1,29 @@
+---
+// landing_page/src/components/ui/RoadmapColumn.astro
+interface Item {
+  label: string;
+  detail?: string;
+}
+interface Props {
+  title: string;
+  accent: 'lime' | 'mid';
+  items: Item[];
+}
+const { title, accent, items } = Astro.props;
+const accentClass = accent === 'lime' ? 'text-signal-lime' : 'text-ink-mid';
+const dotClass = accent === 'lime' ? 'bg-signal-lime' : 'bg-ink-low';
+---
+<div>
+  <h3 class:list={['font-display text-2xl mb-6', accentClass]}>{title}</h3>
+  <ul class="space-y-4">
+    {items.map((it) => (
+      <li class="flex gap-3">
+        <span class:list={['mt-2 h-1.5 w-1.5 rounded-full shrink-0', dotClass]} />
+        <div>
+          <p class="text-ink-high">{it.label}</p>
+          {it.detail && <p class="text-sm text-ink-mid mt-1">{it.detail}</p>}
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>

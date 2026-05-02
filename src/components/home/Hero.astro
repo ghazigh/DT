@@ -1,0 +1,67 @@
+---
+// landing_page/src/components/home/Hero.astro
+// Clean hero — headline, sub, CTAs, globe + WebGL atmosphere. Cascade lives in its own section.
+import Globe3D    from '@/components/interactive/Globe3D';
+import HeroShader from '@/components/interactive/HeroShader';
+---
+<section class="relative overflow-hidden" style="background: var(--obsidian); border-bottom: 1px solid var(--steel); min-height: 88vh;">
+  <!-- WebGL signal backdrop -->
+  <HeroShader client:idle />
+
+  <!-- Atmospheric graticule -->
+  <div class="absolute inset-0 bg-graticule opacity-30 pointer-events-none" style="z-index: 1;" aria-hidden="true"></div>
+
+  <!-- Globe -->
+  <div
+    class="absolute pointer-events-none hidden md:block"
+    style="top: 4%; right: -6%; width: 92vh; max-width: 1180px; aspect-ratio: 1/1; z-index: 2;"
+    aria-hidden="true"
+  >
+    <div
+      class="absolute inset-0"
+      style="-webkit-mask-image: radial-gradient(circle at 60% 50%, black 50%, transparent 92%); mask-image: radial-gradient(circle at 60% 50%, black 50%, transparent 92%);"
+    >
+      <Globe3D client:idle />
+    </div>
+  </div>
+
+  <!-- Hero content -->
+  <div class="relative z-10 flex items-center" style="min-height: 88vh;">
+    <div class="container-page py-20 md:py-28 w-full">
+
+      <!-- Live status -->
+      <div class="kicker-accent flex items-center gap-2.5 mb-12 reveal" style="font-size: 11px;">
+        <span class="h-2 w-2 rounded-full animate-pulse-dot" style="background: var(--chlorophyll);"></span>
+        Live · 2026
+      </div>
+
+      <!-- The platform thesis -->
+      <h1 class="max-w-[20ch] text-balance reveal" style="transition-delay: 80ms;">
+        A digital twin of the physical world. <em>Talk to it.</em>
+      </h1>
+
+      <!-- Sub -->
+      <div class="mt-10 grid md:grid-cols-12 gap-10 items-end reveal max-w-5xl" style="transition-delay: 180ms;">
+        <p class="md:col-span-7" style="color: var(--fog); font-size: 19px; line-height: 1.55;">
+          Sat Lab fuses satellites, traffic, weather, and high-fidelity simulations into one live model — then puts an agentic layer on top so you can query, simulate, and act on it in plain language.
+        </p>
+        <div class="md:col-span-5 flex flex-wrap items-center gap-4">
+          <a href="/contact" class="btn-primary">
+            Book a pilot
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M2 6h8M7 2l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+          </a>
+          <a href="#how-it-works" class="btn-ghost">How it works</a>
+        </div>
+      </div>
+
+      <!-- Scroll hint -->
+      <div class="mt-20 hidden md:flex items-center gap-3 reveal" style="transition-delay: 360ms;">
+        <span class="kicker" style="font-size: 10px;">Scroll · 4 steps</span>
+        <span class="hairline w-12"></span>
+        <span class="kicker-accent" style="font-size: 10px;">↓ How the twin works</span>
+      </div>
+    </div>
+  </div>
+</section>

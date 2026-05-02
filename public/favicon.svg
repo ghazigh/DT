@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Sat Lab graticule symbol — brand §4. Single weight, geometric, optical correction at 16 px. -->
+  <rect width="64" height="64" fill="#0A0E14"/>
+  <line x1="32" y1="6"  x2="32" y2="58" stroke="#E6EAF0" stroke-width="2"/>
+  <line x1="6"  y1="32" x2="58" y2="32" stroke="#E6EAF0" stroke-width="2"/>
+  <circle cx="32" cy="32" r="16" fill="none" stroke="#E6EAF0" stroke-width="2"/>
+  <circle cx="32" cy="32" r="6"  fill="#5EE26B"/>
+</svg>

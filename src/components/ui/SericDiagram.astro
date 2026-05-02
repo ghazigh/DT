@@ -1,0 +1,19 @@
+---
+// landing_page/src/components/ui/SericDiagram.astro
+const nodes = [
+  { key: 'S', label: 'Scene',        desc: '3D geometry, BIM, GIS' },
+  { key: 'E', label: 'Entity',       desc: 'Sensors, devices, assets' },
+  { key: 'R', label: 'Relationship', desc: 'Connections, topology' },
+  { key: 'I', label: 'Incident',     desc: 'Telemetry, events' },
+  { key: 'C', label: 'Control',      desc: 'Commands back to the world' }
+];
+---
+<div class="grid gap-4 md:grid-cols-5">
+  {nodes.map((n) => (
+    <div class="rounded-xl border border-line bg-bg-deep/40 p-5 text-center">
+      <div class="font-display text-4xl text-signal-mint">{n.key}</div>
+      <p class="mt-2 font-sans font-semibold text-ink-high">{n.label}</p>
+      <p class="mt-1 text-xs text-ink-mid">{n.desc}</p>
+    </div>
+  ))}
+</div>

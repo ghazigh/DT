@@ -1,0 +1,57 @@
+---
+// landing_page/src/components/layout/Footer.astro — dark
+const year = new Date().getFullYear();
+---
+<footer class="relative" style="border-top: 1px solid var(--steel);">
+  <div class="container-page pt-24 pb-10">
+    <div class="grid lg:grid-cols-12 gap-12">
+      <!-- Brand block -->
+      <div class="lg:col-span-5">
+        <a href="/" class="inline-flex items-center gap-3">
+          <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <line x1="12" y1="2" x2="12" y2="22" stroke="#E6EAF0" stroke-width="1"/>
+            <line x1="2" y1="12" x2="22" y2="12" stroke="#E6EAF0" stroke-width="1"/>
+            <circle cx="12" cy="12" r="6" stroke="#E6EAF0" stroke-width="1" fill="none"/>
+            <circle cx="12" cy="12" r="2" fill="#5EE26B"/>
+          </svg>
+          <span class="font-display text-lg" style="font-weight: 700; letter-spacing: -0.02em;">Sat Lab</span>
+        </a>
+        <p class="mt-8 max-w-sm" style="color: var(--fog); line-height: 1.6;">
+          A digital twin of the physical world for the systems that operate it. One twin, many use cases — vegetation management for utilities first.
+        </p>
+        <p class="mt-6 kicker">47.5040°N · 71.3030°W · Québec, Canada</p>
+      </div>
+
+      <!-- Twin -->
+      <div class="lg:col-span-2">
+        <p class="kicker mb-5">Twin</p>
+        <ul class="space-y-3">
+          <li><a href="/platform"     style="color: var(--bone);">Platform</a></li>
+          <li><a href="/vegetation"   style="color: var(--bone);">Vegetation Intelligence</a></li>
+          <li><a href="/urban-canopy" style="color: var(--bone);">Urban Canopy</a></li>
+        </ul>
+      </div>
+
+      <!-- Studio -->
+      <div class="lg:col-span-2">
+        <p class="kicker mb-5">Studio</p>
+        <ul class="space-y-3">
+          <li><a href="/about"   style="color: var(--bone);">Thesis</a></li>
+          <li><a href="/contact" style="color: var(--bone);">Request a pilot</a></li>
+        </ul>
+      </div>
+
+      <!-- Correspondence -->
+      <div class="lg:col-span-3">
+        <p class="kicker mb-5">Correspondence</p>
+        <a href="mailto:hello@satlab.io" class="mark">hello@satlab.io</a>
+        <p class="mt-4 text-sm" style="color: var(--fog);">Reply within 2 business days.</p>
+      </div>
+    </div>
+
+    <div class="mt-16 pt-6 flex flex-col md:flex-row gap-3 justify-between items-baseline" style="border-top: 1px solid var(--steel);">
+      <p class="kicker">© {year} Sat Lab · all rights reserved</p>
+      <p class="kicker">Imagery · Copernicus · ESA · NASA · OpenStreetMap</p>
+    </div>
+  </div>
+</footer>

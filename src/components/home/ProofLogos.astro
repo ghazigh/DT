@@ -1,0 +1,44 @@
+---
+// landing_page/src/components/home/ProofLogos.astro
+// A credibility strip of data-source and ecosystem partners.
+// Uses abstract SVG wordmarks to avoid trademark issues and keep it crisp.
+
+const logos = [
+  { name: 'SENTINEL-2',  role: 'ESA' },
+  { name: 'PLANET',      role: 'Daily' },
+  { name: 'MAXAR',       role: '0.3m' },
+  { name: 'COPERNICUS',  role: 'EU' },
+  { name: 'NASA · EOS',  role: 'Earth' },
+  { name: 'CESIUM',      role: '3D' },
+  { name: 'POSTGIS',     role: 'Spatial' },
+  { name: 'OPENSTREETMAP', role: 'Base' },
+  { name: 'PYTORCH',     role: 'AI' },
+  { name: 'NEO4J',       role: 'Graph' }
+];
+
+// Duplicate the list so the marquee loops seamlessly
+const loop = [...logos, ...logos];
+---
+<section class="relative border-t border-line bg-bg-carbon/40 py-16 overflow-hidden">
+  <div class="container-page mb-10">
+    <div class="flex items-center gap-3">
+      <span class="h-1.5 w-1.5 rounded-full bg-signal-phosphor animate-pulse-dot"></span>
+      <span class="eyebrow">FUSED FROM THE WORLD'S BEST EARTH OBSERVATION SYSTEMS</span>
+    </div>
+  </div>
+
+  <!-- Gradient masks fade the ends -->
+  <div class="relative">
+    <div class="pointer-events-none absolute inset-y-0 left-0 w-24 z-10 bg-gradient-to-r from-bg-void to-transparent"></div>
+    <div class="pointer-events-none absolute inset-y-0 right-0 w-24 z-10 bg-gradient-to-l from-bg-void to-transparent"></div>
+
+    <div class="flex gap-14 whitespace-nowrap marquee">
+      {loop.map((l) => (
+        <div class="flex items-center gap-4 border-l border-line pl-6 pr-2 py-2">
+          <span class="font-display text-2xl text-ink-mid tracking-tight">{l.name}</span>
+          <span class="eyebrow !text-ink-faint">· {l.role}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+---
+const proofs = [
+  { value: '$48B+', label: 'Combined TAM',           note: 'P1 + P2 + P3 markets' },
+  { value: '13',    label: 'Production AI models',   note: 'Planned, Grid DT PRD' },
+  { value: '≥95%',  label: 'Detection precision',    note: 'Modeled, P2 & P3 objectives' },
+  { value: '≤500ms',label: 'Twin command latency',   note: 'Modeled, P1 PRD §7' },
+  { value: '2026',  label: 'MVP shipping',           note: 'Per MVP design spec' }
+];
+---
+<section class="bg-bg-deep/60 border-y border-line">
+  <div class="container-page py-16">
+    <div class="grid gap-10 md:grid-cols-5">
+      {proofs.map((p) => (
+        <div>
+          <div class="font-display text-3xl md:text-4xl text-signal-ember leading-none">{p.value}</div>
+          <p class="mt-2 text-sm text-ink-high">{p.label}</p>
+          <p class="mt-1 font-mono text-xs text-ink-low">{p.note}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

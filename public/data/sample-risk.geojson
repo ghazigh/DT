@@ -1,0 +1,22 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    { "type": "Feature", "properties": { "tier": 1, "span": "S-0042", "iou": 0.96, "kind": "corridor" }, "geometry": { "type": "LineString", "coordinates": [[-71.31, 46.80], [-71.27, 46.815]] } },
+    { "type": "Feature", "properties": { "tier": 1, "span": "S-0044", "iou": 0.94, "kind": "corridor" }, "geometry": { "type": "LineString", "coordinates": [[-71.27, 46.815], [-71.235, 46.825]] } },
+    { "type": "Feature", "properties": { "tier": 2, "span": "S-0067", "iou": 0.88, "kind": "corridor" }, "geometry": { "type": "LineString", "coordinates": [[-71.235, 46.825], [-71.20, 46.835]] } },
+    { "type": "Feature", "properties": { "tier": 2, "span": "S-0072", "iou": 0.86, "kind": "corridor" }, "geometry": { "type": "LineString", "coordinates": [[-71.20, 46.835], [-71.165, 46.845]] } },
+    { "type": "Feature", "properties": { "tier": 3, "span": "S-0089", "iou": 0.79, "kind": "corridor" }, "geometry": { "type": "LineString", "coordinates": [[-71.165, 46.845], [-71.13, 46.855]] } },
+    { "type": "Feature", "properties": { "tier": 3, "span": "S-0094", "iou": 0.74, "kind": "corridor" }, "geometry": { "type": "LineString", "coordinates": [[-71.13, 46.855], [-71.09, 46.860]] } },
+    { "type": "Feature", "properties": { "tier": 4, "span": "S-0112", "iou": 0.68, "kind": "corridor" }, "geometry": { "type": "LineString", "coordinates": [[-71.09, 46.860], [-71.05, 46.872]] } },
+    { "type": "Feature", "properties": { "tier": 4, "span": "S-0118", "iou": 0.62, "kind": "corridor" }, "geometry": { "type": "LineString", "coordinates": [[-71.05, 46.872], [-71.02, 46.880]] } },
+    { "type": "Feature", "properties": { "tier": 1, "span": "S-0151", "iou": 0.95, "kind": "corridor" }, "geometry": { "type": "LineString", "coordinates": [[-71.02, 46.880], [-70.97, 46.879]] } },
+    { "type": "Feature", "properties": { "tier": 2, "span": "S-0163", "iou": 0.83, "kind": "corridor" }, "geometry": { "type": "LineString", "coordinates": [[-70.97, 46.879], [-70.92, 46.885]] } },
+
+    { "type": "Feature", "properties": { "kind": "alert", "tier": 1, "span": "S-0042", "iou": 0.96, "encroach": "+2.4 m", "species": "Populus deltoides" }, "geometry": { "type": "Point", "coordinates": [-71.295, 46.808] } },
+    { "type": "Feature", "properties": { "kind": "alert", "tier": 1, "span": "S-0044", "iou": 0.94, "encroach": "+1.8 m", "species": "Acer rubrum" }, "geometry": { "type": "Point", "coordinates": [-71.252, 46.820] } },
+    { "type": "Feature", "properties": { "kind": "alert", "tier": 1, "span": "S-0151", "iou": 0.95, "encroach": "+2.1 m", "species": "Betula alleghaniensis" }, "geometry": { "type": "Point", "coordinates": [-71.000, 46.880] } },
+
+    { "type": "Feature", "properties": { "kind": "asset", "type": "substation", "name": "PETIT-SAGUENAY · 315 kV" }, "geometry": { "type": "Point", "coordinates": [-71.31, 46.80] } },
+    { "type": "Feature", "properties": { "kind": "asset", "type": "substation", "name": "BAIE-ST-PAUL · 315 kV" }, "geometry": { "type": "Point", "coordinates": [-70.92, 46.885] } }
+  ]
+}

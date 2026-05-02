@@ -1,0 +1,51 @@
+---
+// landing_page/src/components/home/Manifesto.astro
+// One of the few surfaces where the "mission-led optimistic" register is allowed (Branding §2).
+// Brand promise quoted verbatim. Three principles support it.
+const principles = [
+  { n: '01', h: 'The twin is the product.',
+    b: 'Not the dashboard. Not the model. Not the API. The twin is an authoritative live model of the physical world that humans and agents operate against.' },
+  { n: '02', h: 'The hardest vertical first.',
+    b: 'Utility vegetation management is the wedge — the most regulated, the most measurable, the highest cost of being wrong. If the platform earns its keep there, it earns it anywhere.' },
+  { n: '03', h: 'Earth, then everything else.',
+    b: 'Outdoor before indoor. Canopy before ceiling. The world outside is already monitored from orbit; we make what comes back from orbit operational.' }
+];
+---
+<section class="relative overflow-hidden" style="border-bottom: 1px solid var(--steel); background: var(--obsidian);">
+  <!-- Atmospheric graticule, sparse -->
+  <div class="absolute inset-0 bg-graticule opacity-50 pointer-events-none mask-radial" aria-hidden="true"></div>
+
+  <div class="container-page py-28 md:py-40 relative">
+    <div class="chapter reveal">
+      <span class="num">[ 10 ]</span>
+      <span class="rule"></span>
+      <span class="label">Manifesto</span>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-7 reveal">
+        <p class="font-display text-pretty" style="font-size: clamp(2rem, 4.5vw + 0.5rem, 4rem); line-height: 1.05; letter-spacing: -0.02em; font-weight: 700; color: var(--bone);">
+          We see the physical world clearly, we explain what we see plainly, and we ship the work that follows from&nbsp;it.
+        </p>
+
+        <p class="mt-10 max-w-2xl" style="color: var(--fog); font-size: 18px; line-height: 1.6;">
+          Sat Lab makes the physical world legible to the systems that operate it. Satellite imagery, sensor streams, and 3-D context — turned into decisions utilities, municipalities, and infrastructure operators can <span class="mark">act on</span>.
+        </p>
+
+        <div class="mt-10 inline-flex items-center gap-3">
+          <span class="kicker" style="font-size: 10px;">Brand promise · v1.0 · 2026-04-25</span>
+        </div>
+      </div>
+
+      <div class="lg:col-span-4 lg:col-start-9 space-y-10">
+        {principles.map((p, i) => (
+          <div class="reveal" style={`transition-delay: ${i * 120}ms`}>
+            <p class="kicker-accent" style="font-size: 10px;">Principle · {p.n}</p>
+            <h3 class="mt-3" style="font-size: 1.5rem; line-height: 1.15;">{p.h}</h3>
+            <p class="mt-3" style="color: var(--fog); line-height: 1.6;">{p.b}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

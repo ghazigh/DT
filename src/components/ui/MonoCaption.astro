@@ -1,0 +1,8 @@
+---
+// landing_page/src/components/ui/MonoCaption.astro
+interface Props { class?: string }
+const { class: cls = '' } = Astro.props;
+---
+<p class:list={['text-mono-eyebrow', cls]}>
+  <slot />
+</p>

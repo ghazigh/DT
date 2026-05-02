@@ -1,0 +1,50 @@
+---
+// landing_page/src/components/layout/PageCTA.astro — Observatory
+interface Props {
+  eyebrow?: string;
+  headline: string;
+  subhead?: string;
+  primaryHref: string;
+  primaryLabel: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+  roman?: string;
+}
+const {
+  eyebrow = 'NEXT',
+  headline,
+  subhead,
+  primaryHref,
+  primaryLabel,
+  secondaryHref,
+  secondaryLabel,
+  roman = '∞'
+} = Astro.props;
+---
+<section class="relative border-b border-line bg-paper-deep">
+  <div class="container-tight py-28 md:py-36 text-center">
+    <div class="chapter justify-center reveal">
+      <span class="rule"></span>
+      <span class="num">[ {roman} ]</span>
+      <span class="rule"></span>
+    </div>
+
+    <h2 class="text-balance mt-4 reveal" style="transition-delay: 80ms" set:html={headline}></h2>
+
+    {subhead && (
+      <p class="mt-10 max-w-xl mx-auto text-ink-mid text-[17px] leading-relaxed reveal" style="transition-delay: 180ms">{subhead}</p>
+    )}
+
+    <div class="mt-12 flex flex-wrap justify-center items-center gap-6 reveal" style="transition-delay: 280ms">
+      <a href={primaryHref} class="btn-primary">
+        {primaryLabel}
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <path d="M2 6h8M7 2l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </a>
+      {secondaryHref && secondaryLabel && (
+        <a href={secondaryHref} class="btn-ghost">{secondaryLabel}</a>
+      )}
+    </div>
+  </div>
+</section>

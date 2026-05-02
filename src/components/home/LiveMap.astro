@@ -1,0 +1,29 @@
+---
+// landing_page/src/components/home/LiveMap.astro
+// Interactive risk map — real MapLibre + GeoJSON, brand sequential palette.
+import MapTeaser from '@/components/interactive/MapTeaser';
+---
+<section id="live-map" class="relative" style="border-bottom: 1px solid var(--steel); background: var(--obsidian);">
+  <div class="container-page py-24 md:py-32">
+    <div class="chapter reveal">
+      <span class="num">[ 04 ]</span>
+      <span class="rule"></span>
+      <span class="label">See for yourself</span>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10 items-end mb-12">
+      <h2 class="lg:col-span-8 text-balance reveal">
+        Every span. <em>Ranked.</em>
+      </h2>
+      <p class="lg:col-span-4 reveal" style="color: var(--fog); font-size: 17px; line-height: 1.6; transition-delay: 120ms;">
+        Green is healthy, red is urgent. Hover any alert to see the details. Click to zoom in.
+      </p>
+    </div>
+
+    <div class="reveal" style="transition-delay: 200ms;">
+      <div class="card-radius overflow-hidden" style="border: 1px solid var(--steel); background: var(--obsidian-d); height: 560px;">
+        <MapTeaser client:visible />
+      </div>
+    </div>
+  </div>
+</section>

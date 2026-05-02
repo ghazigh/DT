@@ -1,0 +1,55 @@
+---
+import MonoCaption from '@/components/ui/MonoCaption.astro';
+
+const faqs = [
+  {
+    q: 'How accurate are your models today?',
+    a: 'Our canopy segmentation runs at ≥95% detection for trees with a diameter > 10 cm in held-out test data. Risk scoring publishes honest precision/recall against public outage datasets (EAGLE-I, Copernicus Sentinel open data). We publish the numbers with their error bars, not just the hero metric.'
+  },
+  {
+    q: 'Who owns the data?',
+    a: 'You do. Customer imagery, telemetry, and work-order history stay in your tenant. Our models train on public data (Copernicus, USGS 3DEP, NASA Earth Observatory) and your labeled data only with explicit contract terms. We do not train on one customer and sell the resulting model to another without permission.'
+  },
+  {
+    q: 'Can this run on-premises?',
+    a: 'The Digital Twin core is designed for Kubernetes and can run on customer infrastructure (AWS, Azure, GCP, or on-prem VMware). Satellite ingestion requires outbound internet to data providers (Copernicus, Planet, Maxar). The MVP is cloud-first; on-prem deployments are a Phase 2 conversation.'
+  },
+  {
+    q: "What's the pricing model?",
+    a: 'Vegetation Intelligence is priced per kilometer of right-of-way per year. The Digital Twin Platform is priced per-building / per-campus SaaS. Urban Canopy DT is priced per-tree per year. We publish pricing ranges only after pilot scope is understood.'
+  },
+  {
+    q: 'How is this different from Overstory, Planet, or Palantir?',
+    a: 'Overstory focuses on vegetation detection only. Planet sells imagery, not inference. Palantir is an ontology and analytics platform, not a digital twin with native 3D rendering. Sat Lab ships the full loop — sense, understand, predict, act — with a semantic twin you can actually query and operate against. The multi-resolution cascade (free → tasked → LiDAR) is our specific optimization.'
+  },
+  {
+    q: "What's not in the MVP?",
+    a: 'A lot. No real-time IoT/MQTT in v1. No interior BIM twin. No smart-scenario modules (parking, elevator, lighting). No multi-physics simulation. No multi-tenant RBAC. No citizen portal or carbon-credit integration. All on the 24-month roadmap — read the MVP spec in our repository for the full list.'
+  }
+];
+---
+<section id="faq" class="border-b border-line">
+  <div class="container-page py-24">
+    <MonoCaption>FAQ</MonoCaption>
+    <h2 class="mt-4 max-w-3xl">
+      The things you'll ask before we get on a call.
+    </h2>
+
+    <div class="mt-12 divide-y divide-line border-t border-b border-line">
+      {faqs.map((f, i) => (
+        <details class="group">
+          <summary class="flex cursor-pointer items-start justify-between gap-6 py-6">
+            <span class="font-display text-xl md:text-2xl text-ink-high">
+              <span class="font-mono text-xs text-signal-ember mr-4">{String(i + 1).padStart(2, '0')}</span>
+              {f.q}
+            </span>
+            <span class="text-2xl text-signal-mint transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+          </summary>
+          <div class="pb-6 pr-12 max-w-3xl text-ink-mid leading-relaxed">
+            {f.a}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

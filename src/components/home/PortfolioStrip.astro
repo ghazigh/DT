@@ -1,0 +1,37 @@
+---
+import ProductCard from '@/components/ui/ProductCard.astro';
+import MonoCaption from '@/components/ui/MonoCaption.astro';
+---
+<section class="border-b border-line">
+  <div class="container-page py-24">
+    <MonoCaption>The portfolio</MonoCaption>
+    <h2 class="mt-4 max-w-3xl">
+      Three products. <em class="italic font-normal text-signal-mint">One operating system.</em>
+    </h2>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
+      <ProductCard
+        href="/vegetation"
+        name="Vegetation Intelligence"
+        tagline="Satellite + AI that predicts where trees will take down the grid."
+        stat="≥95% detection"
+        tam="$8B+"
+        badge="Wedge"
+      />
+      <ProductCard
+        href="/platform"
+        name="Digital Twin Platform"
+        tagline="A semantic 3D twin for any sensor, any building, any city."
+        stat="≤500 ms"
+        tam="$15B+"
+      />
+      <ProductCard
+        href="/urban-canopy"
+        name="Urban Canopy DT"
+        tagline="Every tree in your city as a queryable entity, with multi-physics simulation."
+        stat="13 models"
+        tam="$25B+"
+      />
+    </div>
+  </div>
+</section>

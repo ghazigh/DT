@@ -1,0 +1,33 @@
+---
+// landing_page/src/components/home/VegetationHero.astro
+// Module-specific hero for /vegetation. The wedge use case anchored explicitly.
+---
+<section class="relative overflow-hidden" style="background: var(--obsidian); border-bottom: 1px solid var(--steel); min-height: 60vh;">
+  <div class="absolute inset-0 bg-graticule opacity-30 pointer-events-none" aria-hidden="true"></div>
+
+  <div class="container-page pt-28 pb-20 md:pt-36 md:pb-24 relative">
+    <div class="kicker-accent flex items-center gap-2.5 mb-10 reveal" style="font-size: 11px;">
+      <span class="h-2 w-2 rounded-full animate-pulse-dot" style="background: var(--chlorophyll);"></span>
+      Module 01 · Vegetation management · Live · 2026
+    </div>
+
+    <h1 class="max-w-[18ch] text-balance reveal" style="transition-delay: 80ms;">
+      Stop trees from <em>taking down</em> your power lines.
+    </h1>
+
+    <div class="mt-10 grid md:grid-cols-12 gap-10 items-end reveal max-w-5xl" style="transition-delay: 180ms;">
+      <p class="md:col-span-7" style="color: var(--fog); font-size: 19px; line-height: 1.55;">
+        The first module on the Sat Lab twin. Satellites and AI find every tree about to hit your lines. We rank them by risk. Your crews trim the ones that matter.
+      </p>
+      <div class="md:col-span-5 flex flex-wrap items-center gap-4">
+        <a href="/contact?interest=pilot" class="btn-primary">
+          Book a pilot
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2 6h8M7 2l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </a>
+        <a href="/" class="btn-ghost">See the platform</a>
+      </div>
+    </div>
+  </div>
+</section>

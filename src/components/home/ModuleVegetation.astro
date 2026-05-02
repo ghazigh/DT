@@ -1,0 +1,159 @@
+---
+// landing_page/src/components/home/ModuleVegetation.astro
+---
+<section id="vegetation" class="relative border-t border-line overflow-hidden">
+  <div class="container-page py-28 md:py-36 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+    <!-- Copy -->
+    <div class="lg:col-span-5 reveal">
+      <p class="eyebrow-signal">[ MODULE · 01 ]</p>
+      <h2 class="mt-6 text-balance">
+        Find the <span class="display-italic text-signal-phosphor">5% of the grid</span><br/>
+        that will fail — before it does.
+      </h2>
+      <p class="mt-8 text-lg text-ink-mid text-pretty">
+        A multi-resolution satellite cascade. Free Sentinel-2 screens every kilometre; high-res Planet and Maxar are tasked only where the risk justifies it; LiDAR verifies the worst corridors. AI turns pixels into tree polygons, polygons into risk scores, scores into work orders.
+      </p>
+
+      <dl class="mt-12 grid grid-cols-3 gap-6">
+        <div class="border-l border-signal-phosphor pl-4">
+          <dt class="eyebrow">DETECTION</dt>
+          <dd class="mt-2 font-display text-3xl text-ink-paper">≥95<span class="text-signal-phosphor">%</span></dd>
+        </div>
+        <div class="border-l border-signal-phosphor pl-4">
+          <dt class="eyebrow">FEWER SURVEYS</dt>
+          <dd class="mt-2 font-display text-3xl text-ink-paper">≥80<span class="text-signal-phosphor">%</span></dd>
+        </div>
+        <div class="border-l border-signal-phosphor pl-4">
+          <dt class="eyebrow">REPAIR CUT</dt>
+          <dd class="mt-2 font-display text-3xl text-ink-paper">≥30<span class="text-signal-phosphor">%</span></dd>
+        </div>
+      </dl>
+
+      <a href="/vegetation" class="mt-12 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-signal-phosphor no-underline hover:gap-3 transition-all">
+        Module spec · FRs · pricing
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- Visualization: satellite scan of forest canopy -->
+    <div class="lg:col-span-7 reveal" style="transition-delay: 120ms">
+      <div class="relative aspect-[4/3] rounded-[20px] border border-line bg-bg-carbon overflow-hidden">
+        <!-- Canopy texture -->
+        <svg
+          class="absolute inset-0 h-full w-full"
+          viewBox="0 0 800 600"
+          preserveAspectRatio="xMidYMid slice"
+          aria-hidden="true"
+        >
+          <defs>
+            <radialGradient id="crown" cx="50%" cy="40%">
+              <stop offset="0%" stop-color="#2a6b4a"/>
+              <stop offset="60%" stop-color="#143826"/>
+              <stop offset="100%" stop-color="#0a1d14"/>
+            </radialGradient>
+            <radialGradient id="crown-risk" cx="50%" cy="40%">
+              <stop offset="0%" stop-color="#ff6b3d"/>
+              <stop offset="80%" stop-color="#3a1a0f"/>
+              <stop offset="100%" stop-color="#0a1d14"/>
+            </radialGradient>
+            <radialGradient id="crown-mid" cx="50%" cy="40%">
+              <stop offset="0%" stop-color="#6b5a1a"/>
+              <stop offset="70%" stop-color="#2a220a"/>
+              <stop offset="100%" stop-color="#0a1d14"/>
+            </radialGradient>
+          </defs>
+
+          <!-- Terrain base -->
+          <rect width="800" height="600" fill="#070a10"/>
+
+          <!-- Grid lines (topographic) -->
+          <g stroke="#1d2028" stroke-width="0.5" opacity="0.6">
+            <path d="M0,120 Q200,80 400,140 T800,120"/>
+            <path d="M0,220 Q200,180 400,240 T800,220"/>
+            <path d="M0,320 Q200,280 400,340 T800,320"/>
+            <path d="M0,420 Q200,380 400,440 T800,420"/>
+            <path d="M0,520 Q200,480 400,540 T800,520"/>
+          </g>
+
+          <!-- Power line corridor (right-of-way) -->
+          <g>
+            <rect x="0" y="290" width="800" height="32" fill="rgba(76,167,255,0.05)" stroke="rgba(76,167,255,0.3)" stroke-width="1" stroke-dasharray="4 6"/>
+            <line x1="0" y1="306" x2="800" y2="306" stroke="rgba(76,167,255,0.5)" stroke-width="1"/>
+            <!-- pylons -->
+            {Array.from({length: 7}).map((_, i) => (
+              <g transform={`translate(${80 + i * 110},306)`}>
+                <line x1="0" y1="-14" x2="0" y2="14" stroke="#4ca7ff" stroke-width="1.5"/>
+                <line x1="-10" y1="-8" x2="10" y2="-8" stroke="#4ca7ff" stroke-width="1"/>
+                <circle r="2" fill="#4ca7ff"/>
+              </g>
+            ))}
+          </g>
+
+          <!-- Tree crowns (randomized circles) -->
+          <g>
+            {Array.from({length: 80}).map((_, i) => {
+              const x = (i * 97 + 37) % 780 + 10;
+              const y = ((i * 61 + 17) % 520) + 40;
+              const r = 18 + (i % 5) * 4;
+              const closeToLine = Math.abs(y - 306) < 60;
+              const isRisk = closeToLine && i % 3 === 0;
+              const isMid = closeToLine && !isRisk && i % 2 === 0;
+              const fill = isRisk ? 'url(#crown-risk)' : isMid ? 'url(#crown-mid)' : 'url(#crown)';
+              return <circle cx={x} cy={y} r={r} fill={fill} opacity="0.85"/>;
+            })}
+          </g>
+
+          <!-- Risk annotation rings on the red trees -->
+          <g fill="none" stroke="#ff6b3d" stroke-width="1">
+            <circle cx="187" cy="335" r="28" stroke-dasharray="3 4"/>
+            <circle cx="517" cy="277" r="30" stroke-dasharray="3 4"/>
+            <circle cx="647" cy="335" r="26" stroke-dasharray="3 4"/>
+          </g>
+
+          <!-- Scan line (animated) -->
+          <g class="scan-layer">
+            <rect x="0" y="0" width="800" height="80" fill="url(#scanGrad)"/>
+          </g>
+          <defs>
+            <linearGradient id="scanGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(0,255,163,0)"/>
+              <stop offset="50%" stop-color="rgba(0,255,163,0.35)"/>
+              <stop offset="100%" stop-color="rgba(0,255,163,0)"/>
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <!-- Overlay labels -->
+        <div class="absolute top-4 left-4 flex items-center gap-3">
+          <span class="h-1.5 w-1.5 rounded-full bg-signal-phosphor animate-pulse-dot"></span>
+          <span class="eyebrow">SENTINEL-2 · 10m · TILE T18TXR</span>
+        </div>
+        <div class="absolute top-4 right-4 flex flex-col items-end gap-1">
+          <span class="eyebrow">{new Date().toISOString().slice(0,10)} · 11:42:03 UTC</span>
+        </div>
+
+        <!-- Risk legend -->
+        <div class="absolute bottom-4 left-4 flex gap-4 font-mono text-[10px] uppercase tracking-[0.18em]">
+          <span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-signal-ember"></span>HIGH RISK · 3</span>
+          <span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full" style="background:#6b5a1a"></span>MID · 11</span>
+          <span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-signal-phosphor/60"></span>SAFE · 66</span>
+        </div>
+        <div class="absolute bottom-4 right-4 eyebrow">GRID 47.51°N 71.32°W</div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .scan-layer {
+      transform: translateY(-80px);
+      animation: scan-v 5s linear infinite;
+    }
+    @keyframes scan-v {
+      0%   { transform: translateY(-80px); }
+      100% { transform: translateY(600px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .scan-layer { animation: none; }
+    }
+  </style>
+</section>

@@ -1,0 +1,78 @@
+---
+// landing_page/src/components/home/Proof.astro
+// One big number. One sentence. No chart.
+---
+<section class="relative" style="border-bottom: 1px solid var(--steel); background: var(--obsidian-d);">
+  <div class="container-page py-28 md:py-40">
+    <div class="chapter reveal">
+      <span class="num">[ 03 ]</span>
+      <span class="rule"></span>
+      <span class="label">Proof</span>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10 items-end">
+      <div class="lg:col-span-8 reveal">
+        <p
+          class="font-display text-balance"
+          style="font-size: clamp(5rem, 18vw, 18rem); line-height: 0.85; letter-spacing: -0.04em; font-weight: 700; color: var(--bone);"
+        >
+          <span class="countup" data-target="8" data-decimals="0">0</span><span style="color: var(--chlorophyll);"> h</span>
+        </p>
+      </div>
+      <div class="lg:col-span-4 reveal" style="transition-delay: 120ms;">
+        <p class="kicker-accent" style="font-size: 11px;">Outage time avoided · per major storm</p>
+        <p class="mt-6 text-[18px] leading-snug" style="color: var(--bone);">
+          That's the average cut, measured across <span class="mark">1 240 km</span> of Quebec grid over 9 quarters of pilot work.
+        </p>
+      </div>
+    </div>
+
+    <!-- Three plain numbers -->
+    <div class="mt-20 pt-10 grid md:grid-cols-3 reveal" style="border-top: 1px solid var(--steel); transition-delay: 200ms;">
+      {[
+        { n: '84', suf: ' %', l: 'Fewer ground surveys' },
+        { n: '92', suf: ' %', l: 'Faster corridor recheck' },
+        { n: '90', suf: ' d', l: 'From contract to alerts in your system' }
+      ].map((m, i) => (
+        <div class="p-6 md:p-8" style={i < 2 ? 'border-right: 1px solid var(--steel);' : ''}>
+          <p class="font-display" style="font-size: 2.5rem; font-weight: 700; letter-spacing: -0.02em; color: var(--bone);">
+            <span class="countup" data-target={m.n} data-decimals="0">0</span>{m.suf}
+          </p>
+          <p class="mt-3 kicker" style="font-size: 11px;">{m.l}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+(() => {
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const animateCount = (el) => {
+    const target = parseFloat(el.dataset.target);
+    const dec = parseInt(el.dataset.decimals || '0', 10);
+    if (reduced) { el.textContent = target.toFixed(dec); return; }
+    const dur = 1400;
+    const t0 = performance.now();
+    const tick = (t) => {
+      const k = Math.min(1, (t - t0) / dur);
+      const eased = 1 - Math.pow(1 - k, 3);
+      el.textContent = (target * eased).toFixed(dec);
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  const counts = document.querySelectorAll('.countup');
+  if ('IntersectionObserver' in window && counts.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { animateCount(e.target); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.4 });
+    counts.forEach((el) => io.observe(el));
+  } else {
+    counts.forEach((el) => animateCount(el));
+  }
+})();
+</script>

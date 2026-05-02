@@ -1,0 +1,42 @@
+---
+// landing_page/src/components/layout/PageHero.astro — Observatory
+interface Props {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+  roman?: string;
+  accent?: 'rust' | 'forest' | 'ochre' | 'phosphor' | 'telemetry' | 'chlorophyll' | 'amber' | 'signal';
+  ctas?: Array<{ href: string; label: string; style?: string }>;
+}
+const {
+  eyebrow,
+  title,
+  lede,
+  roman = '01'
+} = Astro.props;
+---
+<section class="relative pt-16 border-b border-line">
+  <div class="border-b border-line">
+    <div class="container-page flex items-center justify-between h-10 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-soft">
+      <span>SAT LAB / FIELD 01</span>
+      <span class="hidden md:inline">47.5040°N · 71.3030°W</span>
+      <span>2026</span>
+    </div>
+  </div>
+
+  <div class="container-page py-20 md:py-28">
+    <div class="chapter reveal">
+      <span class="num">[ {roman} ]</span>
+      <span class="rule"></span>
+      <span class="label">{eyebrow}</span>
+    </div>
+
+    <h1 class="max-w-5xl text-balance reveal" style="transition-delay: 120ms" set:html={title}></h1>
+
+    {lede && (
+      <p class="mt-12 max-w-2xl text-ink-mid text-[17px] leading-relaxed reveal" style="transition-delay: 220ms">
+        {lede}
+      </p>
+    )}
+  </div>
+</section>

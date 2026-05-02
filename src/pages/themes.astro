@@ -1,0 +1,949 @@
+---
+// landing_page/src/pages/themes.astro
+// Side-by-side preview of three rebranding directions.
+// Each theme is fully self-contained CSS (scoped by wrapper class) so
+// nothing leaks globally. Pick one — we then apply it site-wide.
+import '../styles/globals.css';
+import '@fontsource-variable/bricolage-grotesque/index.css';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Three Directions — Sat Lab Rebranding</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style is:global>
+      /* --------- Page chrome (neutral shell around the three theme cards) --------- */
+      html, body { background: #0a0a0a; color: #f4f4f0; }
+      body { font-family: 'Inter Tight', system-ui, sans-serif; }
+
+      .shell-nav {
+        position: fixed;
+        top: 0; inset-inline: 0;
+        z-index: 100;
+        background: rgba(10,10,10,0.82);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+      }
+      .shell-nav-inner {
+        max-width: 1600px; margin: 0 auto; padding: 14px 32px;
+        display: flex; align-items: center; justify-content: space-between;
+        font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+      }
+      .shell-nav a { color: #f4f4f0; text-decoration: none; opacity: 0.75; transition: opacity 0.2s; }
+      .shell-nav a:hover { opacity: 1; }
+      .shell-nav .chips { display: flex; gap: 8px; }
+      .shell-nav .chip {
+        padding: 8px 14px; border: 1px solid rgba(255,255,255,0.15); border-radius: 999px;
+        font-size: 10px; letter-spacing: 0.2em; cursor: pointer;
+        transition: all 0.25s;
+      }
+      .shell-nav .chip:hover { border-color: #f4f4f0; }
+      .shell-nav .chip.active { background: #f4f4f0; color: #0a0a0a; border-color: #f4f4f0; }
+
+      .shell-intro {
+        max-width: 1200px; margin: 0 auto; padding: 140px 32px 60px;
+        text-align: center;
+      }
+      .shell-intro .eyebrow {
+        font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+        color: rgba(255,255,255,0.55);
+      }
+      .shell-intro h1 {
+        font-family: 'Instrument Serif', serif;
+        font-size: clamp(40px, 6vw, 84px);
+        line-height: 1;
+        margin: 24px 0 16px;
+        font-weight: 400;
+      }
+      .shell-intro h1 em { font-style: italic; color: #ff8a3d; }
+      .shell-intro p {
+        color: rgba(255,255,255,0.6); max-width: 620px; margin: 0 auto;
+        font-size: 17px; line-height: 1.55;
+      }
+
+      .theme-wrap {
+        position: relative;
+        margin: 40px auto 0;
+        max-width: 1680px;
+        padding: 0 32px 100px;
+      }
+      .theme-header {
+        display: grid; grid-template-columns: auto 1fr auto; align-items: baseline;
+        gap: 24px;
+        padding: 32px 0 18px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      .theme-number {
+        font-family: 'Instrument Serif', serif; font-style: italic;
+        font-size: 56px; color: rgba(255,255,255,0.3); line-height: 1;
+      }
+      .theme-meta { color: rgba(255,255,255,0.7); font-size: 13px; display: flex; gap: 20px; flex-wrap: wrap; }
+      .theme-meta strong { color: #f4f4f0; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; font-size: 11px; }
+      .theme-swatch {
+        display: inline-block; width: 18px; height: 18px; border-radius: 4px; margin-right: 6px;
+        vertical-align: middle; border: 1px solid rgba(255,255,255,0.15);
+      }
+      .theme-card {
+        margin-top: 0;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 40px 120px rgba(0,0,0,0.5);
+      }
+      .theme-choose {
+        margin-top: 28px; display: flex; gap: 24px; align-items: center;
+        font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+      }
+      .theme-choose a {
+        display: inline-flex; align-items: center; gap: 10px;
+        padding: 14px 24px; border: 1px solid #f4f4f0;
+        color: #f4f4f0; text-decoration: none;
+        background: transparent; transition: all 0.3s;
+      }
+      .theme-choose a:hover { background: #f4f4f0; color: #0a0a0a; }
+      .theme-choose .hint { opacity: 0.4; }
+
+      /* ============================================================ */
+      /*  01 · OBSERVATORY — minimalist + technology                  */
+      /*  Pure white, grotesk, one precision accent (tunable)          */
+      /* ============================================================ */
+      .theme-obs {
+        --obs-accent: #e85400;
+        background: #ffffff;
+        color: #0a0a0a;
+        font-family: 'Inter Tight', system-ui, sans-serif;
+        padding: 0;
+      }
+      .theme-obs * { box-sizing: border-box; }
+      .theme-obs .bar {
+        border-bottom: 1px solid #0a0a0a;
+        display: grid; grid-template-columns: 1fr auto auto auto auto 1fr;
+        align-items: center;
+        font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+        padding: 20px 32px;
+        gap: 40px;
+      }
+      .theme-obs .bar > *:first-child { font-weight: 600; letter-spacing: -0.02em; text-transform: none; font-size: 15px; }
+      .theme-obs .hero {
+        padding: 120px 32px 80px;
+        display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;
+      }
+      .theme-obs .kicker {
+        grid-column: 1 / 4;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px; letter-spacing: 0.12em;
+        display: flex; gap: 16px; align-items: center;
+        opacity: 0.65;
+      }
+      .theme-obs .kicker .tick { display: inline-block; width: 8px; height: 8px; background: var(--obs-accent); border-radius: 50%; transition: background 0.3s; }
+      .theme-obs h1, .theme-obs h2, .theme-obs h3, .theme-obs h4 {
+        font-family: 'Inter Tight', system-ui, sans-serif;
+      }
+      .theme-obs h1 {
+        grid-column: 1 / 11;
+        font-size: clamp(48px, 7vw, 108px);
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+        font-weight: 600;
+        margin: 56px 0 0;
+      }
+      .theme-obs h1 .dim { color: rgba(10,10,10,0.3); }
+      .theme-obs h1 .mark { color: var(--obs-accent); transition: color 0.3s; }
+      .theme-obs .desc {
+        grid-column: 1 / 6;
+        margin-top: 48px;
+        font-size: 16px; line-height: 1.5;
+        color: rgba(10,10,10,0.65);
+      }
+      .theme-obs .ctas {
+        grid-column: 7 / 13;
+        margin-top: 48px;
+        display: flex; align-items: flex-end; justify-content: flex-end; gap: 16px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+      }
+      .theme-obs .btn {
+        display: inline-flex; align-items: center; gap: 10px;
+        padding: 14px 18px; border: 1px solid #0a0a0a;
+        color: #0a0a0a; text-decoration: none;
+      }
+      .theme-obs .btn--fill { background: #0a0a0a; color: #fff; }
+      .theme-obs .btn--fill:hover { background: var(--obs-accent); border-color: var(--obs-accent); }
+
+      .theme-obs .rule { border-top: 1px solid #0a0a0a; }
+
+      .theme-obs .proof {
+        padding: 80px 32px;
+        display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;
+      }
+      .theme-obs .proof .label {
+        grid-column: 1 / 4;
+        font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em;
+        color: var(--obs-accent); text-transform: uppercase;
+        padding-top: 12px;
+        transition: color 0.3s;
+      }
+      .theme-obs .proof .figure {
+        grid-column: 4 / 11;
+        font-size: clamp(90px, 14vw, 220px);
+        font-weight: 400;
+        line-height: 0.85;
+        letter-spacing: -0.06em;
+      }
+      .theme-obs .proof .figure .pct { color: var(--obs-accent); transition: color 0.3s; }
+      .theme-obs .proof .note {
+        grid-column: 11 / 13;
+        font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.5;
+        align-self: end;
+        color: rgba(10,10,10,0.5);
+      }
+      .theme-obs .proof-metrics {
+        grid-column: 1 / 13;
+        margin-top: 60px;
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+        border-top: 1px solid rgba(10,10,10,0.15);
+        padding-top: 24px;
+      }
+      .theme-obs .proof-metrics .m { display: grid; gap: 8px; }
+      .theme-obs .proof-metrics .n { font-size: 40px; font-weight: 500; letter-spacing: -0.03em; }
+      .theme-obs .proof-metrics .l { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(10,10,10,0.55); }
+
+      .theme-obs .diagram {
+        padding: 60px 32px 80px;
+        display: grid; grid-template-columns: repeat(12, 1fr); gap: 0;
+        border-top: 1px solid #0a0a0a;
+      }
+      .theme-obs .diagram > div { padding: 32px; border-right: 1px solid rgba(10,10,10,0.15); }
+      .theme-obs .diagram > div:last-child { border-right: none; }
+      .theme-obs .diagram .module { grid-column: span 4; }
+      .theme-obs .diagram .core { grid-column: span 4; background: #f7f3ea; }
+      .theme-obs .diagram h3 { font-size: 26px; font-weight: 500; letter-spacing: -0.02em; margin: 20px 0 12px; }
+      .theme-obs .diagram .tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; color: var(--obs-accent); text-transform: uppercase; transition: color 0.3s; }
+      .theme-obs .diagram p { font-size: 14px; line-height: 1.55; color: rgba(10,10,10,0.65); margin: 0; }
+
+      /* Accent picker — sits above the Observatory card */
+      .accent-picker {
+        display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+        padding: 16px 20px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 8px;
+        margin: 16px 0 18px;
+      }
+      .accent-picker .pick-label {
+        font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+        color: rgba(255,255,255,0.55);
+      }
+      .accent-picker .swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+      .accent-picker button {
+        display: inline-flex; align-items: center; gap: 10px;
+        padding: 8px 14px 8px 8px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 999px;
+        color: #f4f4f0; cursor: pointer;
+        font-size: 12px; letter-spacing: 0.05em;
+        font-family: inherit;
+        transition: all 0.25s;
+      }
+      .accent-picker button:hover { border-color: rgba(255,255,255,0.4); }
+      .accent-picker button.on { background: rgba(255,255,255,0.12); border-color: #f4f4f0; }
+      .accent-picker button .dot {
+        width: 18px; height: 18px; border-radius: 50%;
+        border: 1px solid rgba(0,0,0,0.15);
+      }
+      .accent-picker .code {
+        font-family: 'JetBrains Mono', monospace; font-size: 10px;
+        color: rgba(255,255,255,0.5); letter-spacing: 0.05em;
+      }
+
+      /* ============================================================ */
+      /*  02 · ATLAS — creative + modern                               */
+      /*  Cream paper, contrasted serif, brass + barn red              */
+      /* ============================================================ */
+      .theme-atl {
+        background: #f0e8d8;
+        color: #0e1b18;
+        font-family: 'Inter Tight', system-ui, sans-serif;
+      }
+      .theme-atl .bar {
+        padding: 24px 40px;
+        display: flex; align-items: baseline; justify-content: space-between;
+        border-bottom: 1px solid rgba(14,27,24,0.15);
+      }
+      .theme-atl .mark {
+        font-family: 'Fraunces', serif;
+        font-style: italic;
+        font-size: 26px; letter-spacing: -0.02em;
+        font-weight: 400;
+      }
+      .theme-atl .mark em { color: #9c3a2a; font-style: italic; }
+      .theme-atl .nav {
+        display: flex; gap: 32px;
+        font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+      }
+      .theme-atl .nav a { color: rgba(14,27,24,0.75); text-decoration: none; }
+      .theme-atl .nav a:hover { color: #9c3a2a; }
+
+      .theme-atl .hero {
+        position: relative;
+        padding: 100px 40px 120px;
+        overflow: hidden;
+      }
+      .theme-atl .hero::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: radial-gradient(ellipse 60% 80% at 85% 40%, rgba(184,137,58,0.28) 0%, transparent 65%);
+        pointer-events: none;
+      }
+      .theme-atl .vol {
+        font-family: 'Fraunces', serif; font-style: italic;
+        font-size: 14px; color: rgba(14,27,24,0.55);
+        letter-spacing: -0.01em;
+      }
+      .theme-atl .vol::before { content: ''; display: inline-block; width: 48px; height: 1px; background: rgba(14,27,24,0.4); margin-right: 16px; vertical-align: 4px; }
+      .theme-atl h1, .theme-atl h2, .theme-atl h3, .theme-atl h4 {
+        font-family: 'Fraunces', Georgia, serif;
+      }
+      .theme-atl h1 {
+        font-family: 'Fraunces', Georgia, serif;
+        font-weight: 300;
+        font-size: clamp(56px, 10vw, 156px);
+        line-height: 0.88;
+        letter-spacing: -0.035em;
+        margin: 36px 0 0;
+        max-width: 1200px;
+        position: relative;
+      }
+      .theme-atl h1 em { font-style: italic; font-weight: 300; color: #9c3a2a; }
+      .theme-atl h1 .ochre { color: #b8893a; font-style: italic; }
+      .theme-atl .hero .meta {
+        margin-top: 72px;
+        display: grid; grid-template-columns: 1fr 1fr auto; gap: 60px; align-items: end;
+        max-width: 1000px; position: relative;
+      }
+      .theme-atl .hero .desc {
+        font-size: 18px; line-height: 1.5;
+        color: rgba(14,27,24,0.75);
+      }
+      .theme-atl .hero .desc em { font-style: italic; color: #9c3a2a; }
+      .theme-atl .btn {
+        display: inline-flex; align-items: center; gap: 14px;
+        padding: 18px 28px; background: #0e1b18; color: #f0e8d8;
+        font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase;
+        text-decoration: none;
+        transition: background 0.4s;
+      }
+      .theme-atl .btn:hover { background: #9c3a2a; }
+
+      .theme-atl .plate {
+        position: relative;
+        margin: 0 40px;
+        border-top: 1px solid rgba(14,27,24,0.15);
+        border-bottom: 1px solid rgba(14,27,24,0.15);
+        padding: 80px 0;
+      }
+      .theme-atl .plate-head {
+        display: grid; grid-template-columns: auto 1fr; gap: 24px; margin-bottom: 48px;
+        align-items: baseline;
+      }
+      .theme-atl .plate-num { font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; color: rgba(14,27,24,0.5); }
+      .theme-atl .plate-kicker { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #9c3a2a; }
+
+      .theme-atl .plate .spread {
+        display: grid; grid-template-columns: 2fr 1fr; gap: 60px; align-items: end;
+      }
+      .theme-atl .plate .title {
+        font-family: 'Fraunces', serif; font-weight: 300;
+        font-size: clamp(44px, 6vw, 88px);
+        line-height: 0.95; letter-spacing: -0.025em;
+      }
+      .theme-atl .plate .title em { font-style: italic; color: #9c3a2a; }
+
+      .theme-atl .plate .caption {
+        font-family: 'Fraunces', serif; font-style: italic;
+        font-size: 16px; line-height: 1.55; color: rgba(14,27,24,0.7);
+      }
+
+      /* "Specimen" — layered canopy plate */
+      .theme-atl .specimen {
+        margin-top: 48px;
+        position: relative;
+        height: 360px;
+        overflow: hidden;
+        background: #ddd0b2;
+        border: 1px solid rgba(14,27,24,0.12);
+      }
+      .theme-atl .specimen svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .theme-atl .specimen-caption {
+        display: flex; justify-content: space-between;
+        margin-top: 12px;
+        font-family: 'Fraunces', serif; font-style: italic;
+        font-size: 14px; color: rgba(14,27,24,0.6);
+      }
+
+      /* ============================================================ */
+      /*  03 · SIGNAL — modern + creative + technology                 */
+      /*  Warm off-white, giant wide grotesk, electric ultramarine     */
+      /* ============================================================ */
+      .theme-sig {
+        background: #ede8e1;
+        color: #111;
+        font-family: 'Bricolage Grotesque Variable', 'Inter Tight', system-ui, sans-serif;
+      }
+      .theme-sig .bar {
+        padding: 24px 36px;
+        display: flex; align-items: center; justify-content: space-between;
+      }
+      .theme-sig .mark {
+        font-family: 'Bricolage Grotesque Variable', sans-serif;
+        font-variation-settings: 'wdth' 125, 'wght' 800, 'opsz' 22;
+        font-size: 24px; letter-spacing: -0.04em;
+      }
+      .theme-sig .nav { display: flex; gap: 24px; font-size: 13px; font-weight: 500; }
+      .theme-sig .nav a { color: #111; text-decoration: none; }
+      .theme-sig .nav a:hover { color: #3b46ff; }
+      .theme-sig .enquire {
+        background: #3b46ff; color: #ede8e1;
+        padding: 10px 18px; border-radius: 999px;
+        font-weight: 600; font-size: 13px; text-decoration: none;
+      }
+      .theme-sig .enquire:hover { background: #111; }
+
+      .theme-sig h1, .theme-sig h2, .theme-sig h3, .theme-sig h4 {
+        font-family: 'Bricolage Grotesque Variable', 'Inter Tight', sans-serif;
+      }
+      .theme-sig .hero { padding: 60px 36px 0; position: relative; }
+      .theme-sig .hero-kicker {
+        display: inline-flex; align-items: center; gap: 10px;
+        font-size: 13px; font-weight: 500;
+        padding: 8px 16px; background: #111; color: #ede8e1; border-radius: 999px;
+        margin-bottom: 32px;
+      }
+      .theme-sig .hero-kicker::before { content: ''; display: inline-block; width: 8px; height: 8px; background: #3b46ff; border-radius: 50%; }
+
+      .theme-sig .type-hero {
+        position: relative;
+        font-family: 'Bricolage Grotesque Variable', sans-serif;
+        font-variation-settings: 'wdth' 125, 'wght' 900, 'opsz' 96;
+        font-size: clamp(70px, 15vw, 260px);
+        line-height: 0.82;
+        letter-spacing: -0.08em;
+        color: #111;
+      }
+      .theme-sig .type-hero .word {
+        display: inline-block;
+      }
+      .theme-sig .type-hero .twin {
+        color: #3b46ff;
+        display: inline-block;
+        transform: translateY(0);
+      }
+      .theme-sig .type-hero .slash {
+        font-variation-settings: 'wdth' 75, 'wght' 900;
+        color: rgba(17,17,17,0.2);
+      }
+
+      .theme-sig .hero-row {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+        margin-top: 48px;
+      }
+      .theme-sig .hero-desc { font-size: 19px; line-height: 1.45; max-width: 500px; }
+      .theme-sig .hero-desc strong { color: #3b46ff; }
+      .theme-sig .hero-ctas { display: flex; gap: 16px; align-items: flex-start; justify-content: flex-end; }
+      .theme-sig .hero-cta-primary {
+        background: #111; color: #ede8e1;
+        padding: 18px 28px; border-radius: 999px;
+        font-weight: 600; font-size: 14px; text-decoration: none;
+        display: inline-flex; align-items: center; gap: 12px;
+      }
+      .theme-sig .hero-cta-primary:hover { background: #3b46ff; }
+      .theme-sig .hero-cta-ghost {
+        color: #111; padding: 18px 4px;
+        font-weight: 500; font-size: 14px; text-decoration: none;
+        border-bottom: 2px solid #111;
+      }
+
+      /* Poster grid — color-blocked module cards */
+      .theme-sig .poster {
+        margin-top: 80px;
+        display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+      }
+      .theme-sig .card-signal {
+        padding: 48px 36px 36px;
+        border-radius: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      .theme-sig .card-signal.blue { background: #3b46ff; color: #ede8e1; }
+      .theme-sig .card-signal.cream { background: #111; color: #ede8e1; }
+      .theme-sig .card-signal .tag {
+        font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.8;
+      }
+      .theme-sig .card-signal h3 {
+        font-family: 'Bricolage Grotesque Variable', sans-serif;
+        font-variation-settings: 'wdth' 115, 'wght' 800, 'opsz' 72;
+        font-size: clamp(44px, 6vw, 88px);
+        line-height: 0.9; letter-spacing: -0.04em;
+        margin: 16px 0 20px;
+      }
+      .theme-sig .card-signal p { font-size: 16px; line-height: 1.5; max-width: 380px; opacity: 0.9; }
+      .theme-sig .card-signal .arrow {
+        position: absolute; right: 28px; bottom: 28px;
+        width: 56px; height: 56px; border-radius: 50%;
+        display: inline-flex; align-items: center; justify-content: center;
+        background: rgba(255,255,255,0.15);
+        font-size: 24px;
+      }
+      .theme-sig .card-signal.cream .arrow { background: #3b46ff; color: #ede8e1; }
+
+      /* Big proof block as bright graphic */
+      .theme-sig .proof {
+        margin-top: 80px;
+        padding: 60px 36px 80px;
+        background: #3b46ff;
+        color: #ede8e1;
+        border-radius: 16px;
+        display: grid; grid-template-columns: 2fr 1fr; gap: 60px; align-items: end;
+      }
+      .theme-sig .proof .fig {
+        font-family: 'Bricolage Grotesque Variable', sans-serif;
+        font-variation-settings: 'wdth' 125, 'wght' 800, 'opsz' 96;
+        font-size: clamp(100px, 16vw, 240px);
+        line-height: 0.82; letter-spacing: -0.07em;
+      }
+      .theme-sig .proof .fig .pct { color: #ede8e1; font-variation-settings: 'wdth' 75, 'wght' 900; }
+      .theme-sig .proof .body p {
+        font-size: 15px; line-height: 1.5; opacity: 0.85; margin: 0 0 16px;
+      }
+      .theme-sig .proof .body .label {
+        font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+
+      @media (max-width: 900px) {
+        .theme-obs .hero, .theme-obs .proof { display: block; }
+        .theme-atl .hero .meta { grid-template-columns: 1fr; }
+        .theme-atl .plate .spread { grid-template-columns: 1fr; }
+        .theme-sig .hero-row { grid-template-columns: 1fr; }
+        .theme-sig .poster { grid-template-columns: 1fr; }
+        .theme-sig .proof { grid-template-columns: 1fr; }
+        .theme-obs .diagram .module,
+        .theme-obs .diagram .core { grid-column: 1 / -1; border-right: none; border-bottom: 1px solid rgba(10,10,10,0.15); }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sticky shell nav -->
+    <div class="shell-nav">
+      <div class="shell-nav-inner">
+        <a href="/">← BACK TO CURRENT SITE</a>
+        <div class="chips">
+          <a href="#observatory" class="chip">01 · Observatory</a>
+          <a href="#atlas"       class="chip">02 · Atlas</a>
+          <a href="#signal"      class="chip">03 · Signal</a>
+        </div>
+        <span style="opacity:0.5">3 DIRECTIONS</span>
+      </div>
+    </div>
+
+    <!-- Intro -->
+    <header class="shell-intro">
+      <p class="eyebrow">REBRANDING · THREE DIRECTIONS</p>
+      <h1>Pick a direction<br/>and we'll <em>commit.</em></h1>
+      <p>Three fully-built preview panels below. Each renders the same hero, proof moment, and platform diptych in that theme's language. Scroll through, then click "Choose this" — I apply it site-wide.</p>
+    </header>
+
+    <!-- ==================== 01 · OBSERVATORY ==================== -->
+    <section id="observatory" class="theme-wrap">
+      <div class="theme-header">
+        <div class="theme-number">I.</div>
+        <div>
+          <div style="font-family:'Instrument Serif',serif; font-size: 42px; font-style: italic; line-height: 1; margin-bottom: 12px;">Observatory</div>
+          <div class="theme-meta">
+            <span><strong>Minimalist</strong> · <strong>Technology</strong></span>
+            <span>
+              <span class="theme-swatch" style="background:#ffffff"></span>
+              <span class="theme-swatch" style="background:#0a0a0a"></span>
+              <span class="theme-swatch" style="background:#e85400"></span>
+              Neue Grotesk · Mono
+            </span>
+          </div>
+        </div>
+        <div style="font-size: 12px; color: rgba(255,255,255,0.5); max-width: 280px; text-align: right;">
+          A precision instrument disguised as a website.
+        </div>
+      </div>
+
+      <div class="accent-picker" id="accent-picker">
+        <span class="pick-label">Accent</span>
+        <div class="swatches">
+          <button type="button" data-accent="#e85400" class="on"><span class="dot" style="background:#e85400"></span>Lab orange <span class="code">#e85400</span></button>
+          <button type="button" data-accent="#e10600"><span class="dot" style="background:#e10600"></span>Signal red <span class="code">#e10600</span></button>
+          <button type="button" data-accent="#0038ff"><span class="dot" style="background:#0038ff"></span>Industrial blue <span class="code">#0038ff</span></button>
+          <button type="button" data-accent="#0d9488"><span class="dot" style="background:#0d9488"></span>Deep teal <span class="code">#0d9488</span></button>
+          <button type="button" data-accent="#facc15"><span class="dot" style="background:#facc15"></span>Lab yellow <span class="code">#facc15</span></button>
+          <button type="button" data-accent="#ec4899"><span class="dot" style="background:#ec4899"></span>Magenta <span class="code">#ec4899</span></button>
+          <button type="button" data-accent="#6366f1"><span class="dot" style="background:#6366f1"></span>Indigo <span class="code">#6366f1</span></button>
+          <button type="button" data-accent="#84cc16"><span class="dot" style="background:#84cc16"></span>Lime <span class="code">#84cc16</span></button>
+        </div>
+      </div>
+
+      <div class="theme-card theme-obs" id="obs-card">
+        <div class="bar">
+          <div>Sat Lab</div>
+          <div>Platform</div>
+          <div>Vegetation</div>
+          <div>Grid DT</div>
+          <div>Index</div>
+          <div style="text-align:right; font-family:'JetBrains Mono',monospace;">47.50°N / 71.30°W</div>
+        </div>
+
+        <div class="hero">
+          <div class="kicker"><span class="tick"></span> SYS · 01 · LIVE · 2026</div>
+          <h1>
+            One twin for the <span class="mark">living</span><br/>
+            <span class="dim">infrastructure of Earth.</span>
+          </h1>
+          <p class="desc">An engineering studio building the first operating system for critical infrastructure. Starting with the grid.</p>
+          <div class="ctas">
+            <a href="#" class="btn btn--fill">ENQUIRE&nbsp;→</a>
+            <a href="#" class="btn">READ THESIS</a>
+          </div>
+        </div>
+
+        <div class="rule"></div>
+
+        <div class="proof">
+          <div class="label">[ 02 / PROOF ]<br/>AI · Tree segmentation IoU</div>
+          <div class="figure">96.4<span class="pct">%</span></div>
+          <div class="note">Mean IoU · held-out Québec corridor · N=1240 km · 12 models · 2.4M training images</div>
+          <div class="proof-metrics">
+            <div class="m"><div class="n">84%</div><div class="l">Surveys avoided</div></div>
+            <div class="m"><div class="n">92%</div><div class="l">Recheck cut</div></div>
+            <div class="m"><div class="n">318h</div><div class="l">Outages avoided</div></div>
+            <div class="m"><div class="n">12ms</div><div class="l">Inference / tile</div></div>
+          </div>
+        </div>
+
+        <div class="diagram">
+          <div class="module">
+            <div class="tag">MODULE · 01</div>
+            <h3>Vegetation intelligence</h3>
+            <p>Satellite + AI predicts the 5% of any grid corridor where trees will cause the next outage.</p>
+          </div>
+          <div class="core">
+            <div class="tag" style="color:#0a0a0a">[ CORE ]</div>
+            <h3>Sat Lab Digital Twin</h3>
+            <p>A 3D spatial operating system for critical infrastructure. Ingest, fuse, render, reason, act.</p>
+          </div>
+          <div class="module">
+            <div class="tag">MODULE · 02</div>
+            <h3>Grid digital twin</h3>
+            <p>A streaming 3D twin of the urban grid — terrain, assets, canopy, risk as composable layers.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="theme-choose">
+        <a href="/api/choose-theme?t=observatory" data-theme="observatory">Choose Observatory →</a>
+        <span class="hint">Clinical · rigorous · buyer-credible to engineers</span>
+      </div>
+    </section>
+
+    <!-- ==================== 02 · ATLAS ==================== -->
+    <section id="atlas" class="theme-wrap">
+      <div class="theme-header">
+        <div class="theme-number">II.</div>
+        <div>
+          <div style="font-family:'Instrument Serif',serif; font-size: 42px; font-style: italic; line-height: 1; margin-bottom: 12px;">Atlas</div>
+          <div class="theme-meta">
+            <span><strong>Creative</strong> · <strong>Modern</strong></span>
+            <span>
+              <span class="theme-swatch" style="background:#f0e8d8"></span>
+              <span class="theme-swatch" style="background:#0e1b18"></span>
+              <span class="theme-swatch" style="background:#b8893a"></span>
+              <span class="theme-swatch" style="background:#9c3a2a"></span>
+              Fraunces · Inter Tight
+            </span>
+          </div>
+        </div>
+        <div style="font-size: 12px; color: rgba(255,255,255,0.5); max-width: 280px; text-align: right;">
+          A National Geographic issue underwritten by a tech company.
+        </div>
+      </div>
+
+      <div class="theme-card theme-atl">
+        <div class="bar">
+          <div class="mark">Sat <em>Lab</em></div>
+          <nav class="nav">
+            <a href="#">Platform</a>
+            <a href="#">Vegetation</a>
+            <a href="#">Grid DT</a>
+            <a href="#">Index</a>
+            <a href="#">Enquire</a>
+          </nav>
+        </div>
+
+        <div class="hero">
+          <div class="vol">Volume I · MMXXVI · Field Journal</div>
+          <h1>
+            A twin for the <em>living</em><br/>
+            infrastructure<br/>
+            of Earth.
+          </h1>
+          <div class="meta">
+            <p class="desc">
+              An engineering studio building the first <em>operating system for critical infrastructure.</em> Starting with the grid.
+            </p>
+            <p class="desc" style="color: rgba(14,27,24,0.55); font-family:'Fraunces',serif; font-style: italic; font-size: 16px;">
+              Field Station 01 · Québec<br/>
+              Est. 2026
+            </p>
+            <a class="btn" href="#">ENQUIRE →</a>
+          </div>
+        </div>
+
+        <div class="plate">
+          <div class="plate-head">
+            <div class="plate-num">Plate IV.</div>
+            <div class="plate-kicker">A Specimen</div>
+          </div>
+          <div class="spread">
+            <div class="title">Same pixel.<br/><em>Different universe.</em></div>
+            <div class="caption">
+              Left: what a utility sees today. Right: what the twin sees. The same scene, re-read through the model.
+            </div>
+          </div>
+
+          <div class="specimen">
+            <svg viewBox="0 0 1600 360" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="crown-a2" cx="50%" cy="40%">
+                  <stop offset="0%" stop-color="#5a7a53"/>
+                  <stop offset="60%" stop-color="#3d5a3a"/>
+                  <stop offset="100%" stop-color="#2a4128"/>
+                </radialGradient>
+              </defs>
+              <rect width="1600" height="360" fill="#ddd0b2"/>
+              <g stroke="#b5ad97" stroke-width="0.6" fill="none" opacity="0.7">
+                <path d="M0,80 Q400,40 800,100 T1600,80"/>
+                <path d="M0,220 Q400,180 800,240 T1600,220"/>
+                <path d="M0,310 Q400,270 800,330 T1600,310"/>
+              </g>
+              <rect x="0" y="170" width="1600" height="40" fill="rgba(156,58,42,0.04)" stroke="#9c3a2a" stroke-width="0.8" stroke-dasharray="6 8" opacity="0.6"/>
+              <line x1="0" y1="190" x2="1600" y2="190" stroke="#9c3a2a" stroke-width="1" opacity="0.7"/>
+              {Array.from({length: 8}).map((_, i) => (
+                <g transform={`translate(${140 + i * 180} 190)`}>
+                  <line x1="0" y1="-18" x2="0" y2="18" stroke="#0e1b18" stroke-width="1.2"/>
+                  <line x1="-12" y1="-10" x2="12" y2="-10" stroke="#0e1b18" stroke-width="0.8"/>
+                  <circle r="2.5" fill="#9c3a2a"/>
+                </g>
+              ))}
+              {Array.from({length: 90}).map((_, i) => {
+                const x = (i * 113 + 37) % 1560 + 20;
+                const y = ((i * 71 + 29) % 320) + 20;
+                const r = 18 + (i % 5) * 4;
+                return <circle cx={x} cy={y} r={r} fill="url(#crown-a2)" opacity="0.85"/>;
+              })}
+              {[[280, 180], [540, 210], [820, 170], [1120, 200], [1360, 180]].map(([x, y]) => (
+                <g>
+                  <rect x={x - 28} y={y - 28} width="56" height="56" fill="none" stroke="#9c3a2a" stroke-width="1.2" stroke-dasharray="4 4"/>
+                  <text x={x - 24} y={y - 34} fill="#9c3a2a" font-family="Inter Tight, sans-serif" font-size="9" font-weight="600" letter-spacing="0.08em">T1 · 0.96</text>
+                </g>
+              ))}
+              <line x1="800" y1="0" x2="800" y2="360" stroke="#9c3a2a" stroke-width="2"/>
+              <circle cx="800" cy="180" r="18" fill="#f0e8d8" stroke="#9c3a2a" stroke-width="1.5"/>
+              <text x="800" y="184" fill="#9c3a2a" font-size="13" font-family="Inter Tight, sans-serif" font-weight="600" text-anchor="middle">↔</text>
+            </svg>
+          </div>
+          <div class="specimen-caption">
+            <span>Québec corridor · 47.51°N 71.32°W</span>
+            <span>Confidence · mean 0.93</span>
+          </div>
+        </div>
+
+        <div class="plate" style="border-top:none">
+          <div class="plate-head">
+            <div class="plate-num">Plate V.</div>
+            <div class="plate-kicker">The Thesis</div>
+          </div>
+          <div class="spread">
+            <div class="title">
+              One twin.<br/><em>Many worlds.</em>
+            </div>
+            <div class="caption">
+              Every critical system — a grid, a forest, a city — reduces to the same engineering problem. We built one twin. Two modules prove it generalises.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="theme-choose">
+        <a href="/api/choose-theme?t=atlas" data-theme="atlas">Choose Atlas →</a>
+        <span class="hint">Monumental · prestige · buyer-credible to CEOs & investors</span>
+      </div>
+    </section>
+
+    <!-- ==================== 03 · SIGNAL ==================== -->
+    <section id="signal" class="theme-wrap">
+      <div class="theme-header">
+        <div class="theme-number">III.</div>
+        <div>
+          <div style="font-family:'Instrument Serif',serif; font-size: 42px; font-style: italic; line-height: 1; margin-bottom: 12px;">Signal</div>
+          <div class="theme-meta">
+            <span><strong>Modern</strong> · <strong>Creative</strong> · <strong>Technology</strong></span>
+            <span>
+              <span class="theme-swatch" style="background:#ede8e1"></span>
+              <span class="theme-swatch" style="background:#111111"></span>
+              <span class="theme-swatch" style="background:#3b46ff"></span>
+              Bricolage Grotesque
+            </span>
+          </div>
+        </div>
+        <div style="font-size: 12px; color: rgba(255,255,255,0.5); max-width: 280px; text-align: right;">
+          Software that dresses like graphic design.
+        </div>
+      </div>
+
+      <div class="theme-card theme-sig">
+        <div class="bar">
+          <div class="mark">Sat Lab®</div>
+          <nav class="nav">
+            <a href="#">Platform</a>
+            <a href="#">Vegetation</a>
+            <a href="#">Grid DT</a>
+            <a href="#">Docs</a>
+          </nav>
+          <a class="enquire" href="#">Book a demo →</a>
+        </div>
+
+        <div class="hero">
+          <div class="hero-kicker">LIVE · SHIPPING 2026</div>
+          <div class="type-hero">
+            <span class="word">ONE</span> <span class="twin">TWIN.</span><br/>
+            <span class="word slash">MANY</span> <span class="word">WORLDS.</span>
+          </div>
+
+          <div class="hero-row">
+            <p class="hero-desc">
+              An engineering studio building <strong>the first operating system</strong> for critical infrastructure. Starting with the grid.
+            </p>
+            <div class="hero-ctas">
+              <a class="hero-cta-ghost" href="#">See the product</a>
+              <a class="hero-cta-primary" href="#">Book a demo →</a>
+            </div>
+          </div>
+
+          <div class="poster">
+            <div class="card-signal cream">
+              <div class="tag">MODULE 01 · SHIPPING</div>
+              <h3>Vegetation</h3>
+              <p>Satellite + AI that predicts the 5% of any grid corridor where trees will cause the next outage.</p>
+              <span class="arrow">→</span>
+            </div>
+            <div class="card-signal blue">
+              <div class="tag">MODULE 02 · SHIPPING</div>
+              <h3>Grid DT</h3>
+              <p>A streaming 3D twin of the urban grid — terrain, assets, canopy, risk — as composable layers.</p>
+              <span class="arrow">→</span>
+            </div>
+          </div>
+
+          <div class="proof">
+            <div class="fig">96.4<span class="pct">%</span></div>
+            <div class="body">
+              <div class="label">AI · Tree segmentation IoU</div>
+              <p>Mean intersection-over-union on the held-out Québec corridor test set. A margin of +25 points over the published industry baseline.</p>
+              <p style="opacity:0.7; font-size:12px">N = 1,240 km · 12 models · 2.4M training images</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="height: 60px"></div>
+      </div>
+
+      <div class="theme-choose">
+        <a href="/api/choose-theme?t=signal" data-theme="signal">Choose Signal →</a>
+        <span class="hint">Confident · graphic · buyer-credible to product & design</span>
+      </div>
+    </section>
+
+    <footer style="padding: 80px 32px; text-align: center; color: rgba(255,255,255,0.4); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; border-top: 1px solid rgba(255,255,255,0.06);">
+      Three directions · One commit<br/>
+      <span style="font-family:'Instrument Serif',serif; font-style:italic; text-transform:none; letter-spacing: -0.01em; font-size:16px; margin-top:8px; display:inline-block;">
+        Pick one and I'll apply it across every page.
+      </span>
+    </footer>
+
+    <!-- Smooth-scroll chip activation + choose handler -->
+    <script is:inline>
+      const chips = document.querySelectorAll('.shell-nav .chip');
+      const sections = document.querySelectorAll('section.theme-wrap');
+
+      chips.forEach(c => c.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(c.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }));
+
+      // Scroll spy
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            chips.forEach(c => {
+              const match = c.getAttribute('href') === '#' + id;
+              c.classList.toggle('active', match);
+            });
+          }
+        });
+      }, { rootMargin: '-40% 0px -40% 0px' });
+      sections.forEach(s => io.observe(s));
+
+      // Accent picker — live-swap the Observatory accent
+      const obsCard = document.getElementById('obs-card');
+      const picker = document.getElementById('accent-picker');
+      if (obsCard && picker) {
+        picker.querySelectorAll('button[data-accent]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const hex = btn.getAttribute('data-accent');
+            obsCard.style.setProperty('--obs-accent', hex);
+            picker.querySelectorAll('button').forEach(b => b.classList.remove('on'));
+            btn.classList.add('on');
+
+            // Also update the Observatory swatch in the theme-header
+            const swatchRow = document.querySelector('#observatory .theme-meta');
+            if (swatchRow) {
+              const swatches = swatchRow.querySelectorAll('.theme-swatch');
+              if (swatches[2]) swatches[2].style.background = hex;
+            }
+            // Update the "Choose Observatory" link to include the accent choice
+            const choose = document.querySelector('[data-theme="observatory"]');
+            if (choose) choose.setAttribute('data-accent', hex);
+          });
+        });
+      }
+
+      // Choose handler — just confirms the pick for now
+      document.querySelectorAll('[data-theme]').forEach(a => {
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          const theme = a.getAttribute('data-theme');
+          const accent = a.getAttribute('data-accent') || '';
+          const msg = accent
+            ? `Apply the ${theme.toUpperCase()} theme with accent ${accent}?`
+            : `Apply the ${theme.toUpperCase()} theme site-wide?`;
+          const confirmed = confirm(msg + '\n\nClick OK to confirm, then tell the assistant.');
+          if (confirmed) {
+            const tell = accent
+              ? `Apply the ${theme} theme with accent ${accent}`
+              : `Apply the ${theme} theme`;
+            alert(`Got it.\n\nTell the assistant: "${tell}"`);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

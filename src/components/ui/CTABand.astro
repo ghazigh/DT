@@ -1,0 +1,32 @@
+---
+// landing_page/src/components/ui/CTABand.astro
+interface Props {
+  headline: string;
+  subhead?: string;
+  primaryHref: string;
+  primaryLabel: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+}
+const { headline, subhead, primaryHref, primaryLabel, secondaryHref, secondaryLabel } = Astro.props;
+---
+<section class="container-page py-20 text-center">
+  <h2 class="mx-auto max-w-3xl">{headline}</h2>
+  {subhead && <p class="mt-4 mx-auto max-w-xl">{subhead}</p>}
+  <div class="mt-10 flex flex-wrap gap-4 justify-center">
+    <a
+      href={primaryHref}
+      class="inline-flex items-center gap-2 rounded-full bg-signal-lime px-6 py-3 text-bg-void font-semibold no-underline hover:bg-signal-mint"
+    >
+      {primaryLabel} <span aria-hidden="true">→</span>
+    </a>
+    {secondaryHref && secondaryLabel && (
+      <a
+        href={secondaryHref}
+        class="inline-flex items-center gap-2 rounded-full border border-ink-high/30 px-6 py-3 text-ink-high no-underline hover:border-ink-high/70"
+      >
+        {secondaryLabel}
+      </a>
+    )}
+  </div>
+</section>

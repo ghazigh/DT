@@ -1,0 +1,169 @@
+---
+import { getEntry } from 'astro:content';
+import Layout   from '@/components/layout/Layout.astro';
+import PageHero from '@/components/layout/PageHero.astro';
+import PageCTA  from '@/components/layout/PageCTA.astro';
+
+const entry = await getEntry('products', 'platform');
+if (!entry) throw new Error('Platform MDX missing');
+const p = entry.data;
+
+// SERIC+ layers — the platform's semantic layer stack
+const layers = [
+  { code: 'S', name: 'Sense',      desc: 'Raster, vector, LiDAR, IoT, telemetry. Raw observation.',     colour: '#00ffa3' },
+  { code: 'E', name: 'Entity',     desc: 'Typed geospatial objects — trees, poles, spans, buildings.',    colour: '#4ca7ff' },
+  { code: 'R', name: 'Relation',   desc: 'Graph of how entities connect — grid topology, canopy equity.', colour: '#a88bff' },
+  { code: 'I', name: 'Intent',     desc: 'Policies, work orders, simulations, predictions.',              colour: '#ff6b3d' },
+  { code: 'C', name: 'Composable', desc: 'Layered views — one twin, many module overlays.',               colour: '#f5e44a' }
+];
+
+const stack = [
+  { group: 'STORAGE',   items: ['PostGIS', 'Neo4j', 'S3 · MinIO', 'TimescaleDB'] },
+  { group: 'COMPUTE',   items: ['Kafka', 'Airflow', 'PyTorch', 'XGBoost'] },
+  { group: 'RENDERING', items: ['CesiumJS', 'Unreal Engine', 'MapLibre GL', 'Deck.gl'] },
+  { group: 'API',       items: ['FastAPI', 'GraphQL · Strawberry', 'gRPC', 'WebSocket'] },
+  { group: 'SDK',       items: ['satlab-dt · CLI', 'Python SDK', 'TS client', 'Agent manifest'] }
+];
+
+const caps = [
+  { title: 'Any sensor in',          body: 'Sentinel, Planet, Maxar, LiDAR, IoT, BIM, legacy GIS. One ingest contract, infinite feeds.' },
+  { title: 'Semantic layer stack',   body: 'SERIC+ keeps raster, entity, and intent orthogonal. Scale from a span to a city.' },
+  { title: 'Streamed rendering',     body: '50M+ entities on hardware a utility control-room already owns.' },
+  { title: 'Agent-ready API',        body: 'Every twin operation is a tool call. MCP-compatible manifest on day one.' },
+  { title: 'Closed-loop action',     body: 'Work orders, field confirmations, live updates. The twin stays in sync with reality.' },
+  { title: 'Audit + compliance',     body: 'NERC FAC-003 trail baked in. Every decision traceable to the pixel it was made from.' }
+];
+---
+<Layout title={`Digital Twin Platform — Sat Lab`} description={p.tagline}>
+  <PageHero
+    eyebrow="[ CORE · DIGITAL TWIN PLATFORM ]"
+    title={`The operating system for<br/><em class="display-italic text-signal-phosphor">living infrastructure.</em>`}
+    lede={p.whatItDoes}
+    accent="phosphor"
+    ctas={[
+      { href: '/contact?interest=partnership', label: p.ctaLabel, style: 'primary' },
+      { href: '/vegetation',                    label: 'See Module 01',        style: 'ghost' }
+    ]}
+  />
+
+  <!-- SERIC+ data model -->
+  <section class="relative border-b border-line">
+    <div class="container-page py-28 md:py-36">
+      <div class="max-w-2xl reveal">
+        <p class="eyebrow-signal">[ 01 / DATA MODEL ]</p>
+        <h2 class="mt-6 text-balance">
+          Five layers. <span class="display-italic text-ink-mid">One coherent twin.</span>
+        </h2>
+        <p class="mt-8 text-ink-mid text-lg text-pretty">
+          SERIC+ separates the world into semantically orthogonal slices so a span of power line and a city block share the same physics.
+        </p>
+      </div>
+
+      <div class="mt-16 grid md:grid-cols-5 gap-px bg-line">
+        {layers.map((l, i) => (
+          <article class="group bg-bg-void p-6 md:p-8 cursor-default reveal" style={`transition-delay: ${i * 80}ms`}>
+            <div class="flex items-center gap-3 mb-6">
+              <span class="font-mono text-[10px] uppercase tracking-[0.22em]" style={`color:${l.colour}`}>LAYER · {String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <p class="font-display text-6xl leading-none text-ink-faint group-hover:text-ink-paper transition-colors" style="transition-duration: 500ms">{l.code}</p>
+            <p class="mt-6 font-display text-xl text-ink-paper">{l.name}</p>
+            <p class="mt-3 text-sm text-ink-mid leading-relaxed">{l.desc}</p>
+            <span class="mt-6 block h-0.5 w-8 origin-left scale-x-100 transition-transform duration-500" style={`background:${l.colour}`}></span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Capability matrix -->
+  <section class="relative border-b border-line bg-bg-carbon/40">
+    <div class="container-page py-28 md:py-36">
+      <div class="grid md:grid-cols-12 gap-10 items-end">
+        <div class="md:col-span-7 reveal">
+          <p class="eyebrow-signal">[ 02 / CAPABILITIES ]</p>
+          <h2 class="mt-6 text-balance">
+            What it does. <span class="display-italic text-signal-phosphor">Every day.</span>
+          </h2>
+        </div>
+      </div>
+
+      <div class="mt-16 grid gap-px bg-line md:grid-cols-2 lg:grid-cols-3">
+        {caps.map((c, i) => (
+          <div class="group bg-bg-void p-8 md:p-10 hover:bg-bg-elev/30 transition-colors duration-500 reveal" style={`transition-delay: ${(i % 3) * 80}ms`}>
+            <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-signal-phosphor">CAP · {String(i + 1).padStart(2, '0')}</p>
+            <p class="mt-6 font-display text-2xl text-ink-paper leading-tight">{c.title}</p>
+            <p class="mt-4 text-ink-mid text-[15px] leading-relaxed">{c.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stack -->
+  <section class="relative border-b border-line">
+    <div class="container-page py-28 md:py-36">
+      <div class="max-w-2xl reveal">
+        <p class="eyebrow-signal">[ 03 / STACK ]</p>
+        <h2 class="mt-6 text-balance">
+          Open. <span class="display-italic text-ink-mid">Boring where it matters.</span>
+        </h2>
+        <p class="mt-8 text-ink-mid text-lg text-pretty">
+          Nothing exotic. Every layer is swappable. No vendor lock where a utility has to trust a start-up with its grid model.
+        </p>
+      </div>
+
+      <div class="mt-16 space-y-px">
+        {stack.map((row, i) => (
+          <div class="grid md:grid-cols-12 gap-6 bg-bg-void border-t border-line py-6 px-4 md:px-0 reveal" style={`transition-delay: ${i * 60}ms`}>
+            <div class="md:col-span-3">
+              <p class="eyebrow !text-signal-phosphor">{row.group}</p>
+            </div>
+            <div class="md:col-span-9 flex flex-wrap gap-2">
+              {row.items.map((item) => (
+                <span class="font-mono text-[11px] uppercase tracking-[0.18em] px-3 py-1.5 rounded-full border border-line bg-bg-elev text-ink-mid hover:border-signal-phosphor/40 hover:text-ink-paper transition-colors">{item}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+        <div class="h-px bg-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modules row -->
+  <section class="relative border-b border-line">
+    <div class="container-page py-28 md:py-36">
+      <div class="max-w-2xl reveal">
+        <p class="eyebrow-signal">[ 04 / MODULES ]</p>
+        <h2 class="mt-6 text-balance">
+          Two flagships in. <span class="display-italic text-ink-mid">More on deck.</span>
+        </h2>
+      </div>
+
+      <div class="mt-16 grid gap-6 md:grid-cols-2 reveal">
+        <a href="/vegetation" class="card-elev group p-10 no-underline hover:border-signal-phosphor/40 transition-colors duration-500">
+          <p class="eyebrow !text-signal-phosphor">MODULE · 01 · SHIPPING</p>
+          <p class="mt-6 font-display text-3xl text-ink-paper leading-tight">Vegetation<br/><span class="display-italic text-ink-mid">Intelligence</span></p>
+          <p class="mt-6 text-ink-mid text-[15px]">Predict the 5% of any grid corridor where trees will cause the next outage.</p>
+          <span class="mt-10 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-signal-phosphor group-hover:gap-3 transition-all">Open module →</span>
+        </a>
+        <a href="/urban-canopy" class="card-elev group p-10 no-underline hover:border-signal-telemetry/40 transition-colors duration-500">
+          <p class="eyebrow" style="color:#4ca7ff">MODULE · 02 · SHIPPING</p>
+          <p class="mt-6 font-display text-3xl text-ink-paper leading-tight">Grid Digital<br/><span class="display-italic text-ink-mid">Twin</span></p>
+          <p class="mt-6 text-ink-mid text-[15px]">A streaming 3D twin of the urban grid — terrain, assets, canopy, and risk as composable layers.</p>
+          <span class="mt-10 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] group-hover:gap-3 transition-all" style="color:#4ca7ff">Open module →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <PageCTA
+    eyebrow="[ 05 / TALK ]"
+    headline={`Want the platform walkthrough?<br/><em class="display-italic text-signal-phosphor">We bring the slides.</em>`}
+    subhead="30-minute architecture deep-dive. Reference implementation, the SERIC+ schema, the deployment story, and the live Unreal demo."
+    primaryHref="/contact?interest=partnership"
+    primaryLabel={p.ctaLabel}
+    secondaryHref="/"
+    secondaryLabel="Back to home"
+  />
+</Layout>

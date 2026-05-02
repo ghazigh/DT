@@ -1,0 +1,61 @@
+---
+import Layout   from '@/components/layout/Layout.astro';
+import PageHero from '@/components/layout/PageHero.astro';
+import PageCTA  from '@/components/layout/PageCTA.astro';
+---
+<Layout title="About — Sat Lab" description="The platform-plus-wedge thesis, the MVP we're shipping, and the founding team.">
+  <PageHero
+    eyebrow="[ ABOUT · SAT LAB ]"
+    title={`One platform.<br/><em class="display-italic text-signal-phosphor">Many living systems.</em>`}
+    lede="Sat Lab is an early-stage research and engineering studio. We build digital twins of the world's critical infrastructure — starting with the power grid — and pair them with a multi-resolution satellite + AI pipeline that turns pixels into decisions."
+    accent="phosphor"
+  />
+
+  <!-- Thesis -->
+  <section class="relative border-b border-line bg-bg-carbon/40">
+    <div class="container-page py-28 md:py-36">
+      <div class="max-w-2xl reveal">
+        <p class="eyebrow-signal">[ 01 / THESIS ]</p>
+        <h2 class="mt-6 text-balance">
+          Platform + <span class="display-italic text-signal-phosphor">wedge.</span>
+        </h2>
+      </div>
+
+      <div class="mt-16 grid gap-6 md:grid-cols-2">
+        <article class="card-elev p-10 md:p-12 reveal">
+          <p class="eyebrow !text-signal-phosphor">THE WEDGE</p>
+          <h3 class="mt-6 font-display text-[1.75rem] text-ink-paper leading-tight">Clearest ROI wins first.</h3>
+          <p class="mt-6 text-ink-mid leading-relaxed">
+            Utilities spend $8B a year trimming trees on calendars instead of risk. A single tree-caused blackout costs $10M–$500M. We sell vegetation intelligence standalone — per-kilometre, per-year — because it has the clearest ROI and the urgent regulatory backdrop (NERC FAC-003, wildfire liability).
+          </p>
+        </article>
+        <article class="card-elev p-10 md:p-12 reveal" style="transition-delay: 100ms">
+          <p class="eyebrow !text-signal-phosphor">THE PLATFORM</p>
+          <h3 class="mt-6 font-display text-[1.75rem] text-ink-paper leading-tight">Everything is a twin layer.</h3>
+          <p class="mt-6 text-ink-mid leading-relaxed">
+            Every utility corridor, every smart campus, every urban forest is a digital twin in the same system. One data model (SERIC+), one rendering engine, one agent-ready API surface. Vegetation is the first layer. Buildings, water, forests — those are layers too.
+          </p>
+        </article>
+      </div>
+
+      <!-- Quote pullout -->
+      <figure class="mt-16 reveal" style="transition-delay: 180ms">
+        <blockquote class="relative max-w-4xl">
+          <span class="absolute -left-2 -top-4 font-display text-7xl text-signal-phosphor opacity-30 select-none" aria-hidden="true">"</span>
+          <p class="font-display text-[2rem] md:text-[2.5rem] leading-[1.15] text-ink-paper pl-10">
+            We're not building another <span class="display-italic text-signal-phosphor">GIS.</span> We're building the operating system for the infrastructure&nbsp;world.
+          </p>
+        </blockquote>
+        <figcaption class="mt-8 pl-10 eyebrow">— FOUNDING THESIS</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <PageCTA
+    eyebrow="[ 02 / TALK ]"
+    headline={`Want to <em class="display-italic text-signal-phosphor">talk?</em>`}
+    subhead="Utility, municipality, investor, candidate — one form. We'll route it."
+    primaryHref="/contact"
+    primaryLabel="Contact us"
+  />
+</Layout>

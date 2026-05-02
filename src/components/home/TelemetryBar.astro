@@ -1,0 +1,67 @@
+---
+// landing_page/src/components/home/TelemetryBar.astro
+// Strip of animated counters — data/design "instrumentation" look.
+const metrics = [
+  { label: 'CORRIDOR INDEXED',   value: 1240,   suffix: ' km',   colour: 'phosphor'  },
+  { label: 'PIXELS · DAY',       value: 4200,   suffix: ' M',    colour: 'telemetry' },
+  { label: 'SATELLITES FUSED',   value: 12,     suffix: '',      colour: 'phosphor'  },
+  { label: 'OUTAGE HOURS SAVED', value: 860,    suffix: '',      colour: 'ember'     },
+  { label: 'MODEL ACCURACY',     value: 96.4,   suffix: ' %',    colour: 'phosphor', decimals: 1 }
+];
+---
+<section class="relative border-y border-line bg-bg-carbon/60">
+  <div class="container-page py-10 md:py-14">
+    <div class="flex items-center gap-3 mb-6">
+      <span class="h-1.5 w-1.5 rounded-full bg-signal-phosphor animate-pulse-dot"></span>
+      <span class="eyebrow">TELEMETRY · LIVE FEED</span>
+      <span class="h-px flex-1 bg-line"></span>
+      <span class="eyebrow hidden md:inline">UPDATED {new Date().toISOString().slice(0,10)}</span>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-px bg-line">
+      {metrics.map((m) => (
+        <div class="bg-bg-void px-4 py-6 md:px-6 md:py-8 reveal">
+          <p class="eyebrow !text-[10px]">{m.label}</p>
+          <p class={`mt-4 font-display text-3xl md:text-4xl text-ink-paper`}>
+            <span
+              class="counter tabular-nums"
+              data-target={m.value}
+              data-decimals={m.decimals ?? 0}
+            >0</span><span class={`text-signal-${m.colour}`}>{m.suffix}</span>
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+(() => {
+  const els = document.querySelectorAll('.counter');
+  if (!els.length) return;
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const animate = (el) => {
+    const target = parseFloat(el.getAttribute('data-target') || '0');
+    const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    if (prefersReduced) { el.textContent = target.toFixed(decimals); return; }
+    const start = performance.now();
+    const duration = 1600;
+    const tick = (now) => {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const v = target * eased;
+      el.textContent = v.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { animate(e.target); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+  els.forEach((el) => io.observe(el));
+})();
+</script>

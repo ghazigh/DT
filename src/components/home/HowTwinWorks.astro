@@ -1,0 +1,289 @@
+---
+// landing_page/src/components/home/HowTwinWorks.astro
+// Visual 4-step cascade: Ingest → Build → Simulate → Act.
+// Card 1 uses real Lucide icons (Brand §8 — Lucide is the canonical icon set).
+// Card 2: hand-built isometric 3D scene. Card 3: vector field + heatmap. Card 4: agent dialog.
+---
+<section id="how-it-works" class="relative" style="border-bottom: 1px solid var(--steel); background: var(--obsidian);">
+  <div class="container-page py-24 md:py-32">
+    <div class="chapter reveal">
+      <span class="num">[ 02 ]</span>
+      <span class="rule"></span>
+      <span class="label">How the twin works</span>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10 items-end mb-12">
+      <h2 class="lg:col-span-8 text-balance reveal">
+        Data → live model → simulate → act. <em>Four steps.</em>
+      </h2>
+      <p class="lg:col-span-4 reveal" style="color: var(--fog); font-size: 17px; line-height: 1.6; transition-delay: 120ms;">
+        The same pipeline runs every use case on the twin. Vegetation, canopy, ops — all built on the same four steps.
+      </p>
+    </div>
+
+    <div class="reveal" style="transition-delay: 200ms;">
+      <div class="grid md:grid-cols-4 plate" style="background: var(--slate); border-color: var(--steel);">
+
+        <!-- ================== Card 1 — Ingest the world ================== -->
+        <div class="relative p-6 md:p-7" style="border-right: 1px solid var(--steel);">
+          <p class="kicker" style="font-size: 10px;">Step · 01</p>
+          <p class="mt-2 font-display text-base" style="font-weight: 700; color: var(--bone);">Ingest the world</p>
+          <p class="mt-1.5 text-[13px]" style="color: var(--fog); line-height: 1.45;">
+            Satellites, sensors, weather, traffic — all feeding the twin in real time.
+          </p>
+          <div class="mt-5 relative w-full overflow-hidden" style="aspect-ratio: 200/120; border: 1px solid var(--steel); background: var(--obsidian-d);">
+            <svg viewBox="0 0 200 120" class="w-full h-full" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <!-- 5 source icons across top — real Lucide paths -->
+              <!-- satellite @ x=20, y=22, scale 0.8 -->
+              <g transform="translate(10.4 12.4) scale(0.8)" stroke="#E6EAF0" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 7 9 3 5 7l4 4"/>
+                <path d="m17 11 4 4-4 4-4-4"/>
+                <path d="m8 12 4 4 6-6-4-4Z"/>
+                <path d="m16 8 3-3"/>
+                <path d="M9 21a6 6 0 0 0-6-6"/>
+              </g>
+              <!-- cloud-sun (weather) @ x=60, y=22 -->
+              <g transform="translate(50.4 12.4) scale(0.8)" stroke="#E6EAF0" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v2"/>
+                <path d="m4.93 4.93 1.41 1.41"/>
+                <path d="M20 12h2"/>
+                <path d="m19.07 4.93-1.41 1.41"/>
+                <path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/>
+                <path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/>
+              </g>
+              <!-- car (traffic) @ x=100, y=22 -->
+              <g transform="translate(90.4 12.4) scale(0.8)" stroke="#E6EAF0" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/>
+                <circle cx="7" cy="17" r="2"/>
+                <path d="M9 17h6"/>
+                <circle cx="17" cy="17" r="2"/>
+              </g>
+              <!-- box (3D) @ x=140, y=22 -->
+              <g transform="translate(130.4 12.4) scale(0.8)" stroke="#E6EAF0" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                <path d="m3.3 7 8.7 5 8.7-5"/>
+                <path d="M12 22V12"/>
+              </g>
+              <!-- radio (sensor) @ x=180, y=22 -->
+              <g transform="translate(170.4 12.4) scale(0.8)" stroke="#E6EAF0" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/>
+                <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/>
+                <circle cx="12" cy="12" r="2"/>
+                <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/>
+                <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/>
+              </g>
+
+              <!-- Tiny mono labels under each icon -->
+              <g font-family="JetBrains Mono, monospace" font-size="5.5" fill="#8B95A8" text-anchor="middle">
+                <text x="20" y="42">SAT</text>
+                <text x="60" y="42">WX</text>
+                <text x="100" y="42">GPS</text>
+                <text x="140" y="42">3D</text>
+                <text x="180" y="42">IoT</text>
+              </g>
+
+              <!-- flow lines converging on twin core -->
+              <g stroke="#5EE26B" stroke-width="0.6" stroke-dasharray="2 3" fill="none" opacity="0.85">
+                <path d="M20 46 Q60 66 100 84"/>
+                <path d="M60 46 Q80 64 100 84"/>
+                <path d="M100 46 L100 84"/>
+                <path d="M140 46 Q120 64 100 84"/>
+                <path d="M180 46 Q140 66 100 84"/>
+              </g>
+              <!-- flowing data dots -->
+              <g fill="#5EE26B">
+                <circle r="1.4"><animateMotion dur="2.6s" repeatCount="indefinite" path="M20 46 Q60 66 100 84"/></circle>
+                <circle r="1.4"><animateMotion dur="2.2s" begin="0.4s" repeatCount="indefinite" path="M60 46 Q80 64 100 84"/></circle>
+                <circle r="1.4"><animateMotion dur="2.0s" begin="0.8s" repeatCount="indefinite" path="M100 46 L100 84"/></circle>
+                <circle r="1.4"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite" path="M140 46 Q120 64 100 84"/></circle>
+                <circle r="1.4"><animateMotion dur="2.8s" begin="1.6s" repeatCount="indefinite" path="M180 46 Q140 66 100 84"/></circle>
+              </g>
+
+              <!-- twin core -->
+              <rect x="78" y="86" width="44" height="20" fill="rgba(94,226,107,0.08)" stroke="#5EE26B" stroke-width="1"/>
+              <text x="100" y="99" font-family="Inter Display, Inter Tight, Inter" font-size="8" font-weight="700" fill="#5EE26B" text-anchor="middle" letter-spacing="0.04em">TWIN</text>
+
+              <!-- caption -->
+              <text x="100" y="115" font-family="JetBrains Mono, monospace" font-size="5.5" fill="#8B95A8" text-anchor="middle" letter-spacing="0.08em">5 streams · live ingestion</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- ================== Card 2 — Build the live model ================== -->
+        <div class="relative p-6 md:p-7" style="border-right: 1px solid var(--steel);">
+          <p class="kicker" style="font-size: 10px;">Step · 02</p>
+          <p class="mt-2 font-display text-base" style="font-weight: 700; color: var(--bone);">Build the live model</p>
+          <p class="mt-1.5 text-[13px]" style="color: var(--fog); line-height: 1.45;">
+            Every asset placed in true 3-D. Every stream wired in. Continuously refreshed.
+          </p>
+          <div class="mt-5 relative w-full overflow-hidden" style="aspect-ratio: 200/120; border: 1px solid var(--steel); background: var(--obsidian-d);">
+            <svg viewBox="0 0 200 120" class="w-full h-full" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <!-- Isometric ground grid -->
+              <g stroke="#3F4859" stroke-width="0.5" fill="none" opacity="0.85">
+                {Array.from({ length: 9 }).map((_, i) => (
+                  <line x1={i * 24 - 30} y1="110" x2={i * 24 + 60} y2="56"/>
+                ))}
+                {Array.from({ length: 9 }).map((_, i) => (
+                  <line x1={200 - i * 24 + 30} y1="110" x2={200 - i * 24 - 60} y2="56"/>
+                ))}
+              </g>
+              <polygon points="0,110 200,110 200,56 0,56" fill="rgba(94,226,107,0.04)"/>
+
+              <!-- Trees -->
+              <g>
+                <ellipse cx="32"  cy="88" rx="6" ry="2.5" fill="#0A0E14" opacity="0.6"/>
+                <path d="M32 88 L28 80 L36 80 Z" fill="#46993F"/>
+                <ellipse cx="56"  cy="96" rx="6" ry="2.5" fill="#0A0E14" opacity="0.6"/>
+                <path d="M56 96 L52 88 L60 88 Z" fill="#2D6630"/>
+                <ellipse cx="170" cy="82" rx="6" ry="2.5" fill="#0A0E14" opacity="0.6"/>
+                <path d="M170 82 L166 74 L174 74 Z" fill="#46993F"/>
+              </g>
+
+              <!-- Building (isometric block) -->
+              <g>
+                <polygon points="80,92 112,92 112,62 80,62" fill="#1A2233" stroke="#E6EAF0" stroke-width="0.7"/>
+                <polygon points="112,92 132,82 132,52 112,62" fill="#0F141C" stroke="#E6EAF0" stroke-width="0.7"/>
+                <polygon points="80,62 112,62 132,52 100,52" fill="#2A3142" stroke="#E6EAF0" stroke-width="0.7"/>
+                <g fill="#5EE26B" opacity="0.55">
+                  <rect x="84" y="68" width="3" height="4"/>
+                  <rect x="92" y="68" width="3" height="4"/>
+                  <rect x="100" y="68" width="3" height="4"/>
+                  <rect x="84" y="78" width="3" height="4"/>
+                  <rect x="92" y="78" width="3" height="4"/>
+                  <rect x="100" y="78" width="3" height="4"/>
+                </g>
+              </g>
+
+              <!-- Transmission pole -->
+              <g stroke="#E6EAF0" stroke-width="1" fill="none" stroke-linecap="round">
+                <line x1="148" y1="88" x2="148" y2="60"/>
+                <line x1="140" y1="65" x2="156" y2="65"/>
+                <line x1="142" y1="70" x2="154" y2="70"/>
+                <ellipse cx="148" cy="88" rx="4" ry="1.5" fill="#0A0E14" opacity="0.6" stroke="none"/>
+              </g>
+              <path d="M148 65 Q174 66 192 70" stroke="#5EE26B" stroke-width="0.6" fill="none" opacity="0.7"/>
+              <path d="M148 65 Q120 64 100 60" stroke="#5EE26B" stroke-width="0.6" fill="none" opacity="0.7"/>
+
+              <!-- Live indicator pulse -->
+              <circle cx="148" cy="60" r="2" fill="#5EE26B">
+                <animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite"/>
+              </circle>
+
+              <!-- caption -->
+              <text x="100" y="115" font-family="JetBrains Mono, monospace" font-size="5.5" fill="#8B95A8" text-anchor="middle" letter-spacing="0.08em">twin core · 12.4 GB · live</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- ================== Card 3 — Simulate & analyse ================== -->
+        <div class="relative p-6 md:p-7" style="border-right: 1px solid var(--steel);">
+          <p class="kicker" style="font-size: 10px;">Step · 03</p>
+          <p class="mt-2 font-display text-base" style="font-weight: 700; color: var(--bone);">Simulate &amp; analyse</p>
+          <p class="mt-1.5 text-[13px]" style="color: var(--fog); line-height: 1.45;">
+            Physics, AI models, what-if scenarios — all on top of the twin.
+          </p>
+          <div class="mt-5 relative w-full overflow-hidden" style="aspect-ratio: 200/120; border: 1px solid var(--steel); background: var(--obsidian-d);">
+            <svg viewBox="0 0 200 120" class="w-full h-full" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <defs>
+                <radialGradient id="heat-c3" cx="55%" cy="50%" r="50%">
+                  <stop offset="0%"  stop-color="#FF6B57" stop-opacity="0.55"/>
+                  <stop offset="40%" stop-color="#F4B84A" stop-opacity="0.45"/>
+                  <stop offset="80%" stop-color="#5EE26B" stop-opacity="0.18"/>
+                  <stop offset="100%" stop-color="#0A0E14" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <ellipse cx="110" cy="62" rx="78" ry="38" fill="url(#heat-c3)"/>
+
+              <!-- Contour rings -->
+              <g stroke="#E6EAF0" stroke-width="0.4" fill="none" opacity="0.5">
+                <ellipse cx="110" cy="62" rx="20" ry="12"/>
+                <ellipse cx="110" cy="62" rx="38" ry="22"/>
+                <ellipse cx="110" cy="62" rx="56" ry="32"/>
+              </g>
+
+              <!-- Vector field — wind arrows (swirl pattern) -->
+              <g stroke="#5EE26B" stroke-width="0.8" fill="#5EE26B" stroke-linecap="round" opacity="0.95">
+                {Array.from({ length: 4 }).map((_, r) => Array.from({ length: 7 }).map((_, c) => {
+                  const x = 18 + c * 26;
+                  const y = 28 + r * 22;
+                  const dx = (x - 110) * 0.04;
+                  const dy = (y - 62)  * 0.04;
+                  const ang = Math.atan2(dy, dx) + Math.PI / 2;
+                  const ex = x + Math.cos(ang) * 9;
+                  const ey = y + Math.sin(ang) * 9;
+                  return (
+                    <g>
+                      <line x1={x} y1={y} x2={ex} y2={ey} stroke="#5EE26B" stroke-width="0.8"/>
+                      <circle cx={ex} cy={ey} r="1" fill="#5EE26B"/>
+                    </g>
+                  );
+                }))}
+              </g>
+
+              <!-- Lucide wind icon as a header glyph (decoration) -->
+              <g transform="translate(8 6) scale(0.6)" stroke="#5EE26B" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/>
+                <path d="M9.6 4.6A2 2 0 1 1 11 8H2"/>
+                <path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>
+              </g>
+
+              <!-- mono labels -->
+              <text x="26" y="14" font-family="JetBrains Mono, monospace" font-size="6.5" fill="#5EE26B" letter-spacing="0.08em">sim.wind_exposure</text>
+              <text x="190" y="14" font-family="JetBrains Mono, monospace" font-size="6.5" fill="#FF6B57" text-anchor="end" letter-spacing="0.06em">peak · 12 spans</text>
+
+              <!-- caption -->
+              <text x="100" y="115" font-family="JetBrains Mono, monospace" font-size="5.5" fill="#8B95A8" text-anchor="middle" letter-spacing="0.08em">90 km/h SW · 5 min step · running</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- ================== Card 4 — Talk to it · act ================== -->
+        <div class="relative p-6 md:p-7">
+          <p class="kicker" style="font-size: 10px;">Step · 04</p>
+          <p class="mt-2 font-display text-base" style="font-weight: 700; color: var(--bone);">Talk to it · act</p>
+          <p class="mt-1.5 text-[13px]" style="color: var(--fog); line-height: 1.45;">
+            Agents read the twin and call tools — dispatch, report, simulate — in plain language.
+          </p>
+          <div class="mt-5 relative w-full overflow-hidden p-2.5" style="aspect-ratio: 200/120; border: 1px solid var(--steel); background: var(--obsidian-d);">
+            <div class="h-full w-full flex flex-col justify-center gap-1.5">
+              <div class="flex items-start gap-1.5">
+                <!-- Lucide user icon -->
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#8B95A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px;" aria-hidden="true">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--bone); line-height: 1.2;">Pre-stage 5 most exposed circuits.</span>
+              </div>
+              <div class="flex items-start gap-1.5">
+                <!-- Lucide cpu icon (neutral, not "AI brain") -->
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#5EE26B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px;" aria-hidden="true">
+                  <rect width="16" height="16" x="4" y="4" rx="2"/>
+                  <rect width="6" height="6" x="9" y="9" rx="1"/>
+                  <path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/>
+                </svg>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--bone); line-height: 1.2;">running sim.wind_exposure...</span>
+              </div>
+              <div class="flex items-center gap-1.5 pl-3.5">
+                <span style="display: inline-block; width: 4px; height: 4px; background: var(--chlorophyll);"></span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: var(--mist);">grid.rank_circuits · ok</span>
+              </div>
+              <div class="flex items-center gap-1.5 pl-3.5">
+                <span style="display: inline-block; width: 4px; height: 4px; background: var(--chlorophyll);"></span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: var(--mist);">crews.pre_stage · 5 dispatched</span>
+              </div>
+              <div class="flex items-start gap-1.5 mt-0.5">
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#5EE26B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px;" aria-hidden="true">
+                  <rect width="16" height="16" x="4" y="4" rx="2"/>
+                  <rect width="6" height="6" x="9" y="9" rx="1"/>
+                  <path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/>
+                </svg>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--bone); line-height: 1.2;">Done. ETA on-site 18:40.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

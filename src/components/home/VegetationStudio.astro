@@ -1,0 +1,358 @@
+---
+// landing_page/src/components/home/VegetationStudio.astro
+// Faithful preview of the Vegetation Studio. Mirrors public/studio/vegetation/index.html exactly.
+const navTop = [
+  { label: 'Overview',     count: null,    active: true,  icon: 'grid'    },
+  { label: 'Corridors',    count: '12',    active: false, icon: 'circuit' },
+  { label: 'Spans',        count: '8,432', active: false, icon: 'circle'  },
+  { label: 'Alerts',       count: '142',   active: false, icon: 'alert',  countColor: '#FF6B57' },
+  { label: 'Crews',        count: '8',     active: false, icon: 'users'   },
+  { label: 'Work orders',  count: '31',    active: false, icon: 'clipboard' }
+];
+const navVeg = [
+  { label: 'Canopy health', count: null, icon: 'tree' },
+  { label: 'NDVI cycles',   count: null, icon: 'globe' },
+  { label: 'Growth model',  count: null, icon: 'trend' }
+];
+const navCompliance = [
+  { label: 'NERC FAC-003', count: null, icon: 'shield' },
+  { label: 'Audit log',    count: null, icon: 'list' }
+];
+const kpis = [
+  { label: '— TIER-1 ALERTS',          value: '142',     units: '',           delta: '↗ 17 new this week',     deltaColor: 'var(--ember)',       glow: false, spark: 'up-ember',  valueColor: 'var(--ember)' },
+  { label: '— OUTAGE HOURS AVOIDED',   value: '318',     units: 'h',          delta: '9-quarter avg · vs baseline', deltaColor: 'var(--chlorophyll)', glow: true,  spark: 'down' },
+  { label: '— GRID COVERAGE',          value: '8,432',   units: ' / 10K km',  delta: '+412 km this cycle',     deltaColor: 'var(--chlorophyll)', glow: false, spark: 'up' },
+  { label: '— REACTIVE COST CUT',      value: '$2.4',    units: 'M',          delta: '−30% vs last fiscal',    deltaColor: 'var(--chlorophyll)', glow: false, spark: 'flat' }
+];
+const spans = [
+  { name: 'HQ-T45-0234',    status: 't1',    voltage: '345 kV',  encroach: '0.8 m', encColor: 'var(--ember)',       health: '24', healthColor: 'var(--ember)',       months: '6 wk',   updated: '2m ago' },
+  { name: 'BK-D7-1990',     status: 't1',    voltage: '13.8 kV', encroach: '0.5 m', encColor: 'var(--ember)',       health: '19', healthColor: 'var(--ember)',       months: '3 wk',   updated: '12m ago' },
+  { name: 'HQ-T45-0287',    status: 't1',    voltage: '345 kV',  encroach: '1.2 m', encColor: 'var(--ember)',       health: '31', healthColor: 'var(--amber)',       months: '8 wk',   updated: '1h ago' },
+  { name: 'BK-D7-1847',     status: 't2',    voltage: '13.8 kV', encroach: '2.1 m', encColor: 'var(--amber)',       health: '62', healthColor: 'var(--amber)',       months: '4 mo',   updated: '3h ago' },
+  { name: 'HQ-T45-0312',    status: 't2',    voltage: '345 kV',  encroach: '1.8 m', encColor: 'var(--amber)',       health: '58', healthColor: 'var(--amber)',       months: '5 mo',   updated: '8h ago' },
+  { name: 'MTL-T138-5601',  status: 'trim',  voltage: '138 kV',  encroach: '—',     encColor: 'var(--chlorophyll)', health: '82', healthColor: 'var(--chlorophyll)', months: 'verified', updated: '1d ago' }
+];
+const crewThroughput = [
+  { name: 'Urban A',     spans: '12', pct: 80, color: 'var(--chlorophyll)' },
+  { name: 'Urban B',     spans: '9',  pct: 60, color: 'var(--chlorophyll)' },
+  { name: 'South Shore', spans: '8',  pct: 53, color: 'var(--amber)' },
+  { name: 'Northern',    spans: '6',  pct: 40, color: 'var(--mist)' }
+];
+---
+<section id="vegetation-studio" class="relative" style="border-bottom: 1px solid var(--steel); background: var(--obsidian-d);">
+  <div class="container-page py-24 md:py-32">
+    <div class="chapter reveal">
+      <span class="num">[ 08 ]</span>
+      <span class="rule"></span>
+      <span class="label">Vegetation studio</span>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10 items-end mb-12">
+      <h2 class="lg:col-span-8 text-balance reveal">
+        Run vegetation management <em>like an instrument</em>.
+      </h2>
+      <p class="lg:col-span-4 reveal" style="color: var(--fog); font-size: 17px; line-height: 1.6; transition-delay: 120ms;">
+        Vegetation Studio is the workspace where utility teams operate every corridor. Tier-1 alerts, crew throughput, NDVI cycles, FAC-003 audit packs — built in.
+      </p>
+    </div>
+
+    <!-- Browser-chrome wrapper -->
+    <figure class="reveal" style="transition-delay: 200ms;">
+      <div class="card-radius overflow-hidden" style="border: 1px solid var(--steel); background: var(--obsidian-d); box-shadow: 0 24px 64px -16px rgba(0,0,0,0.6);">
+
+        <!-- chrome bar -->
+        <div class="flex items-center gap-3 px-4 py-3" style="border-bottom: 1px solid var(--steel); background: var(--obsidian);">
+          <div class="flex items-center gap-1.5">
+            <span class="h-2.5 w-2.5 rounded-full" style="background: #FF6B57;"></span>
+            <span class="h-2.5 w-2.5 rounded-full" style="background: #F4B84A;"></span>
+            <span class="h-2.5 w-2.5 rounded-full" style="background: #5EE26B;"></span>
+          </div>
+          <span class="ml-3 kicker" style="font-size: 10px;">studio.satlab.io / hydro-quebec / overview</span>
+          <span class="ml-auto kicker-accent flex items-center gap-1.5" style="font-size: 10px; color: var(--ember);">
+            <span class="h-1.5 w-1.5 rounded-full animate-pulse-dot" style="background: var(--ember);"></span>
+            142 alerts
+          </span>
+        </div>
+
+        <!-- studio body -->
+        <div class="grid" style="grid-template-rows: 44px 1fr;">
+
+          <!-- ===================== Status bar ===================== -->
+          <div class="flex items-center gap-4 px-4" style="border-bottom: 1px solid var(--steel); background: var(--slate); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--mist); letter-spacing: 0.04em;">
+            <span class="flex items-center gap-2" style="color: var(--bone);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <line x1="12" y1="2" x2="12" y2="22" stroke="#E6EAF0" stroke-width="1"/>
+                <line x1="2" y1="12" x2="22" y2="12" stroke="#E6EAF0" stroke-width="1"/>
+                <circle cx="12" cy="12" r="6" stroke="#E6EAF0" stroke-width="1" fill="none"/>
+                <circle cx="12" cy="12" r="2" fill="#5EE26B"/>
+              </svg>
+              <span style="font-family: 'Inter', system-ui; font-size: 13px; font-weight: 500; letter-spacing: -0.01em;">SAT<span style="color: var(--chlorophyll);">.</span>LAB</span>
+            </span>
+            <span style="height: 16px; width: 1px; background: var(--steel);"></span>
+            <span class="px-2 py-0.5" style="background: var(--graphite); border: 1px solid var(--steel); border-radius: 3px; color: var(--fog); font-size: 11px;">hydro-quebec</span>
+            <span>/ workspace</span>
+            <span style="height: 16px; width: 1px; background: var(--steel);"></span>
+            <span class="flex items-center gap-1.5" style="font-size: 11px; letter-spacing: 0.04em; color: var(--ember);">
+              <span class="h-1.5 w-1.5 rounded-full animate-pulse-dot" style="background: var(--ember);"></span>
+              142 TIER-1 ALERTS
+            </span>
+            <span class="ml-auto flex items-center gap-3.5 hidden md:flex" style="font-size: 11px;">
+              <span>COVERAGE <span style="color: var(--bone);">8,432 KM</span></span>
+              <span>REGION <span style="color: var(--bone);">QUEBEC</span></span>
+              <span style="height: 16px; width: 1px; background: var(--steel);"></span>
+              <span style="color: var(--fog);">⌘K</span>
+            </span>
+          </div>
+
+          <!-- sidebar + main -->
+          <div class="grid" style="grid-template-columns: 240px 1fr; min-height: 720px;">
+
+            <!-- ===================== Sidebar ===================== -->
+            <aside class="px-2 py-3.5" style="border-right: 1px solid var(--steel); background: var(--slate);">
+              {navTop.map((n) => (
+                <div
+                  class="flex items-center gap-2.5 px-3 py-2 mb-0.5"
+                  style={`color: ${n.active ? 'var(--bone)' : 'var(--fog)'}; ${n.active ? 'background: var(--graphite); border-left: 2px solid var(--chlorophyll); padding-left: 10px;' : 'border-left: 2px solid transparent;'} font-size: 13px; border-radius: 3px;`}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                    {n.icon === 'grid' && <g><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></g>}
+                    {n.icon === 'circuit' && <g><path d="M2 12 H22"/><path d="M5 12 V8"/><path d="M11 12 V6"/><path d="M17 12 V8"/><circle cx="5" cy="8" r="1.5"/><circle cx="11" cy="6" r="1.5"/><circle cx="17" cy="8" r="1.5"/></g>}
+                    {n.icon === 'circle' && <g><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3" fill="currentColor"/></g>}
+                    {n.icon === 'alert' && <g><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h0"/></g>}
+                    {n.icon === 'users' && <g><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></g>}
+                    {n.icon === 'clipboard' && <g><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M9 9h6M9 13h6M9 17h3"/></g>}
+                  </svg>
+                  <span>{n.label}</span>
+                  {n.count && <span class="ml-auto font-mono" style={`color: ${n.countColor || 'var(--mist)'}; font-size: 10px;`}>{n.count}</span>}
+                </div>
+              ))}
+
+              <p class="font-mono mt-4 mb-1.5 px-3" style="font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mist);">— VEGETATION</p>
+              {navVeg.map((n) => (
+                <div class="flex items-center gap-2.5 px-3 py-2 mb-0.5" style="color: var(--fog); border-left: 2px solid transparent; font-size: 13px; border-radius: 3px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    {n.icon === 'tree' && <path d="M12 2 L4 12 L7 12 L4 18 L9 18 L9 22 L15 22 L15 18 L20 18 L17 12 L20 12 Z"/>}
+                    {n.icon === 'globe' && <g><path d="M3 12 H21"/><path d="M5 18 a7 6 0 0 1 14 0"/><path d="M5 6 a7 6 0 0 0 14 0"/></g>}
+                    {n.icon === 'trend' && <g><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></g>}
+                  </svg>
+                  <span>{n.label}</span>
+                </div>
+              ))}
+
+              <p class="font-mono mt-4 mb-1.5 px-3" style="font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mist);">— COMPLIANCE</p>
+              {navCompliance.map((n) => (
+                <div class="flex items-center gap-2.5 px-3 py-2 mb-0.5" style="color: var(--fog); border-left: 2px solid transparent; font-size: 13px; border-radius: 3px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    {n.icon === 'shield' && <g><path d="M12 2 L4 6 V12 a8 8 0 0 0 8 8 a8 8 0 0 0 8 -8 V6 Z"/><path d="M9 12 L11 14 L15 10"/></g>}
+                    {n.icon === 'list' && <g><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M9 9h6M9 13h6M9 17h6"/></g>}
+                  </svg>
+                  <span>{n.label}</span>
+                </div>
+              ))}
+
+              <p class="font-mono mt-4 mb-1.5 px-3" style="font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mist);">— WORKSPACE</p>
+              <div class="flex items-center gap-2.5 px-3 py-2" style="color: var(--fog); border-left: 2px solid transparent; font-size: 13px; border-radius: 3px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                </svg>
+                <span>Members</span>
+              </div>
+              <div class="flex items-center gap-2.5 px-3 py-2" style="color: var(--fog); border-left: 2px solid transparent; font-size: 13px; border-radius: 3px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8M4.6 9a1.7 1.7 0 0 0-.3-1.8"/>
+                </svg>
+                <span>Settings</span>
+              </div>
+            </aside>
+
+            <!-- ===================== Main ===================== -->
+            <main class="overflow-hidden" style="background: var(--obsidian);">
+              <div class="px-9 py-8">
+
+                <!-- page head -->
+                <div class="flex items-start justify-between mb-8">
+                  <div>
+                    <p class="font-mono" style="font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">— HYDRO-QUEBEC / OVERVIEW</p>
+                    <h3 class="mt-2" style="font-size: 1.875rem; font-weight: 500; letter-spacing: -0.02em; color: var(--bone);">Welcome back, Marie.</h3>
+                  </div>
+                  <div class="flex gap-2.5">
+                    <span class="font-mono" style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 16px; border: 1px solid var(--steel); color: var(--bone); border-radius: 3px;">+ Add corridor</span>
+                    <span class="font-mono" style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 16px; background: var(--chlorophyll); color: var(--obsidian); border: 1px solid var(--chlorophyll); font-weight: 600; border-radius: 3px;">+ Generate report →</span>
+                  </div>
+                </div>
+
+                <!-- KPI cards -->
+                <div class="grid grid-cols-4 gap-3.5 mb-8">
+                  {kpis.map((k) => (
+                    <div
+                      class="p-[18px]"
+                      style={`border: 1px solid ${k.glow ? 'rgba(94,226,107,0.25)' : 'var(--steel)'}; background: var(--slate); border-radius: 12px; ${k.glow ? 'box-shadow: 0 0 32px rgba(94,226,107,0.08);' : ''}`}
+                    >
+                      <p class="font-mono" style="font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); margin-bottom: 12px;">{k.label}</p>
+                      <p class="font-mono" style={`font-size: 28px; font-weight: 500; letter-spacing: -0.01em; color: ${k.valueColor || 'var(--bone)'};`}>
+                        {k.value}<span style="font-size: 14px; color: var(--mist); margin-left: 2px;">{k.units}</span>
+                      </p>
+                      <p class="font-mono" style={`font-size: 11px; margin-top: 4px; color: ${k.deltaColor};`}>{k.delta}</p>
+                      <svg viewBox="0 0 100 28" preserveAspectRatio="none" class="mt-2.5 w-full" style="height: 28px;">
+                        {k.spark === 'up' && <polyline points="0,22 10,20 20,18 30,15 40,13 50,11 60,9 70,7 80,5 90,4 100,3" fill="none" stroke="#5EE26B" stroke-width="1.2"/>}
+                        {k.spark === 'down' && <polyline points="0,22 10,20 20,16 30,18 40,14 50,12 60,10 70,12 80,8 90,6 100,4" fill="none" stroke="#5EE26B" stroke-width="1.2"/>}
+                        {k.spark === 'flat' && <polyline points="0,8 10,9 20,7 30,9 40,8 50,9 60,8 70,12 80,9 90,8 100,7" fill="none" stroke="#5EE26B" stroke-width="1.2"/>}
+                        {k.spark === 'up-ember' && <polyline points="0,18 10,16 20,17 30,12 40,14 50,10 60,12 70,8 80,10 90,6 100,8" fill="none" stroke="#FF6B57" stroke-width="1.2"/>}
+                      </svg>
+                    </div>
+                  ))}
+                </div>
+
+                <!-- Active spans -->
+                <div class="flex items-center gap-3 mb-4">
+                  <h4 style="font-size: 17px; font-weight: 500; color: var(--bone);">Active spans</h4>
+                  <span class="font-mono" style="font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">— SHOWING 6 OF 142 · TIER 1+2</span>
+                  <span class="ml-auto font-mono" style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fog);">View all →</span>
+                </div>
+
+                <div class="overflow-hidden" style="background: var(--slate); border: 1px solid var(--steel); border-radius: 12px;">
+                  <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                      <tr>
+                        {['Span', 'Tier', 'Voltage', 'Encroach', 'Health', 'Months to risk', 'Updated'].map((h) => (
+                          <th style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--steel); font-weight: 500;">{h}</th>
+                        ))}
+                        <th style="border-bottom: 1px solid var(--steel); padding: 12px 16px;"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {spans.map((s, i) => {
+                        const badgeMap = {
+                          t1:    { color: 'var(--ember)',       bg: 'rgba(255,107,87,0.07)',  border: 'rgba(255,107,87,0.4)',  pulse: true,  text: 'T1 · urgent' },
+                          t2:    { color: 'var(--amber)',       bg: 'rgba(244,184,74,0.07)',  border: 'rgba(244,184,74,0.4)',  pulse: false, text: 'T2 · watch'  },
+                          t3:    { color: 'var(--chlorophyll)', bg: 'rgba(94,226,107,0.07)',  border: 'rgba(94,226,107,0.4)',  pulse: false, text: 'T3 · monitor'},
+                          trim:  { color: 'var(--chlorophyll)', bg: 'rgba(94,226,107,0.07)',  border: 'rgba(94,226,107,0.4)',  pulse: false, text: 'Trimmed'     },
+                          audit: { color: 'var(--mist)',        bg: 'var(--graphite)',        border: 'var(--steel)',          pulse: false, text: 'Audit hold'  }
+                        };
+                        const badgeStyle = (badgeMap as any)[s.status] || badgeMap.audit;
+                        const cell = `padding: 14px 16px; font-size: 13px; ${i < spans.length - 1 ? 'border-bottom: 1px solid var(--steel);' : ''}`;
+                        return (
+                          <tr>
+                            <td style={`${cell} color: var(--bone); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em;`}>{s.name}</td>
+                            <td style={cell}>
+                              <span style={`display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 999px; border: 1px solid ${badgeStyle.border}; background: ${badgeStyle.bg}; color: ${badgeStyle.color}; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;`}>
+                                <span class={badgeStyle.pulse ? 'animate-pulse-dot' : ''} style="width: 5px; height: 5px; border-radius: 50%; background: currentColor;"></span>
+                                {badgeStyle.text}
+                              </span>
+                            </td>
+                            <td style={`${cell} color: var(--fog); font-family: 'JetBrains Mono', monospace;`}>{s.voltage}</td>
+                            <td style={`${cell} color: ${s.encColor}; font-family: 'JetBrains Mono', monospace;`}>{s.encroach}</td>
+                            <td style={`${cell} color: ${s.healthColor}; font-family: 'JetBrains Mono', monospace;`}>{s.health}</td>
+                            <td style={`${cell} color: var(--fog); font-family: 'JetBrains Mono', monospace;`}>{s.months}</td>
+                            <td style={`${cell} color: var(--fog); font-family: 'JetBrains Mono', monospace;`}>{s.updated}</td>
+                            <td style={`${cell} color: var(--mist); text-align: right;`}>›</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Activity + crew throughput -->
+                <div class="grid grid-cols-3 gap-3.5 mt-6">
+                  <!-- Activity feed -->
+                  <div class="col-span-2 p-5" style="background: var(--slate); border: 1px solid var(--steel); border-radius: 12px;">
+                    <div class="flex items-center justify-between mb-4">
+                      <h4 style="font-size: 15px; font-weight: 500; color: var(--bone);">Recent activity</h4>
+                      <span class="font-mono" style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fog);">Filter</span>
+                    </div>
+
+                    <div class="grid items-center" style="grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--steel);">
+                      <span class="font-mono" style="font-size: 11px; color: var(--mist); letter-spacing: 0.02em;">14:02:11</span>
+                      <span style="font-size: 13px; color: var(--fog);">Tier-1 alert generated <span class="font-mono" style="color: var(--bone);">HQ-T45-0234</span> · encroachment 0.8 m · 345 kV</span>
+                      <span class="font-mono" style="font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: rgba(255,107,87,0.07); color: var(--ember);">ALERT</span>
+                    </div>
+
+                    <div class="grid items-center" style="grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--steel);">
+                      <span class="font-mono" style="font-size: 11px; color: var(--mist); letter-spacing: 0.02em;">13:54:08</span>
+                      <span style="font-size: 13px; color: var(--fog);"><span class="font-mono" style="color: var(--bone);">South Shore Trim Team</span> dispatched to <span class="font-mono" style="color: var(--bone);">BK-D7-1847</span> · 4 spans · 8 h est.</span>
+                      <span class="font-mono" style="font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: rgba(94,226,107,0.07); color: var(--chlorophyll);">DISPATCH</span>
+                    </div>
+
+                    <div class="grid items-center" style="grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--steel);">
+                      <span class="font-mono" style="font-size: 11px; color: var(--mist); letter-spacing: 0.02em;">13:42:33</span>
+                      <span style="font-size: 13px; color: var(--fog);">NDVI cycle ingested · <span class="font-mono" style="color: var(--bone);">Sentinel-2</span> · 10,000 km · 47 hotspots flagged</span>
+                      <span class="font-mono" style="font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: var(--graphite); color: var(--mist);">INGEST</span>
+                    </div>
+
+                    <div class="grid items-center" style="grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--steel);">
+                      <span class="font-mono" style="font-size: 11px; color: var(--mist); letter-spacing: 0.02em;">13:18:00</span>
+                      <span style="font-size: 13px; color: var(--fog);">Span <span class="font-mono" style="color: var(--bone);">MTL-T138-5601</span> trimmed · health recovered to 82 · IoU 0.94</span>
+                      <span class="font-mono" style="font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: rgba(94,226,107,0.07); color: var(--chlorophyll);">VERIFY</span>
+                    </div>
+
+                    <div class="grid items-center" style="grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--steel);">
+                      <span class="font-mono" style="font-size: 11px; color: var(--mist); letter-spacing: 0.02em;">12:49:21</span>
+                      <span style="font-size: 13px; color: var(--fog);">Post-storm SAR scan · 23 damage polygons · Quebec region</span>
+                      <span class="font-mono" style="font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: rgba(244,184,74,0.07); color: var(--amber);">SCAN</span>
+                    </div>
+
+                    <div class="grid items-center" style="grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0;">
+                      <span class="font-mono" style="font-size: 11px; color: var(--mist); letter-spacing: 0.02em;">11:30:48</span>
+                      <span style="font-size: 13px; color: var(--fog);">NERC FAC-003 audit pack auto-generated · 847 spans · 31 actions</span>
+                      <span class="font-mono" style="font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: var(--graphite); color: var(--mist);">AUDIT</span>
+                    </div>
+                  </div>
+
+                  <!-- Crew throughput -->
+                  <div class="p-5" style="background: var(--slate); border: 1px solid var(--steel); border-radius: 12px;">
+                    <div class="flex items-center justify-between mb-4">
+                      <h4 style="font-size: 15px; font-weight: 500; color: var(--bone);">Crew throughput</h4>
+                      <span class="font-mono" style="font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">— 7D · /WK</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 14px;">
+                      {crewThroughput.map((c) => (
+                        <div>
+                          <div class="flex justify-between font-mono" style="font-size: 11px; margin-bottom: 4px;">
+                            <span style="color: var(--fog);">{c.name}</span>
+                            <span style={`color: ${c.color};`}>{c.spans}</span>
+                          </div>
+                          <div style="height: 4px; background: var(--graphite); border-radius: 2px; overflow: hidden;">
+                            <div style={`height: 100%; width: ${c.pct}%; background: ${c.color};`}></div>
+                          </div>
+                        </div>
+                      ))}
+                      <div style="margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--steel); font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--mist); letter-spacing: 0.04em;">
+                        Tier-1 arrival rate <span style="color: var(--amber);">15 / wk</span> · backlog +2
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+
+      <figcaption class="mt-4 flex items-center justify-between kicker" style="font-size: 10px;">
+        <span>Fig. VI · Vegetation Studio · Overview · live screenshot</span>
+        <a href="/studio/vegetation/index.html" target="_blank" rel="noopener" class="mark" style="border-bottom: 1px solid var(--chlorophyll); padding-bottom: 1px;">
+          Open the live studio →
+        </a>
+      </figcaption>
+    </figure>
+
+    <!-- 3 capability cards under the preview -->
+    <div class="mt-16 grid md:grid-cols-3 gap-0 plate reveal" style="transition-delay: 280ms;">
+      {[
+        { n: '01', t: 'Tier-1 alerts on top',     b: 'The most urgent encroachments float to the top of the queue. Click any span to dispatch a crew.' },
+        { n: '02', t: 'Throughput vs. arrival',   b: 'Compare crew capacity against new Tier-1 alerts each week. Backlog visible at a glance.' },
+        { n: '03', t: 'FAC-003 in one click',     b: 'NERC compliance reports auto-generated. Every action logged. Ready for the auditor.' }
+      ].map((c, i) => (
+        <article class="relative p-8 md:p-10" style={i < 2 ? 'border-right: 1px solid var(--steel);' : ''}>
+          <p class="kicker-accent" style="font-size: 11px;">Capability · {c.n}</p>
+          <h3 class="mt-6" style="font-size: 1.5rem; line-height: 1.18;">{c.t}</h3>
+          <p class="mt-5" style="color: var(--fog); line-height: 1.6;">{c.b}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

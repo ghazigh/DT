@@ -1,0 +1,23 @@
+---
+// landing_page/src/components/ui/StepFlow.astro
+interface Step {
+  label: string;
+  title: string;
+  body: string;
+}
+interface Props {
+  steps: Step[];
+}
+const { steps } = Astro.props;
+---
+<ol class="grid gap-6 md:grid-cols-4 md:gap-4">
+  {steps.map((s, i) => (
+    <li class="relative rounded-xl border border-line bg-bg-deep/40 p-6">
+      <p class="font-mono text-xs text-ink-low">
+        {String(i + 1).padStart(2, '0')} · {s.label}
+      </p>
+      <h4 class="mt-2 font-sans font-semibold text-lg text-ink-high">{s.title}</h4>
+      <p class="mt-2 text-sm">{s.body}</p>
+    </li>
+  ))}
+</ol>

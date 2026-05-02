@@ -1,0 +1,91 @@
+---
+// landing_page/src/components/home/ModuleGridDT.astro
+import MapTeaser from '@/components/interactive/MapTeaser';
+---
+<section id="grid-dt" class="relative border-t border-line overflow-hidden">
+  <!-- Ambient telemetry wash -->
+  <div
+    class="absolute inset-0 -z-10 pointer-events-none opacity-60"
+    style="background: radial-gradient(ellipse 70% 50% at 70% 50%, rgba(76,167,255,0.06) 0%, transparent 70%);"
+    aria-hidden="true"
+  ></div>
+
+  <div class="container-page py-28 md:py-36 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+    <!-- Visualization: live map -->
+    <div class="lg:col-span-7 order-2 lg:order-1 reveal" style="transition-delay: 120ms">
+      <div class="relative aspect-[4/3] rounded-[20px] border border-line overflow-hidden bg-bg-carbon">
+        <MapTeaser client:visible />
+
+        <!-- Framing chrome overlays -->
+        <div class="absolute inset-0 pointer-events-none">
+          <!-- Corner brackets -->
+          <span class="absolute top-3 left-3 h-4 w-4 border-l border-t border-signal-telemetry/60"></span>
+          <span class="absolute top-3 right-3 h-4 w-4 border-r border-t border-signal-telemetry/60"></span>
+          <span class="absolute bottom-3 left-3 h-4 w-4 border-l border-b border-signal-telemetry/60"></span>
+          <span class="absolute bottom-3 right-3 h-4 w-4 border-r border-b border-signal-telemetry/60"></span>
+
+          <!-- Top strip -->
+          <div class="absolute top-0 inset-x-0 flex items-center justify-between px-5 py-3 bg-gradient-to-b from-bg-void/70 to-transparent">
+            <div class="flex items-center gap-3">
+              <span class="h-1.5 w-1.5 rounded-full bg-signal-telemetry animate-pulse-dot"></span>
+              <span class="eyebrow !text-signal-telemetry">TWIN VIEW · CORRIDOR 18</span>
+            </div>
+            <span class="eyebrow hidden md:inline">QUÉBEC · 46.85°N 71.12°W · ZOOM 10</span>
+          </div>
+
+          <!-- Bottom legend -->
+          <div class="absolute bottom-0 inset-x-0 flex flex-wrap items-center justify-between gap-3 px-5 py-3 bg-gradient-to-t from-bg-void/80 to-transparent">
+            <div class="flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.18em]">
+              <span class="flex items-center gap-2"><span class="h-0.5 w-4 bg-signal-ember"></span>T1</span>
+              <span class="flex items-center gap-2"><span class="h-0.5 w-4" style="background:#ffb047"></span>T2</span>
+              <span class="flex items-center gap-2"><span class="h-0.5 w-4" style="background:#f5e44a"></span>T3</span>
+              <span class="flex items-center gap-2"><span class="h-0.5 w-4 bg-signal-phosphor"></span>T4</span>
+            </div>
+            <span class="eyebrow">SYNTHETIC · NOT CLIENT DATA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copy -->
+    <div class="lg:col-span-5 order-1 lg:order-2 reveal">
+      <p class="eyebrow" style="color:#4ca7ff">[ MODULE · 02 ]</p>
+      <h2 class="mt-6 text-balance">
+        A <span class="display-italic" style="color:#4ca7ff">living 3D model</span><br/>
+        of the grid and everything around it.
+      </h2>
+      <p class="mt-8 text-lg text-ink-mid text-pretty">
+        The Grid DT is a streaming, city-scale twin. Terrain, buildings, power lines, sensors, and every vegetation polygon from Module 01 — all composable layers inside a single Cesium-rendered scene. Pan, query, and trigger action from the browser.
+      </p>
+
+      <ul class="mt-10 space-y-5">
+        <li class="flex items-start gap-4">
+          <span class="mt-2 h-px w-6 bg-signal-telemetry"></span>
+          <div>
+            <p class="font-sans text-ink-paper">SERIC+ data model</p>
+            <p class="mt-1 text-sm text-ink-mid">Five semantic layers, one coherent twin, zero schema lock-in.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-4">
+          <span class="mt-2 h-px w-6 bg-signal-telemetry"></span>
+          <div>
+            <p class="font-sans text-ink-paper">Real-time entity streaming</p>
+            <p class="mt-1 text-sm text-ink-mid">50M+ asset LoD streaming at interactive frame rates.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-4">
+          <span class="mt-2 h-px w-6 bg-signal-telemetry"></span>
+          <div>
+            <p class="font-sans text-ink-paper">Unreal + CesiumJS runtime</p>
+            <p class="mt-1 text-sm text-ink-mid">Runs in browser or 4K ops room; same source of truth.</p>
+          </div>
+        </li>
+      </ul>
+
+      <a href="/urban-canopy" class="mt-12 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] no-underline hover:gap-3 transition-all" style="color:#4ca7ff">
+        Explore the Grid DT
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>

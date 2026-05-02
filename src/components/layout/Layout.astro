@@ -1,0 +1,58 @@
+---
+// landing_page/src/components/layout/Layout.astro — dark canvas
+import '../../styles/globals.css';
+import SEO from './SEO.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import type { SeoProps } from '@/lib/seo';
+
+interface Props extends Partial<SeoProps> {}
+const props = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0A0E14" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <SEO {...props} />
+    {import.meta.env.PUBLIC_ANALYTICS_DOMAIN && (
+      <script
+        defer
+        data-domain={import.meta.env.PUBLIC_ANALYTICS_DOMAIN}
+        src="https://plausible.io/js/script.js"
+      />
+    )}
+  </head>
+  <body class="min-h-screen antialiased">
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <script is:inline>
+      (() => {
+        const els = document.querySelectorAll('.reveal');
+        if (!('IntersectionObserver' in window) || !els.length) {
+          els.forEach((e) => e.classList.add('in'));
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+        );
+        els.forEach((el) => io.observe(el));
+      })();
+    </script>
+  </body>
+</html>

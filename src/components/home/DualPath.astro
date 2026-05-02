@@ -1,0 +1,67 @@
+---
+// landing_page/src/components/home/DualPath.astro
+---
+<section class="relative border-t border-line">
+  <div class="container-page py-28 md:py-36">
+    <div class="max-w-2xl reveal">
+      <p class="eyebrow-signal">[ 03 / ENGAGE ]</p>
+      <h2 class="mt-6 text-balance">
+        Two ways in. <span class="display-italic text-ink-mid">Pick yours.</span>
+      </h2>
+    </div>
+
+    <div class="mt-16 grid gap-6 md:grid-cols-2">
+      <article class="group relative card-elev p-10 md:p-12 overflow-hidden hover:border-signal-phosphor/40 transition-colors duration-500 reveal">
+        <!-- Subtle corner annotation -->
+        <span class="absolute top-6 right-6 eyebrow !text-ink-faint">PATH · 01</span>
+
+        <p class="eyebrow !text-signal-phosphor">FOR UTILITIES</p>
+        <h3 class="mt-6 font-display text-[2rem] text-ink-paper leading-tight text-balance">
+          You can't trim what<br/>
+          <span class="display-italic">you can't see.</span>
+        </h3>
+        <p class="mt-6 text-ink-mid">
+          Ship a pilot on a 50–100 km corridor. We deliver vegetation risk maps and tier-scored alerts in your hands within 90 days. Per-km, per-year pricing.
+        </p>
+
+        <div class="mt-10 flex items-center gap-4">
+          <a href="/contact?interest=pilot" class="btn-primary">
+            Book a pilot
+          </a>
+          <a href="/vegetation" class="font-mono text-[11px] uppercase tracking-[0.22em] text-ink-mid hover:text-ink-paper no-underline">
+            Spec →
+          </a>
+        </div>
+      </article>
+
+      <article class="group relative card-elev p-10 md:p-12 overflow-hidden hover:border-signal-telemetry/40 transition-colors duration-500 reveal" style="transition-delay: 100ms">
+        <span class="absolute top-6 right-6 eyebrow !text-ink-faint">PATH · 02</span>
+
+        <p class="eyebrow" style="color:#4ca7ff">FOR INVESTORS</p>
+        <h3 class="mt-6 font-display text-[2rem] text-ink-paper leading-tight text-balance">
+          Platform + wedge.<br/>
+          <span class="display-italic">Deep-tech moat.</span>
+        </h3>
+        <p class="mt-6 text-ink-mid">
+          Vegetation is the revenue wedge. The twin is the long game. Grid DT proves they merge. $48B+ combined TAM, MVP shipping 2026.
+        </p>
+
+        <div class="mt-10 flex items-center gap-4">
+          <a
+            href="/contact?interest=investment"
+            class="inline-flex items-center gap-3 rounded-full border border-signal-telemetry/40 bg-signal-telemetry/10 px-6 py-3 font-medium no-underline transition-colors duration-300"
+            style="color:#4ca7ff"
+          >
+            Request the thesis
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M1 8h13M10 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </a>
+          <a href="/about" class="font-mono text-[11px] uppercase tracking-[0.22em] text-ink-mid hover:text-ink-paper no-underline">
+            About →
+          </a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+---
+// landing_page/src/components/home/ProblemBand.astro
+const tiles = [
+  {
+    stat: '$8B',
+    unit: '/yr',
+    body: 'Global utility vegetation spend. 20–30% of it burned on corridors that never needed attention.',
+    source: 'P2 PRD §2',
+    colour: 'ember'
+  },
+  {
+    stat: '5%',
+    unit: 'of grid',
+    body: 'Causes 80% of tree-related outages. Find it once and the economics flip.',
+    source: 'HQ incident data',
+    colour: 'phosphor'
+  },
+  {
+    stat: '$500M',
+    unit: 'per storm',
+    body: 'What a single major vegetation blackout can cost. Calendars don\'t model wind and drought.',
+    source: 'Utility loss studies',
+    colour: 'ember'
+  }
+];
+---
+<section class="relative border-t border-line bg-bg-carbon/40">
+  <div class="container-page py-24 md:py-28">
+    <div class="grid md:grid-cols-12 gap-10 items-end">
+      <div class="md:col-span-6 reveal">
+        <p class="eyebrow" style="color:#ff6b3d">[ THE PROBLEM ]</p>
+        <h2 class="mt-6 text-balance">
+          Infrastructure runs <span class="display-italic" style="color:#ff6b3d">blind.</span>
+        </h2>
+      </div>
+      <div class="md:col-span-5 md:col-start-8 reveal" style="transition-delay: 120ms">
+        <p class="text-ink-mid text-[17px] leading-relaxed text-pretty">
+          Utilities trim on calendars. Cities plant without data. Operators chase outages after they happen. The twin inverts the loop — sense, predict, act — before failure, not after.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-20 grid gap-px bg-line md:grid-cols-3">
+      {tiles.map((t, i) => (
+        <div class="bg-bg-void p-8 md:p-10 reveal" style={`transition-delay: ${i * 100}ms`}>
+          <div class="flex items-baseline gap-2">
+            <span class={`font-display text-6xl md:text-7xl leading-none text-signal-${t.colour}`}>{t.stat}</span>
+            <span class="eyebrow">{t.unit}</span>
+          </div>
+          <p class="mt-6 text-ink-mid text-[15px] leading-relaxed max-w-sm">{t.body}</p>
+          <p class="mt-6 eyebrow !text-ink-faint">SRC · {t.source}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

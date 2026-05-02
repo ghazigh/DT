@@ -1,0 +1,32 @@
+---
+import MonoCaption from '@/components/ui/MonoCaption.astro';
+import SericDiagram from '@/components/ui/SericDiagram.astro';
+---
+<section id="platform" class="border-b border-line">
+  <div class="container-page py-24">
+    <div class="max-w-3xl">
+      <MonoCaption>Platform · Sat Lab Digital Twin</MonoCaption>
+      <h2 class="mt-4">
+        One digital twin. <em class="italic font-normal text-signal-mint">Any sensor, any satellite, any layer.</em>
+      </h2>
+      <p class="mt-6">
+        The platform separates the real world into five semantic layers. The separation is what lets us scale from a single building to an entire city without crashing — and what lets vegetation detected from orbit live in the same twin as an elevator telemetry stream.
+      </p>
+    </div>
+
+    <div class="mt-12">
+      <SericDiagram />
+    </div>
+
+    <p class="mt-10 max-w-2xl">
+      Vegetation is the first layer. Buildings, water systems, urban forests — they're layers too, reusing the same twin core. That's the platform thesis.
+    </p>
+
+    <a
+      href="/platform"
+      class="mt-8 inline-flex items-center gap-2 text-signal-ember no-underline hover:gap-3 transition-all"
+    >
+      Explore the platform <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>

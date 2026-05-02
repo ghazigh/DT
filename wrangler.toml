@@ -1,0 +1,11 @@
+# landing_page/wrangler.toml
+name = "sat-lab-landing"
+compatibility_date = "2026-04-20"
+pages_build_output_dir = "dist"
+
+[env.production]
+name = "sat-lab-landing"
+
+[env.production.vars]
+PUBLIC_ANALYTICS_DOMAIN = ""
+# PILOT_WEBHOOK_URL is set via Cloudflare Pages dashboard secrets, not committed here.

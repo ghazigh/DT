@@ -1,0 +1,85 @@
+---
+// landing_page/src/components/layout/Nav.astro
+// Dark, Inter Display wordmark, Graticule symbol per Branding §4.
+// Nav grouping: in-page anchors first, then links to other pages — separated by a hairline.
+const sectionLinks = [
+  { href: '/#architecture', label: 'Platform' },
+  { href: '/#agent-layer',  label: 'Agentic' },
+  { href: '/#use-cases',    label: 'Use cases' }
+];
+const pageLinks = [
+  { href: '/studio/index.html', label: 'Studio' },
+  { href: '/vegetation',        label: 'Vegetation' },
+  { href: '/about',             label: 'About' }
+];
+---
+<header class="fixed top-0 inset-x-0 z-50 backdrop-blur-md" style="background: rgba(10,14,20,0.78); border-bottom: 1px solid var(--steel);">
+  <div class="container-page flex items-center justify-between h-14">
+    <a href="/" class="group flex items-center gap-3" aria-label="Sat Lab home">
+      <!-- Graticule symbol — degree-grid intersection with center pulse, single weight, geometric. -->
+      <span class="inline-flex h-7 w-7 items-center justify-center" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" class="h-7 w-7">
+          <!-- meridian/parallel cross -->
+          <line x1="12" y1="2" x2="12" y2="22" stroke="#E6EAF0" stroke-width="1"/>
+          <line x1="2" y1="12" x2="22" y2="12" stroke="#E6EAF0" stroke-width="1"/>
+          <!-- inner graticule ring -->
+          <circle cx="12" cy="12" r="6" stroke="#E6EAF0" stroke-width="1" fill="none"/>
+          <!-- center pulse -->
+          <circle cx="12" cy="12" r="2" fill="#5EE26B"/>
+        </svg>
+      </span>
+      <span
+        class="font-display text-[15px] leading-none"
+        style="font-weight: 700; letter-spacing: -0.02em; color: var(--bone);"
+      >Sat Lab</span>
+    </a>
+
+    <ul class="hidden md:flex gap-7 items-center">
+      <!-- In-page anchors -->
+      {sectionLinks.map((l) => (
+        <li>
+          <a
+            href={l.href}
+            class="kicker"
+            style="font-size: 11px; transition: color 240ms;"
+            onmouseover="this.style.color='var(--bone)'"
+            onmouseout="this.style.color=''"
+          >
+            {l.label}
+          </a>
+        </li>
+      ))}
+
+      <!-- Divider between in-page anchors and external pages -->
+      <li aria-hidden="true">
+        <span style="display: inline-block; width: 1px; height: 14px; background: var(--steel);"></span>
+      </li>
+
+      <!-- Links to other pages -->
+      {pageLinks.map((l) => (
+        <li>
+          <a
+            href={l.href}
+            class="kicker"
+            style="font-size: 11px; transition: color 240ms;"
+            onmouseover="this.style.color='var(--bone)'"
+            onmouseout="this.style.color=''"
+          >
+            {l.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <a
+      href="/contact"
+      class="inline-flex items-center gap-2 kicker-accent"
+      style="font-size: 11px; border-bottom: 1px solid var(--chlorophyll); padding-bottom: 0.125rem;"
+    >
+      Request pilot
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M2 6h8M7 2l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </a>
+  </div>
+</header>

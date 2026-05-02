@@ -1,0 +1,43 @@
+---
+import MonoCaption from '@/components/ui/MonoCaption.astro';
+import MapTeaser from '@/components/interactive/MapTeaser';
+---
+<section id="vegetation" class="border-b border-line">
+  <div class="container-page py-24 grid gap-12 lg:grid-cols-2 items-center">
+    <div>
+      <MonoCaption>Wedge · Vegetation Intelligence</MonoCaption>
+      <h2 class="mt-4">
+        Find the <em class="italic font-normal text-signal-ember">5% of your grid</em> that will fail — before it does.
+      </h2>
+      <p class="mt-6 max-w-xl">
+        A multi-resolution satellite cascade — free Sentinel-2 screens every kilometer, high-res Planet and Maxar imagery is tasked only where risk justifies it, LiDAR verifies the worst corridors. AI turns pixels into tree polygons, vegetation polygons into risk scores, risk scores into work orders.
+      </p>
+
+      <dl class="mt-8 grid grid-cols-3 gap-4">
+        <div class="border-l-2 border-signal-lime pl-4">
+          <dt class="text-mono-eyebrow">Detection</dt>
+          <dd class="font-mono text-signal-ember text-2xl mt-1">&ge;95%</dd>
+        </div>
+        <div class="border-l-2 border-signal-lime pl-4">
+          <dt class="text-mono-eyebrow">Fewer surveys</dt>
+          <dd class="font-mono text-signal-ember text-2xl mt-1">&ge;80%</dd>
+        </div>
+        <div class="border-l-2 border-signal-lime pl-4">
+          <dt class="text-mono-eyebrow">Repair cost cut</dt>
+          <dd class="font-mono text-signal-ember text-2xl mt-1">&ge;30%</dd>
+        </div>
+      </dl>
+
+      <a
+        href="/vegetation"
+        class="mt-10 inline-flex items-center gap-2 text-signal-ember no-underline hover:gap-3 transition-all"
+      >
+        See vegetation intelligence <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="lg:pl-8">
+      <MapTeaser client:visible />
+    </div>
+  </div>
+</section>

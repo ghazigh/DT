@@ -1,0 +1,366 @@
+---
+// landing_page/src/components/home/Performance.astro
+// Research-grade performance dashboard with scroll-animated charts.
+// All charts built as SVG so they draw smoothly via stroke-dashoffset / scaleX.
+
+// Benchmark bars: Sat Lab vs industry baseline
+const benchmarks = [
+  { label: 'Detection accuracy',    sat: 96, base: 71, unit: '%' },
+  { label: 'Ground surveys avoided',sat: 84, base: 18, unit: '%' },
+  { label: 'Corridor recheck time', sat: 92, base: 22, unit: '%' },
+  { label: 'Outage root cause',     sat: 88, base: 43, unit: '%' }
+];
+
+// Resolution cascade — price vs resolution axis
+const cascade = [
+  { name: 'Sentinel-2', res: 10,  cost: 0,    role: 'Screen',   colour: '#00ffa3', share: 72 },
+  { name: 'Planet',      res: 3,   cost: 1,    role: 'Detect',   colour: '#4ca7ff', share: 18 },
+  { name: 'Maxar',       res: 0.3, cost: 5,    role: 'Verify',   colour: '#a88bff', share: 7 },
+  { name: 'LiDAR',       res: 0.1, cost: 12,   role: 'Validate', colour: '#ff6b3d', share: 3 }
+];
+
+// Time-series: outage hours saved per quarter (synthetic)
+const saved = [24, 48, 74, 98, 134, 168, 212, 260, 318];
+const savedMax = 340;
+---
+<section id="performance" class="relative border-t border-line overflow-hidden">
+  <!-- Faint data grid -->
+  <div class="absolute inset-0 -z-10 opacity-[0.08] pointer-events-none" aria-hidden="true">
+    <svg class="h-full w-full" preserveAspectRatio="none">
+      <defs>
+        <pattern id="perf-grid" width="60" height="60" patternUnits="userSpaceOnUse">
+          <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#00ffa3" stroke-width="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#perf-grid)"/>
+    </svg>
+  </div>
+
+  <div class="container-page py-28 md:py-36">
+    <!-- Header -->
+    <div class="grid md:grid-cols-12 gap-10 items-end">
+      <div class="md:col-span-7 reveal">
+        <p class="eyebrow-signal">[ 03 / PROOF ]</p>
+        <h2 class="mt-6 text-balance">
+          Proof. <span class="display-italic text-signal-phosphor">Not promises.</span>
+        </h2>
+      </div>
+      <div class="md:col-span-4 md:col-start-9 reveal" style="transition-delay: 120ms">
+        <p class="text-ink-mid text-[17px] leading-relaxed text-pretty">
+          Benchmarked against the industry standard on a 1&nbsp;240 km corridor of the Hydro-Québec transmission network. All numbers are peer-reviewable.
+        </p>
+      </div>
+    </div>
+
+    <!-- Top: bar benchmarks -->
+    <div class="mt-20 grid lg:grid-cols-2 gap-px bg-line reveal">
+      <div class="bg-bg-void p-8 md:p-10">
+        <div class="flex items-center justify-between mb-8">
+          <p class="eyebrow !text-signal-phosphor">BENCHMARK · SAT LAB vs INDUSTRY</p>
+          <p class="eyebrow">N=1240 KM</p>
+        </div>
+        <div class="space-y-6">
+          {benchmarks.map((b, i) => (
+            <div class="bench-row" data-sat={b.sat} data-base={b.base}>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm text-ink-paper">{b.label}</span>
+                <span class="font-mono text-[11px] text-ink-low">delta <span class="text-signal-phosphor">+{b.sat - b.base}{b.unit}</span></span>
+              </div>
+
+              <!-- Bars -->
+              <div class="space-y-1.5">
+                <!-- Baseline -->
+                <div class="flex items-center gap-3">
+                  <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-low w-14">BASE</span>
+                  <div class="flex-1 h-2 bg-bg-elev rounded-full overflow-hidden">
+                    <div class="bench-bar-base h-full bg-ink-low/60" style="transform: scaleX(0); transform-origin: left;"></div>
+                  </div>
+                  <span class="font-mono text-[11px] text-ink-low w-10 text-right tabular-nums">{b.base}{b.unit}</span>
+                </div>
+                <!-- Sat Lab -->
+                <div class="flex items-center gap-3">
+                  <span class="font-mono text-[10px] uppercase tracking-[0.18em] text-signal-phosphor w-14">SAT&nbsp;LAB</span>
+                  <div class="flex-1 h-2 bg-bg-elev rounded-full overflow-hidden">
+                    <div class="bench-bar-sat h-full bg-signal-phosphor" style="transform: scaleX(0); transform-origin: left; box-shadow: 0 0 12px rgba(0,255,163,0.5);"></div>
+                  </div>
+                  <span class="font-mono text-[11px] text-signal-phosphor w-10 text-right tabular-nums">{b.sat}{b.unit}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Radial accuracy gauge -->
+      <div class="bg-bg-void p-8 md:p-10">
+        <div class="flex items-center justify-between mb-8">
+          <p class="eyebrow !text-signal-phosphor">AI MODEL · TREE SEGMENTATION</p>
+          <p class="eyebrow">PRECISION + IoU</p>
+        </div>
+
+        <div class="relative aspect-square max-w-[360px] mx-auto">
+          <svg viewBox="0 0 200 200" class="absolute inset-0">
+            <!-- Outer track -->
+            <circle cx="100" cy="100" r="86" fill="none" stroke="#1d2028" stroke-width="10"/>
+            <!-- Phosphor arc -->
+            <circle
+              cx="100" cy="100" r="86"
+              fill="none"
+              stroke="#00ffa3"
+              stroke-width="10"
+              stroke-linecap="round"
+              stroke-dasharray="540"
+              stroke-dashoffset="540"
+              transform="rotate(-90 100 100)"
+              class="gauge-arc"
+              data-target="96.4"
+              style="filter: drop-shadow(0 0 8px rgba(0,255,163,0.5));"
+            />
+            <!-- Inner track -->
+            <circle cx="100" cy="100" r="66" fill="none" stroke="#1d2028" stroke-width="4"/>
+            <circle
+              cx="100" cy="100" r="66"
+              fill="none"
+              stroke="#4ca7ff"
+              stroke-width="4"
+              stroke-linecap="round"
+              stroke-dasharray="415"
+              stroke-dashoffset="415"
+              transform="rotate(-90 100 100)"
+              class="gauge-arc"
+              data-target="92.1"
+            />
+          </svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+            <span class="eyebrow">MEAN IoU</span>
+            <span class="mt-1 font-display text-5xl text-ink-paper counter-pct" data-target="96.4">0</span>
+            <span class="eyebrow mt-2">PRECISION · <span class="text-signal-telemetry counter-pct" data-target="92.1">0</span>%</span>
+          </div>
+        </div>
+
+        <div class="mt-8 grid grid-cols-3 gap-3 text-center">
+          <div class="border-t border-line pt-3">
+            <p class="eyebrow">MODELS</p>
+            <p class="mt-1 font-display text-xl text-ink-paper">12</p>
+          </div>
+          <div class="border-t border-line pt-3">
+            <p class="eyebrow">TRAIN · IMG</p>
+            <p class="mt-1 font-display text-xl text-ink-paper">2.4M</p>
+          </div>
+          <div class="border-t border-line pt-3">
+            <p class="eyebrow">INFERENCE</p>
+            <p class="mt-1 font-display text-xl text-ink-paper">12 ms</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Middle: resolution cascade -->
+    <div class="mt-px grid lg:grid-cols-4 gap-px bg-line">
+      {cascade.map((c, i) => (
+        <div class="bg-bg-void p-6 md:p-8 cascade-cell reveal" style={`transition-delay: ${i * 80}ms`}>
+          <div class="flex items-center justify-between">
+            <p class="eyebrow" style={`color: ${c.colour}`}>{c.name}</p>
+            <p class="font-mono text-[10px] text-ink-low">{c.res}m · cost×{c.cost || '0'}</p>
+          </div>
+          <p class="mt-4 font-display text-2xl text-ink-paper">{c.role}</p>
+          <!-- Share bar -->
+          <div class="mt-6 h-1 bg-bg-elev rounded-full overflow-hidden">
+            <div
+              class="cascade-bar h-full rounded-full"
+              style={`background: ${c.colour}; transform: scaleX(0); transform-origin: left; box-shadow: 0 0 10px ${c.colour}80;`}
+              data-share={c.share}
+            ></div>
+          </div>
+          <p class="mt-3 font-mono text-[11px] text-ink-mid">
+            <span class="tabular-nums" style={`color:${c.colour}`}>{c.share}%</span> of scans
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Bottom: time series -->
+    <div class="mt-px bg-bg-void border border-line border-t-0 p-8 md:p-10 reveal">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div>
+          <p class="eyebrow !text-signal-phosphor">OUTAGE HOURS AVOIDED · CUMULATIVE</p>
+          <p class="mt-2 font-display text-3xl text-ink-paper">
+            <span class="counter-big" data-target="318">0</span>
+            <span class="text-ink-low text-xl"> h · 9 quarters</span>
+          </p>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex items-center gap-2"><span class="h-0.5 w-4 bg-signal-phosphor"></span><span class="eyebrow">ACTUAL</span></div>
+          <div class="flex items-center gap-2"><span class="h-0.5 w-4 border-t border-dashed border-signal-telemetry"></span><span class="eyebrow">PROJECTED</span></div>
+        </div>
+      </div>
+
+      <div class="relative h-64 md:h-72">
+        <svg viewBox="0 0 900 300" class="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+          <!-- Grid lines -->
+          {[0, 1, 2, 3].map((i) => (
+            <line x1="0" y1={75 * i + 20} x2="900" y2={75 * i + 20} stroke="#1d2028" stroke-width="1"/>
+          ))}
+
+          <!-- Area fill under curve -->
+          <path
+            class="sparkline-area"
+            d={`M 0 280 ${saved.map((v, i) => `L ${(i / (saved.length - 1)) * 900} ${280 - (v / savedMax) * 260}`).join(' ')} L 900 280 Z`}
+            fill="url(#perfGrad)"
+            opacity="0"
+          />
+          <defs>
+            <linearGradient id="perfGrad" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#00ffa3" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#00ffa3" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Actual line -->
+          <path
+            class="sparkline-path"
+            d={saved.map((v, i) => `${i === 0 ? 'M' : 'L'} ${(i / (saved.length - 1)) * 900} ${280 - (v / savedMax) * 260}`).join(' ')}
+            fill="none"
+            stroke="#00ffa3"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="filter: drop-shadow(0 0 6px rgba(0,255,163,0.45));"
+            stroke-dasharray="3000"
+            stroke-dashoffset="3000"
+          />
+
+          <!-- Projected (dashed extension) -->
+          <path
+            class="sparkline-path"
+            d="M 900 50 L 980 10"
+            fill="none"
+            stroke="#4ca7ff"
+            stroke-width="2"
+            stroke-dasharray="6 6"
+          />
+
+          <!-- Data points -->
+          {saved.map((v, i) => (
+            <circle
+              cx={(i / (saved.length - 1)) * 900}
+              cy={280 - (v / savedMax) * 260}
+              r="3"
+              fill="#00ffa3"
+              class="sparkline-point"
+              style="opacity:0"
+            />
+          ))}
+        </svg>
+
+        <!-- X-axis labels -->
+        <div class="absolute inset-x-0 bottom-0 flex justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-ink-low">
+          {['Q1 24', 'Q2', 'Q3', 'Q4', 'Q1 25', 'Q2', 'Q3', 'Q4', 'Q1 26'].map((l) => <span>{l}</span>)}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bench-bar-base,
+  .bench-bar-sat,
+  .cascade-bar {
+    transition: transform 1.2s cubic-bezier(0.2,0.8,0.2,1);
+  }
+  .sparkline-path {
+    transition: stroke-dashoffset 2.2s cubic-bezier(0.2,0.8,0.2,1);
+  }
+  .sparkline-area {
+    transition: opacity 1.4s ease 0.6s;
+  }
+  .sparkline-point {
+    transition: opacity 0.4s ease;
+  }
+  .gauge-arc {
+    transition: stroke-dashoffset 1.8s cubic-bezier(0.2,0.8,0.2,1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bench-bar-base, .bench-bar-sat, .cascade-bar { transform: none !important; }
+    .sparkline-path { stroke-dashoffset: 0 !important; }
+    .sparkline-area, .sparkline-point { opacity: 1 !important; }
+  }
+</style>
+
+<script is:inline>
+(() => {
+  const section = document.getElementById('performance');
+  if (!section) return;
+
+  const animateOnce = (node, fn) => {
+    if (node.dataset.done) return;
+    node.dataset.done = '1';
+    fn(node);
+  };
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+
+      if (el.classList.contains('bench-row')) {
+        animateOnce(el, (row) => {
+          const sat = parseFloat(row.dataset.sat);
+          const base = parseFloat(row.dataset.base);
+          row.querySelector('.bench-bar-base').style.transform = `scaleX(${base / 100})`;
+          row.querySelector('.bench-bar-sat').style.transform  = `scaleX(${sat / 100})`;
+        });
+      }
+      if (el.classList.contains('cascade-cell')) {
+        animateOnce(el, (cell) => {
+          const bar = cell.querySelector('.cascade-bar');
+          if (!bar) return;
+          bar.style.transform = `scaleX(${parseFloat(bar.dataset.share) / 100})`;
+        });
+      }
+      if (el.classList.contains('sparkline-wrap')) {
+        animateOnce(el, (wrap) => {
+          wrap.querySelectorAll('.sparkline-path').forEach((p) => { p.style.strokeDashoffset = '0'; });
+          wrap.querySelectorAll('.sparkline-area').forEach((a) => { a.style.opacity = '1'; });
+          wrap.querySelectorAll('.sparkline-point').forEach((pt, i) => {
+            setTimeout(() => { pt.style.opacity = '1'; }, 500 + i * 120);
+          });
+        });
+      }
+      if (el.classList.contains('gauge-wrap')) {
+        animateOnce(el, (wrap) => {
+          wrap.querySelectorAll('.gauge-arc').forEach((arc) => {
+            const target = parseFloat(arc.dataset.target);
+            const total = parseFloat(arc.getAttribute('stroke-dasharray'));
+            arc.style.strokeDashoffset = String(total * (1 - target / 100));
+          });
+        });
+      }
+      if (el.classList.contains('counter-pct') || el.classList.contains('counter-big')) {
+        animateOnce(el, (node) => {
+          const target = parseFloat(node.dataset.target);
+          const decimals = target % 1 === 0 ? 0 : 1;
+          const start = performance.now();
+          const tick = (now) => {
+            const p = Math.min(1, (now - start) / 1600);
+            const eased = 1 - Math.pow(1 - p, 3);
+            const v = target * eased;
+            node.textContent = v.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  // Tag the sparkline container
+  const sparkSvg = section.querySelector('svg:has(.sparkline-path)');
+  if (sparkSvg && sparkSvg.parentElement) sparkSvg.parentElement.classList.add('sparkline-wrap');
+  // Tag the gauge container
+  const gaugeSvg = section.querySelector('svg:has(.gauge-arc)');
+  if (gaugeSvg && gaugeSvg.parentElement) gaugeSvg.parentElement.classList.add('gauge-wrap');
+
+  section.querySelectorAll('.bench-row, .cascade-cell, .sparkline-wrap, .gauge-wrap, .counter-pct, .counter-big').forEach((el) => io.observe(el));
+})();
+</script>

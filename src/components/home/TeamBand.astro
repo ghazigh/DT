@@ -1,0 +1,38 @@
+---
+import MonoCaption from '@/components/ui/MonoCaption.astro';
+
+const slots = [
+  { role: 'Founding engineer · geospatial ML',    name: 'Announcing soon' },
+  { role: 'Founding engineer · digital twin',     name: 'Announcing soon' },
+  { role: 'Founding design · brand & interface',  name: 'Announcing soon' },
+  { role: 'Founding GTM · utilities',             name: 'Announcing soon' }
+];
+---
+<section class="border-b border-line">
+  <div class="container-page py-24">
+    <MonoCaption>The team</MonoCaption>
+    <h2 class="mt-4 max-w-3xl">
+      A small founding team building in public.
+    </h2>
+    <p class="mt-6 max-w-2xl">
+      Backgrounds in satellite analytics, digital twins, urban ecology, and grid operations. We're hiring engineers who want to see their code in production with real utilities and cities.
+    </p>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-4">
+      {slots.map((s) => (
+        <div class="rounded-xl border border-line bg-bg-deep/40 p-6">
+          <div class="aspect-square rounded-lg bg-bg-void border border-line mb-4"></div>
+          <p class="text-mono-eyebrow">{s.role}</p>
+          <p class="mt-2 text-ink-high">{s.name}</p>
+        </div>
+      ))}
+    </div>
+
+    <a
+      href="/about#team"
+      class="mt-10 inline-flex items-center gap-2 text-signal-ember no-underline hover:gap-3 transition-all"
+    >
+      Meet the founding team <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>

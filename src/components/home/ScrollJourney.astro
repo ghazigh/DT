@@ -1,0 +1,210 @@
+---
+// landing_page/src/components/home/ScrollJourney.astro
+// A sticky/pinned pipeline section. As the user scrolls, a "packet"
+// traverses the stages and each stage highlights in sequence.
+
+const stages = [
+  { key: 'orbit',   label: 'ORBIT',    title: 'Tasking a satellite',  body: 'Sentinel-2 scans every 5 days. Planet daily. Maxar on-demand. LiDAR on high-risk corridors.' },
+  { key: 'pixel',   label: 'PIXEL',    title: 'Raw imagery in',       body: '10-meter raster → 3-meter → 30-centimeter. Our pipeline fuses every stream into one tile index.' },
+  { key: 'polygon', label: 'POLYGON',  title: 'AI sees trees',        body: 'Segmentation models label every canopy, every stem, every encroachment — at 96% IoU.' },
+  { key: 'risk',    label: 'RISK',     title: 'Scoring the 5%',       body: 'Species + height + wind exposure + corridor geometry → tiered risk, per span, continuously.' },
+  { key: 'action',  label: 'ACTION',   title: 'Work order out',       body: 'Crews dispatched to the corridors that matter. The twin updates the moment work is done.' }
+];
+---
+<section id="journey" class="relative border-t border-line">
+  <div class="journey-track relative" data-stages={stages.length}>
+    <!-- The sticky viewport -->
+    <div class="sticky top-0 h-screen flex items-center overflow-hidden">
+      <div class="container-page w-full grid lg:grid-cols-12 gap-10 items-center">
+        <!-- Left: narrative that cross-fades -->
+        <div class="lg:col-span-5">
+          <p class="eyebrow-signal">[ 04 / PIPELINE ]</p>
+          <h2 class="mt-6 text-balance">
+            From orbit to <span class="display-italic text-signal-phosphor">action</span>.<br/>
+            One loop, five stages.
+          </h2>
+
+          <div class="mt-10 relative h-[220px]">
+            {stages.map((s, i) => (
+              <div
+                class={`journey-card absolute inset-0 transition-all duration-500 ${i === 0 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                data-idx={i}
+              >
+                <p class="eyebrow !text-signal-phosphor">STAGE · {String(i + 1).padStart(2, '0')} · {s.label}</p>
+                <p class="mt-4 font-display text-3xl text-ink-paper">{s.title}</p>
+                <p class="mt-4 text-ink-mid text-[15px] leading-relaxed max-w-md">{s.body}</p>
+              </div>
+            ))}
+          </div>
+
+          <!-- Stage rail indicator -->
+          <div class="mt-10 flex items-center gap-2">
+            {stages.map((_, i) => (
+              <span
+                class={`journey-pip h-1 flex-1 rounded-full transition-all duration-500 ${i === 0 ? 'bg-signal-phosphor' : 'bg-line'}`}
+                data-pip={i}
+              ></span>
+            ))}
+          </div>
+        </div>
+
+        <!-- Right: schematic viewport -->
+        <div class="lg:col-span-7 relative">
+          <div class="relative aspect-[4/3] rounded-[20px] border border-line bg-bg-carbon overflow-hidden">
+            <!-- Grid floor -->
+            <div class="absolute inset-0 bg-grid-fine opacity-50" aria-hidden="true"></div>
+
+            <svg viewBox="0 0 900 700" class="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <!-- Orbit arc at top -->
+              <path d="M 60 220 Q 450 -10 840 220" fill="none" stroke="#2d2f38" stroke-width="1" stroke-dasharray="3 6"/>
+
+              <!-- Satellite icon (moves with stage) -->
+              <g class="journey-sat" transform="translate(80 220)">
+                <circle r="8" fill="#00ffa3"/>
+                <circle r="18" fill="none" stroke="#00ffa3" stroke-width="0.5" opacity="0.4"/>
+                <line x1="-14" y1="0" x2="14" y2="0" stroke="#00ffa3" stroke-width="1"/>
+              </g>
+
+              <!-- Tree cluster -->
+              <g transform="translate(240 470)" class="journey-stage" data-stage="1 2 3 4">
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <circle
+                    cx={(i % 4) * 36}
+                    cy={Math.floor(i / 4) * 28}
+                    r={10 + (i % 3) * 3}
+                    fill="#143826"
+                    stroke="#2a6b4a"
+                    stroke-width="1"
+                    opacity="0.8"
+                  />
+                ))}
+              </g>
+
+              <!-- Polygon overlay (appears at stage 2) -->
+              <g transform="translate(240 470)" class="journey-stage-el journey-poly" style="opacity:0; transition: opacity 0.6s">
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <circle
+                    cx={(i % 4) * 36}
+                    cy={Math.floor(i / 4) * 28}
+                    r={14 + (i % 3) * 3}
+                    fill="none"
+                    stroke="#00ffa3"
+                    stroke-width="1"
+                    stroke-dasharray="3 3"
+                    opacity="0.8"
+                  />
+                ))}
+              </g>
+
+              <!-- Power line + pylons -->
+              <g>
+                <line x1="60" y1="540" x2="840" y2="540" stroke="#4ca7ff" stroke-width="1" stroke-dasharray="4 6" opacity="0.6"/>
+                {[140, 300, 460, 620, 780].map((x) => (
+                  <g transform={`translate(${x} 540)`}>
+                    <line x1="0" y1="-18" x2="0" y2="18" stroke="#4ca7ff" stroke-width="1.4"/>
+                    <line x1="-12" y1="-10" x2="12" y2="-10" stroke="#4ca7ff" stroke-width="1"/>
+                    <circle r="2" fill="#4ca7ff"/>
+                  </g>
+                ))}
+              </g>
+
+              <!-- Risk markers (stage 3) -->
+              <g class="journey-stage-el journey-risk" style="opacity:0; transition:opacity 0.6s">
+                <circle cx="290" cy="500" r="22" fill="none" stroke="#ff6b3d" stroke-width="1.5" stroke-dasharray="3 4"/>
+                <circle cx="420" cy="510" r="18" fill="none" stroke="#ff6b3d" stroke-width="1.5" stroke-dasharray="3 4"/>
+                <circle cx="640" cy="495" r="24" fill="none" stroke="#ff6b3d" stroke-width="1.5" stroke-dasharray="3 4"/>
+              </g>
+
+              <!-- Work order packet (stage 4) -->
+              <g class="journey-stage-el journey-work" transform="translate(750 620)" style="opacity:0; transition:opacity 0.6s">
+                <rect x="-50" y="-18" width="100" height="36" rx="4" fill="#0b0d12" stroke="#00ffa3" stroke-width="1"/>
+                <text x="0" y="5" text-anchor="middle" fill="#00ffa3" font-family="JetBrains Mono, monospace" font-size="11">WO #2187</text>
+              </g>
+
+              <!-- Downlink beam -->
+              <path class="journey-beam" d="M 80 220 L 290 500" stroke="#00ffa3" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.5"/>
+            </svg>
+
+            <!-- Chrome -->
+            <div class="absolute top-4 left-4 flex items-center gap-3">
+              <span class="h-1.5 w-1.5 rounded-full bg-signal-phosphor animate-pulse-dot"></span>
+              <span class="eyebrow">PIPELINE · T+ <span class="journey-time">00:00</span></span>
+            </div>
+            <div class="absolute top-4 right-4 eyebrow">
+              STAGE <span class="journey-stage-label">01/05</span>
+            </div>
+            <div class="absolute bottom-4 left-4 eyebrow">SAT LAB / twin-core.v0.1</div>
+            <div class="absolute bottom-4 right-4 font-mono text-[10px] uppercase tracking-[0.2em] text-signal-phosphor">SCROLL ↓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Invisible scroll spacers -->
+    {stages.map((_, i) => (
+      <div class="journey-step h-screen relative" data-step={i}>
+        <span class="sr-only">Stage {i + 1}</span>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script is:inline>
+(() => {
+  const track = document.querySelector('.journey-track');
+  if (!track) return;
+  const steps = Array.from(track.querySelectorAll('.journey-step'));
+  const cards = Array.from(document.querySelectorAll('.journey-card'));
+  const pips = Array.from(document.querySelectorAll('.journey-pip'));
+  const sat = document.querySelector('.journey-sat');
+  const poly = document.querySelector('.journey-poly');
+  const risk = document.querySelector('.journey-risk');
+  const work = document.querySelector('.journey-work');
+  const beam = document.querySelector('.journey-beam');
+  const timeEl = document.querySelector('.journey-time');
+  const stageLabel = document.querySelector('.journey-stage-label');
+
+  let currentStage = 0;
+
+  const setStage = (n) => {
+    if (n === currentStage) return;
+    currentStage = n;
+
+    cards.forEach((c, i) => {
+      const active = i === n;
+      c.style.opacity = active ? '1' : '0';
+      c.style.transform = active ? 'translateY(0)' : 'translateY(16px)';
+      c.style.pointerEvents = active ? 'auto' : 'none';
+    });
+
+    pips.forEach((p, i) => {
+      p.style.background = i <= n ? '#00ffa3' : '#1d2028';
+    });
+
+    if (stageLabel) stageLabel.textContent = `${String(n + 1).padStart(2, '0')}/05`;
+    if (timeEl) timeEl.textContent = `00:${String(n * 12).padStart(2, '0')}`;
+
+    // Satellite moves across sky as stages progress
+    if (sat) {
+      const x = 80 + (n / 4) * 760;
+      const y = 220 - Math.sin((n / 4) * Math.PI) * 120;
+      sat.setAttribute('transform', `translate(${x} ${y})`);
+    }
+
+    if (beam) beam.setAttribute('opacity', n >= 1 ? '0.8' : '0');
+    if (poly) poly.style.opacity = n >= 2 ? '1' : '0';
+    if (risk) risk.style.opacity = n >= 3 ? '1' : '0';
+    if (work) work.style.opacity = n >= 4 ? '1' : '0';
+  };
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const idx = parseInt(entry.target.getAttribute('data-step') || '0', 10);
+      setStage(idx);
+    });
+  }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+
+  steps.forEach((s) => io.observe(s));
+})();
+</script>

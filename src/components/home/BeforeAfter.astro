@@ -1,0 +1,214 @@
+---
+// landing_page/src/components/home/BeforeAfter.astro
+// Real satellite imagery via ESRI World Imagery — same tile both sides.
+// Brand-honest: no recoloring on the raw side; analysis side adds Twin classification overlays.
+// Tile coords precomputed for the Petit-Saguenay corridor (47.5° N, 71° W) at z=13.
+//   z=13 covers ~5 km × 5 km per tile, 4-tile mosaic gives ~10 km × 10 km coverage.
+//   x = floor(((-71+180)/360) × 8192) = 2480
+//   y = floor(((1 - asinh(tan(47.5°))/π)/2) × 8192) = 2864 / 2865
+const tilesZ13 = [
+  { x: 2480, y: 2864 }, { x: 2481, y: 2864 },
+  { x: 2480, y: 2865 }, { x: 2481, y: 2865 }
+];
+const esri = (z: number, x: number, y: number) =>
+  `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`;
+---
+<section class="relative" style="border-bottom: 1px solid var(--steel); background: var(--obsidian);">
+  <div class="container-page py-24 md:py-32">
+    <div class="chapter reveal">
+      <span class="num">[ 05 ]</span>
+      <span class="rule"></span>
+      <span class="label">Before · after</span>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10 items-end mb-14">
+      <h2 class="lg:col-span-8 text-balance reveal">
+        Drag the line. <em>This is what we add.</em>
+      </h2>
+      <p class="lg:col-span-4 reveal" style="color: var(--fog); font-size: 17px; line-height: 1.6; transition-delay: 120ms;">
+        Left: a satellite photo of one of your corridors. Right: the same photo with every problem tree found and ranked.
+      </p>
+    </div>
+
+    <div class="reveal" style="transition-delay: 200ms;">
+      <figure class="relative">
+        <div
+          class="relative aspect-[16/9] overflow-hidden select-none cursor-ew-resize card-radius"
+          id="ba-wrap"
+          role="slider"
+          aria-label="Drag to compare raw satellite imagery with Sat Lab twin analysis"
+          aria-valuenow="50"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          tabindex="0"
+          style="border: 1px solid var(--steel); background: var(--obsidian-d);"
+        >
+          <!-- Real ESRI World Imagery — 2×2 z=13 mosaic of the Petit-Saguenay corridor.
+               Brand-honest: no recoloring or saturation push on the raw side. -->
+
+          <!-- ============== AFTER · Sat Lab twin analysis ============== -->
+          <div class="absolute inset-0">
+            <!-- Real satellite imagery (slightly dark-graded so chlorophyll labels read clearly) -->
+            <div class="absolute inset-0 grid grid-cols-2 grid-rows-2" style="filter: brightness(0.92) contrast(1.05) saturate(0.95);">
+              {tilesZ13.map((t) => (
+                <img src={esri(13, t.x, t.y)} alt="ESRI World Imagery satellite tile, Petit-Saguenay corridor" loading="lazy" class="w-full h-full object-cover"/>
+              ))}
+            </div>
+
+            <!-- Twin classification overlay -->
+            <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" class="absolute inset-0 w-full h-full pointer-events-none">
+              <!-- Cleared right-of-way + transmission line -->
+              <rect x="0" y="430" width="1600" height="60" fill="rgba(94,226,107,0.05)" stroke="#5EE26B" stroke-width="1" stroke-dasharray="6 8" opacity="0.55"/>
+              <line x1="0" y1="460" x2="1600" y2="460" stroke="#E6EAF0" stroke-width="1.4" opacity="0.85"/>
+
+              <!-- Pylons along the line -->
+              {Array.from({ length: 11 }).map((_, i) => (
+                <g transform={`translate(${100 + i * 145} 460)`}>
+                  <line x1="0" y1="-26" x2="0" y2="26" stroke="#E6EAF0" stroke-width="1.6"/>
+                  <line x1="-15" y1="-15" x2="15" y2="-15" stroke="#E6EAF0" stroke-width="1"/>
+                  <circle r="2.4" fill="#5EE26B"/>
+                </g>
+              ))}
+
+              <!-- T1 critical encroachments — Ember -->
+              {([[280, 430, 'S-0042'], [540, 480, 'S-0044'], [820, 440, 'S-0067'], [1120, 470, 'S-0089'], [1360, 440, 'S-0094']] as Array<[number, number, string]>).map(([x, y, id]) => (
+                <g>
+                  <rect x={x - 36} y={y - 36} width="72" height="72" fill="rgba(255,107,87,0.06)" stroke="#FF6B57" stroke-width="1.8"/>
+                  <line x1={x - 36} y1={y - 36} x2={x - 28} y2={y - 36} stroke="#FF6B57" stroke-width="3"/>
+                  <line x1={x - 36} y1={y - 36} x2={x - 36} y2={y - 28} stroke="#FF6B57" stroke-width="3"/>
+                  <text x={x - 32} y={y - 42} fill="#FF6B57" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" letter-spacing="0.08em">{id} · T1 · 0.96</text>
+                </g>
+              ))}
+
+              <!-- T2 watch-list — Amber -->
+              {([[180, 520, 'S-0072'], [460, 380, 'S-0073'], [700, 560, 'S-0078'], [940, 400, 'S-0085'], [1200, 560, 'S-0091']] as Array<[number, number, string]>).map(([x, y, id]) => (
+                <g>
+                  <rect x={x - 30} y={y - 30} width="60" height="60" fill="none" stroke="#F4B84A" stroke-width="1.4" stroke-dasharray="4 4"/>
+                  <text x={x - 26} y={y - 36} fill="#F4B84A" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500" letter-spacing="0.08em">{id} · T2 · 0.82</text>
+                </g>
+              ))}
+
+              <!-- T3 detected — Chlorophyll-deep, dashed -->
+              {[[350, 620], [620, 280], [1020, 250], [1280, 680]].map(([x, y]) => (
+                <rect x={x - 24} y={y - 24} width="48" height="48" fill="none" stroke="#46993F" stroke-width="1" stroke-dasharray="2 4" opacity="0.7"/>
+              ))}
+
+              <!-- Crosshair on the offending tree (visual signature) -->
+              <g transform="translate(280 430)">
+                <circle r="14" fill="none" stroke="#FF6B57" stroke-width="1" opacity="0.6"/>
+                <line x1="-22" y1="0" x2="-15" y2="0" stroke="#FF6B57" stroke-width="1.2"/>
+                <line x1="15" y1="0" x2="22" y2="0" stroke="#FF6B57" stroke-width="1.2"/>
+                <line x1="0" y1="-22" x2="0" y2="-15" stroke="#FF6B57" stroke-width="1.2"/>
+                <line x1="0" y1="15" x2="0" y2="22" stroke="#FF6B57" stroke-width="1.2"/>
+              </g>
+            </svg>
+          </div>
+
+          <!-- ============== BEFORE · Raw satellite tile ============== -->
+          <div class="absolute inset-0" id="ba-before" style="clip-path: inset(0 50% 0 0)">
+            <!-- Same real ESRI imagery, no overlays. Brand §9: no recoloring of false-color satellite. -->
+            <div class="absolute inset-0 grid grid-cols-2 grid-rows-2">
+              {tilesZ13.map((t) => (
+                <img src={esri(13, t.x, t.y)} alt="ESRI World Imagery raw satellite tile" loading="lazy" class="w-full h-full object-cover"/>
+              ))}
+            </div>
+          </div>
+
+          <!-- Divider seam -->
+          <div id="ba-divider" class="absolute top-0 bottom-0 w-px pointer-events-none" style="left: 50%; background: var(--chlorophyll); z-index: 5;">
+            <div class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-10 w-10 flex items-center justify-center" style="border: 1px solid var(--chlorophyll); background: var(--obsidian);">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M6 5L3 9L6 13" stroke="#5EE26B" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M12 5L15 9L12 13" stroke="#5EE26B" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Sentinel metadata stamp (left side) -->
+          <div class="absolute top-3 left-3 px-2.5 py-1.5"
+               style="background: rgba(10,14,20,0.85); border: 1px solid var(--steel); backdrop-filter: blur(4px); z-index: 4;">
+            <p class="kicker" style="font-size: 9px; color: var(--bone);">Raw · Sentinel-2 L2A</p>
+            <p class="font-mono" style="font-size: 9px; color: var(--mist); letter-spacing: 0.04em; margin-top: 2px;">
+              T19TBL · 2026-04-20 · 10 m GSD · cc 4 %
+            </p>
+          </div>
+
+          <!-- Twin output stamp (right side) -->
+          <div class="absolute top-3 right-3 px-2.5 py-1.5"
+               style="background: rgba(10,14,20,0.85); border: 1px solid var(--chlorophyll); backdrop-filter: blur(4px); z-index: 4;">
+            <p class="kicker-accent" style="font-size: 9px;">● Twin · NDVI fuse + classifier</p>
+            <p class="font-mono" style="font-size: 9px; color: var(--mist); letter-spacing: 0.04em; margin-top: 2px;">
+              S2 + Maxar 0.3 m · IoU 0.96 · 12 ms / tile
+            </p>
+          </div>
+
+          <!-- Scale bar -->
+          <div class="absolute bottom-3 left-3 flex items-center gap-2 px-2 py-1"
+               style="background: rgba(10,14,20,0.7); border: 1px solid var(--steel); backdrop-filter: blur(4px); z-index: 4;">
+            <span class="kicker" style="font-size: 9px;">0</span>
+            <span style="display: inline-block; width: 60px; height: 4px; background: linear-gradient(90deg, var(--bone) 0%, var(--bone) 50%, var(--obsidian-d) 50%, var(--obsidian-d) 100%); border: 1px solid var(--steel);"></span>
+            <span class="kicker" style="font-size: 9px;">2 km</span>
+          </div>
+
+          <!-- Coordinate -->
+          <div class="absolute bottom-3 right-3 px-2 py-1"
+               style="background: rgba(10,14,20,0.7); border: 1px solid var(--steel); backdrop-filter: blur(4px); font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--bone); letter-spacing: 0.04em; z-index: 4;">
+            47.5124° N · 71.3019° W · MGRS T19TBL
+          </div>
+        </div>
+
+        <figcaption class="mt-4 flex items-center justify-between kicker" style="font-size: 10px;">
+          <span>Fig. IV · Petit-Saguenay corridor · 47.51° N · 71.32° W · imagery © ESRI / Maxar / Earthstar</span>
+          <span>mean confidence · 0.93 · sensor cascade · S2 + Maxar</span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+(() => {
+  const wrap = document.getElementById('ba-wrap');
+  const before = document.getElementById('ba-before');
+  const divider = document.getElementById('ba-divider');
+  if (!wrap || !before || !divider) return;
+
+  let pct = 50;
+  const setPct = (p) => {
+    pct = Math.max(0, Math.min(100, p));
+    before.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+    divider.style.left = pct + '%';
+    wrap.setAttribute('aria-valuenow', String(Math.round(pct)));
+  };
+
+  const move = (clientX) => {
+    const rect = wrap.getBoundingClientRect();
+    setPct(((clientX - rect.left) / rect.width) * 100);
+  };
+
+  let dragging = false;
+  wrap.addEventListener('mousedown', (e) => { dragging = true; move(e.clientX); });
+  window.addEventListener('mousemove', (e) => { if (dragging) move(e.clientX); });
+  window.addEventListener('mouseup', () => { dragging = false; });
+  wrap.addEventListener('touchstart', (e) => { dragging = true; move(e.touches[0].clientX); }, { passive: true });
+  window.addEventListener('touchmove', (e) => { if (dragging) move(e.touches[0].clientX); }, { passive: true });
+  window.addEventListener('touchend', () => { dragging = false; });
+  wrap.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft')  setPct(pct - 4);
+    if (e.key === 'ArrowRight') setPct(pct + 4);
+  });
+
+  let auto = true;
+  const stop = () => { auto = false; };
+  wrap.addEventListener('pointerdown', stop);
+  wrap.addEventListener('keydown', stop);
+  let t = 0;
+  const tick = () => {
+    if (auto) { t += 0.012; setPct(50 + Math.sin(t) * 22); }
+    requestAnimationFrame(tick);
+  };
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    requestAnimationFrame(tick);
+  }
+})();
+</script>

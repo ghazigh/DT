@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Vegetation Studio · Sat Lab</title>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; overflow: hidden; }
+
+  /* Sat Lab marketing nav — shared chrome with /vegetation, /about, /studio */
+  .sat-nav {
+    position: relative;
+    z-index: 50;
+    height: 56px;
+    background: rgba(10,14,20,0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid #3F4859;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+  }
+  .sat-nav .brand-link { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .sat-nav .brand-link .word { font-family: 'Inter', system-ui, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: -0.02em; color: #E6EAF0; }
+  .sat-nav ul { list-style: none; display: flex; gap: 28px; align-items: center; padding: 0; margin: 0; }
+  .sat-nav ul li.divider { display: inline-block; width: 1px; height: 14px; background: #3F4859; }
+  .sat-nav ul li a { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #8B95A8; text-decoration: none; transition: color 240ms; }
+  .sat-nav ul li a:hover { color: #E6EAF0; }
+  .sat-nav .cta { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #5EE26B; text-decoration: none; border-bottom: 1px solid #5EE26B; padding-bottom: 2px; display: inline-flex; align-items: center; gap: 6px; }
+  @media (max-width: 900px) { .sat-nav ul { display: none; } }
+
+  .app { display: grid; grid-template-columns: 240px 1fr; grid-template-rows: 44px 1fr; height: calc(100vh - 56px); }
+
+  /* Status bar */
+  .status-bar { grid-column: 1 / -1; background: var(--ink-100); border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; padding: 0 14px; gap: 18px; font-family: var(--font-mono); font-size: 11px; color: var(--fg-tertiary); letter-spacing: 0.04em; }
+  .status-bar .brand { display: flex; align-items: center; gap: 8px; color: var(--fg-primary); }
+  .status-bar .brand .word { font-family: var(--font-sans); font-size: 13px; font-weight: 500; letter-spacing: -0.01em; }
+  .status-bar .brand .dot { color: var(--signal-500); }
+  .status-bar .sep { width: 1px; height: 16px; background: var(--border-subtle); }
+  .status-bar .item { display: inline-flex; align-items: center; gap: 6px; }
+  .status-bar .live { color: var(--orbit-500); }
+  .status-bar .live .dot-anim { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse 1.4s infinite; }
+  .status-bar .right { margin-left: auto; display: flex; gap: 14px; align-items: center; }
+  .status-bar .ws { background: var(--ink-200); padding: 3px 8px; border-radius: var(--r-sm); border: 1px solid var(--border-subtle); color: var(--fg-secondary); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  /* Sidebar */
+  aside { background: var(--ink-050); border-right: 1px solid var(--border-subtle); padding: 14px 8px; display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+  aside .group-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-muted); padding: 16px 12px 6px; }
+  aside .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: var(--r-sm); color: var(--fg-secondary); font-size: 13px; cursor: pointer; transition: all 120ms; }
+  aside .nav-item:hover { background: var(--ink-200); color: var(--fg-primary); }
+  aside .nav-item.active { background: var(--ink-200); color: var(--fg-primary); border-left: 2px solid var(--signal-500); padding-left: 10px; }
+  aside .nav-item svg { width: 16px; height: 16px; flex: none; }
+  aside .nav-item .count { margin-left: auto; font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); }
+
+  /* Main */
+  main { overflow: auto; background: var(--bg-app); }
+  .page { padding: 32px 36px; max-width: 1400px; }
+
+  .page-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 32px; }
+  .page-head h1 { font-size: 30px; font-weight: 500; letter-spacing: -0.02em; margin: 0; }
+  .page-head .crumb { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-tertiary); margin-bottom: 8px; }
+  .page-head .actions { display: flex; gap: 10px; }
+
+  .btn { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 16px; border-radius: var(--r-sm); cursor: pointer; border: 1px solid transparent; transition: all 120ms; display: inline-flex; align-items: center; gap: 8px; }
+  .btn.primary { background: var(--signal-500); color: var(--ink-000); font-weight: 600; }
+  .btn.primary:hover { background: var(--signal-300); }
+  .btn.secondary { background: transparent; color: var(--fg-primary); border-color: var(--border-default); }
+  .btn.secondary:hover { border-color: var(--signal-500); color: var(--signal-500); }
+  .btn.ghost { background: transparent; color: var(--fg-secondary); padding: 9px 12px; }
+  .btn.ghost:hover { color: var(--fg-primary); background: var(--ink-200); }
+
+  /* KPI cards */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 32px; }
+  .kpi { background: var(--ink-100); border: 1px solid var(--border-subtle); border-radius: var(--r-lg); padding: 18px; }
+  .kpi .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-tertiary); margin-bottom: 12px; }
+  .kpi .val { font-family: var(--font-mono); font-size: 28px; font-weight: 500; color: var(--fg-primary); letter-spacing: -0.01em; }
+  .kpi .val .units { font-size: 14px; color: var(--fg-tertiary); margin-left: 2px; }
+  .kpi .delta { font-family: var(--font-mono); font-size: 11px; margin-top: 4px; color: var(--signal-500); }
+  .kpi .delta.down { color: var(--orbit-500); }
+  .kpi.glow { border-color: rgba(0,232,154,0.25); box-shadow: 0 0 32px rgba(0,232,154,0.08); }
+  .kpi .spark { margin-top: 10px; height: 28px; }
+
+  /* Section title */
+  .section-title { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; }
+  .section-title h2 { font-size: 17px; font-weight: 500; margin: 0; color: var(--fg-primary); }
+  .section-title .ovr { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-tertiary); margin-left: 4px; }
+
+  /* Spans table */
+  .table-wrap { background: var(--ink-100); border: 1px solid var(--border-subtle); border-radius: var(--r-lg); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  th { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-tertiary); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border-subtle); font-weight: 500; }
+  td { padding: 14px 16px; border-bottom: 1px solid var(--border-subtle); font-size: 13px; color: var(--fg-secondary); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.015); }
+  td.name { color: var(--fg-primary); font-family: var(--font-mono); letter-spacing: 0.02em; }
+  td.mono { font-family: var(--font-mono); }
+
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 999px; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; border: 1px solid; }
+  .badge .d { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+  .badge.t1     { color: #ff5a4e;            border-color: rgba(255,90,78,0.4);  background: rgba(255,90,78,0.07); }
+  .badge.t1 .d  { animation: pulse 1.4s infinite; }
+  .badge.t2     { color: var(--orbit-500);   border-color: rgba(255,174,61,0.4); background: rgba(255,174,61,0.07); }
+  .badge.t3     { color: var(--signal-500);  border-color: rgba(0,232,154,0.4);  background: rgba(0,232,154,0.07); }
+  .badge.trim   { color: var(--signal-500);  border-color: rgba(0,232,154,0.4);  background: rgba(0,232,154,0.07); }
+  .badge.audit  { color: var(--fg-tertiary); border-color: var(--border-default); background: var(--ink-200); }
+
+  /* Activity / chart panel */
+  .grid-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; margin-top: 24px; }
+  .panel { background: var(--ink-100); border: 1px solid var(--border-subtle); border-radius: var(--r-lg); padding: 20px; }
+  .panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .panel-head h3 { font-size: 15px; font-weight: 500; margin: 0; }
+
+  .activity { display: flex; flex-direction: column; }
+  .activity .row { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border-subtle); align-items: center; }
+  .activity .row:last-child { border-bottom: none; }
+  .activity .ts { font-family: var(--font-mono); font-size: 11px; color: var(--fg-tertiary); letter-spacing: 0.02em; }
+  .activity .msg { font-size: 13px; color: var(--fg-secondary); }
+  .activity .msg .ref { font-family: var(--font-mono); color: var(--fg-primary); }
+  .activity .tag-mini { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: var(--ink-200); color: var(--fg-tertiary); }
+  .activity .tag-mini.ok { color: var(--signal-500); background: rgba(0,232,154,0.07); }
+  .activity .tag-mini.warn { color: var(--orbit-500); background: rgba(255,174,61,0.07); }
+  .activity .tag-mini.crit { color: #ff5a4e; background: rgba(255,90,78,0.07); }
+</style>
+</head>
+<body>
+
+<!-- ===== Sat Lab marketing nav (matches /vegetation, /about pages) ===== -->
+<nav class="sat-nav" aria-label="Sat Lab navigation">
+  <a href="/" class="brand-link" aria-label="Sat Lab home">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <line x1="12" y1="2"  x2="12" y2="22" stroke="#E6EAF0" stroke-width="1"/>
+      <line x1="2"  y1="12" x2="22" y2="12" stroke="#E6EAF0" stroke-width="1"/>
+      <circle cx="12" cy="12" r="6" stroke="#E6EAF0" stroke-width="1" fill="none"/>
+      <circle cx="12" cy="12" r="2" fill="#5EE26B"/>
+    </svg>
+    <span class="word">Sat Lab</span>
+  </a>
+  <ul>
+    <li><a href="/#architecture">Platform</a></li>
+    <li><a href="/#agent-layer">Agentic</a></li>
+    <li><a href="/#use-cases">Use cases</a></li>
+    <li class="divider" aria-hidden="true"></li>
+    <li><a href="/studio/index.html">Studio</a></li>
+    <li><a href="/vegetation">Vegetation</a></li>
+    <li><a href="/about">About</a></li>
+  </ul>
+  <a href="/contact" class="cta">
+    Request pilot
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M2 6h8M7 2l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>
+  </a>
+</nav>
+
+<div class="app">
+
+  <!-- Status bar -->
+  <div class="status-bar">
+    <a class="brand">
+      <img src="../assets/logo-mark.svg" width="20" height="20" alt=""/>
+      <span class="word">SAT<span class="dot">.</span>LAB</span>
+    </a>
+    <div class="sep"></div>
+    <span class="ws">hydro-quebec</span>
+    <span class="item">/ workspace</span>
+    <div class="sep"></div>
+    <span class="item live"><span class="dot-anim"></span>142 TIER-1 ALERTS</span>
+    <div class="right">
+      <span class="item">COVERAGE <span style="color: var(--fg-primary);">8,432 KM</span></span>
+      <span class="item">REGION QUEBEC</span>
+      <div class="sep"></div>
+      <span class="item" style="color: var(--fg-secondary);">⌘K</span>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside>
+    <div class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Overview
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 12 H22"/><path d="M5 12 V8"/><path d="M11 12 V6"/><path d="M17 12 V8"/><circle cx="5" cy="8" r="1.5"/><circle cx="11" cy="6" r="1.5"/><circle cx="17" cy="8" r="1.5"/></svg>
+      Corridors <span class="count">12</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
+      Spans <span class="count">8,432</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h0"/></svg>
+      Alerts <span class="count" style="color: #ff5a4e;">142</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Crews <span class="count">8</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>
+      Work orders <span class="count">31</span>
+    </div>
+
+    <div class="group-label">— VEGETATION</div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M12 2 L4 12 L7 12 L4 18 L9 18 L9 22 L15 22 L15 18 L20 18 L17 12 L20 12 Z"/></svg>
+      Canopy health
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3 12 H21"/><path d="M5 18 a7 6 0 0 1 14 0"/><path d="M5 6 a7 6 0 0 0 14 0"/></svg>
+      NDVI cycles
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+      Growth model
+    </div>
+
+    <div class="group-label">— COMPLIANCE</div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M12 2 L4 6 V12 a8 8 0 0 0 8 8 a8 8 0 0 0 8 -8 V6 Z"/><path d="M9 12 L11 14 L15 10"/></svg>
+      NERC FAC-003
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M9 9h6M9 13h6M9 17h6"/></svg>
+      Audit log
+    </div>
+
+    <div class="group-label">— WORKSPACE</div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Members
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8M4.6 9a1.7 1.7 0 0 0-.3-1.8"/></svg>
+      Settings
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main>
+    <div class="page">
+      <div class="page-head">
+        <div>
+          <div class="crumb">— HYDRO-QUEBEC / OVERVIEW</div>
+          <h1>Welcome back, Marie.</h1>
+        </div>
+        <div class="actions">
+          <button class="btn secondary">+ Add corridor</button>
+          <button class="btn primary">+ Generate report →</button>
+        </div>
+      </div>
+
+      <!-- KPI cards -->
+      <div class="kpis">
+        <div class="kpi">
+          <div class="lbl">— TIER-1 ALERTS</div>
+          <div class="val" style="color: #ff5a4e;">142</div>
+          <div class="delta down">↗ 17 new this week</div>
+          <svg class="spark" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,18 10,16 20,17 30,12 40,14 50,10 60,12 70,8 80,10 90,6 100,8" fill="none" stroke="#ff5a4e" stroke-width="1.2"/></svg>
+        </div>
+        <div class="kpi glow">
+          <div class="lbl">— OUTAGE HOURS AVOIDED</div>
+          <div class="val">318<span class="units">h</span></div>
+          <div class="delta">9-quarter avg · vs baseline</div>
+          <svg class="spark" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,22 10,20 20,16 30,18 40,14 50,12 60,10 70,12 80,8 90,6 100,4" fill="none" stroke="var(--signal-500)" stroke-width="1.2"/></svg>
+        </div>
+        <div class="kpi">
+          <div class="lbl">— GRID COVERAGE</div>
+          <div class="val">8,432<span class="units"> / 10K km</span></div>
+          <div class="delta">+412 km this cycle</div>
+          <svg class="spark" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,22 10,20 20,18 30,15 40,13 50,11 60,9 70,7 80,5 90,4 100,3" fill="none" stroke="var(--signal-500)" stroke-width="1.2"/></svg>
+        </div>
+        <div class="kpi">
+          <div class="lbl">— REACTIVE COST CUT</div>
+          <div class="val">$2.4<span class="units">M</span></div>
+          <div class="delta">−30% vs last fiscal</div>
+          <svg class="spark" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,8 10,9 20,7 30,9 40,8 50,9 60,8 70,12 80,9 90,8 100,7" fill="none" stroke="var(--signal-500)" stroke-width="1.2"/></svg>
+        </div>
+      </div>
+
+      <!-- Spans table -->
+      <div class="section-title">
+        <h2>Active spans</h2>
+        <span class="ovr">— SHOWING 6 OF 142 · TIER 1+2</span>
+        <span style="margin-left: auto;"><button class="btn ghost">View all →</button></span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Span</th><th>Tier</th><th>Voltage</th><th>Encroach</th><th>Health</th><th>Months to risk</th><th>Updated</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="name">HQ-T45-0234</td><td><span class="badge t1"><span class="d"></span>T1 · urgent</span></td><td class="mono">345 kV</td><td class="mono" style="color: #ff5a4e;">0.8 m</td><td class="mono" style="color: #ff5a4e;">24</td><td class="mono">6 wk</td><td class="mono">2m ago</td><td>›</td></tr>
+            <tr><td class="name">BK-D7-1990</td><td><span class="badge t1"><span class="d"></span>T1 · urgent</span></td><td class="mono">13.8 kV</td><td class="mono" style="color: #ff5a4e;">0.5 m</td><td class="mono" style="color: #ff5a4e;">19</td><td class="mono">3 wk</td><td class="mono">12m ago</td><td>›</td></tr>
+            <tr><td class="name">HQ-T45-0287</td><td><span class="badge t1"><span class="d"></span>T1 · urgent</span></td><td class="mono">345 kV</td><td class="mono" style="color: #ff5a4e;">1.2 m</td><td class="mono" style="color: var(--orbit-500);">31</td><td class="mono">8 wk</td><td class="mono">1h ago</td><td>›</td></tr>
+            <tr><td class="name">BK-D7-1847</td><td><span class="badge t2"><span class="d"></span>T2 · watch</span></td><td class="mono">13.8 kV</td><td class="mono" style="color: var(--orbit-500);">2.1 m</td><td class="mono" style="color: var(--orbit-500);">62</td><td class="mono">4 mo</td><td class="mono">3h ago</td><td>›</td></tr>
+            <tr><td class="name">HQ-T45-0312</td><td><span class="badge t2"><span class="d"></span>T2 · watch</span></td><td class="mono">345 kV</td><td class="mono" style="color: var(--orbit-500);">1.8 m</td><td class="mono" style="color: var(--orbit-500);">58</td><td class="mono">5 mo</td><td class="mono">8h ago</td><td>›</td></tr>
+            <tr><td class="name">MTL-T138-5601</td><td><span class="badge trim"><span class="d"></span>Trimmed</span></td><td class="mono">138 kV</td><td class="mono" style="color: var(--signal-500);">— </td><td class="mono" style="color: var(--signal-500);">82</td><td class="mono">verified</td><td class="mono">1d ago</td><td>›</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Activity + side -->
+      <div class="grid-2">
+        <div class="panel activity">
+          <div class="panel-head"><h3>Recent activity</h3><button class="btn ghost">Filter</button></div>
+          <div class="row"><span class="ts">14:02:11</span><span class="msg">Tier-1 alert generated <span class="ref">HQ-T45-0234</span> · encroachment 0.8 m · 345 kV</span><span class="tag-mini crit">ALERT</span></div>
+          <div class="row"><span class="ts">13:54:08</span><span class="msg"><span class="ref">South Shore Trim Team</span> dispatched to <span class="ref">BK-D7-1847</span> · 4 spans · 8 h est.</span><span class="tag-mini ok">DISPATCH</span></div>
+          <div class="row"><span class="ts">13:42:33</span><span class="msg">NDVI cycle ingested · <span class="ref">Sentinel-2</span> · 10,000 km · 47 hotspots flagged</span><span class="tag-mini">INGEST</span></div>
+          <div class="row"><span class="ts">13:18:00</span><span class="msg">Span <span class="ref">MTL-T138-5601</span> trimmed · health recovered to 82 · IoU 0.94</span><span class="tag-mini ok">VERIFY</span></div>
+          <div class="row"><span class="ts">12:49:21</span><span class="msg">Post-storm SAR scan · 23 damage polygons · Quebec region</span><span class="tag-mini warn">SCAN</span></div>
+          <div class="row"><span class="ts">11:30:48</span><span class="msg">NERC FAC-003 audit pack auto-generated · 847 spans · 31 actions</span><span class="tag-mini">AUDIT</span></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Crew throughput</h3><span class="ovr" style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--fg-tertiary);">— 7D · SPANS / WK</span></div>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div>
+              <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; margin-bottom: 4px;"><span style="color: var(--fg-secondary);">Urban A</span><span style="color: var(--signal-500);">12</span></div>
+              <div style="height: 4px; background: var(--ink-200); border-radius: 2px; overflow: hidden;"><div style="height: 100%; width: 80%; background: var(--signal-500);"></div></div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; margin-bottom: 4px;"><span style="color: var(--fg-secondary);">Urban B</span><span style="color: var(--signal-500);">9</span></div>
+              <div style="height: 4px; background: var(--ink-200); border-radius: 2px; overflow: hidden;"><div style="height: 100%; width: 60%; background: var(--signal-500);"></div></div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; margin-bottom: 4px;"><span style="color: var(--fg-secondary);">South Shore</span><span style="color: var(--orbit-500);">8</span></div>
+              <div style="height: 4px; background: var(--ink-200); border-radius: 2px; overflow: hidden;"><div style="height: 100%; width: 53%; background: var(--orbit-500);"></div></div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; margin-bottom: 4px;"><span style="color: var(--fg-secondary);">Northern</span><span style="color: var(--fg-tertiary);">6</span></div>
+              <div style="height: 4px; background: var(--ink-200); border-radius: 2px; overflow: hidden;"><div style="height: 100%; width: 40%; background: var(--fg-tertiary);"></div></div>
+            </div>
+            <div style="margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--border-subtle); font-family: var(--font-mono); font-size: 10px; color: var(--fg-tertiary); letter-spacing: 0.04em;">
+              Tier-1 arrival rate <span style="color: var(--orbit-500);">15 / wk</span> · backlog +2
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</div>
+</body>
+</html>

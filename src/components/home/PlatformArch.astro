@@ -1,0 +1,316 @@
+---
+// landing_page/src/components/home/PlatformArch.astro
+// Component-based architecture. Configurable, deployable, agentic-by-design.
+const props = [
+  { n: '01', t: 'Component-based', b: 'Pick the components you need. Geometry, ingestion, simulation, agent layer — each is its own service. Replace any one without touching the others.' },
+  { n: '02', t: 'Easy to configure', b: 'Configure use cases through declarative manifests. No bespoke code per deployment. The same twin can run vegetation, canopy, and ops side-by-side.' },
+  { n: '03', t: 'Deploys anywhere',  b: 'Cloud, on-prem, air-gapped, hybrid. Same container set, same APIs. SOC 2 path; works behind your firewall when sovereignty matters.' }
+];
+---
+<section id="architecture" class="relative" style="border-bottom: 1px solid var(--steel); background: var(--obsidian-d);">
+  <div class="container-page py-24 md:py-32">
+    <div class="chapter reveal">
+      <span class="num">[ 03 ]</span>
+      <span class="rule"></span>
+      <span class="label">Architecture</span>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10 items-end mb-16">
+      <h2 class="lg:col-span-8 text-balance reveal">
+        Built to be <em>configured</em>, not customized.
+      </h2>
+      <p class="lg:col-span-4 reveal" style="color: var(--fog); font-size: 17px; line-height: 1.6; transition-delay: 120ms;">
+        Every customer gets the same engine. Their use cases are configurations on top, not forks of the codebase.
+      </p>
+    </div>
+
+    <!-- ============== Architecture diagram ============== -->
+    <div class="reveal mb-16" style="transition-delay: 180ms;">
+      <div class="card-radius overflow-hidden relative" style="border: 1px solid var(--steel); background: var(--obsidian-d); box-shadow: 0 24px 64px -16px rgba(0,0,0,0.5);">
+
+        <!-- Diagram chrome — title strip -->
+        <div class="flex items-center justify-between px-6 py-3" style="border-bottom: 1px solid var(--steel); background: var(--obsidian);">
+          <div class="flex items-center gap-3">
+            <span class="kicker-accent flex items-center gap-1.5" style="font-size: 10px;">
+              <span class="h-1.5 w-1.5 rounded-full animate-pulse-dot" style="background: var(--chlorophyll);"></span>
+              Sat Lab Twin · v1.2 · runtime
+            </span>
+          </div>
+          <span class="kicker" style="font-size: 10px;">data flows up · agents act down</span>
+        </div>
+
+        <div class="grid" style="grid-template-columns: 96px 1fr 96px;">
+
+          <!-- Left rail — layer numbers -->
+          <div class="flex flex-col" style="border-right: 1px solid var(--steel); background: var(--obsidian);">
+            <div class="flex-1 flex items-center justify-center py-7" style="border-bottom: 1px solid var(--steel);">
+              <span class="kicker-accent" style="font-size: 9px;">[ L4 ]<br/>MODULES</span>
+            </div>
+            <div class="connector-cell" style="border-bottom: 1px solid var(--steel);"></div>
+            <div class="flex-1 flex items-center justify-center py-9" style="border-bottom: 1px solid var(--steel); background: rgba(94,226,107,0.04);">
+              <span class="kicker-accent text-center" style="font-size: 9px;">[ L3 ]<br/>AGENT<br/>LAYER</span>
+            </div>
+            <div class="connector-cell" style="border-bottom: 1px solid var(--steel);"></div>
+            <div class="flex-1 flex items-center justify-center py-7" style="border-bottom: 1px solid var(--steel);">
+              <span class="kicker-accent text-center" style="font-size: 9px;">[ L2 ]<br/>TWIN<br/>CORE</span>
+            </div>
+            <div class="connector-cell" style="border-bottom: 1px solid var(--steel);"></div>
+            <div class="flex-1 flex items-center justify-center py-7">
+              <span class="kicker-accent text-center" style="font-size: 9px;">[ L1 ]<br/>DATA<br/>INPUTS</span>
+            </div>
+          </div>
+
+          <!-- Center — actual layers -->
+          <div class="flex flex-col">
+
+            <!-- L4: Modules -->
+            <div class="grid grid-cols-4 gap-3 px-6 py-7" style="border-bottom: 1px solid var(--steel);">
+              <!-- Vegetation -->
+              <div class="p-4 relative card-radius" style="background: var(--slate); border: 1px solid var(--chlorophyll);">
+                <div class="flex items-center justify-between mb-2.5">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5EE26B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 2 L5 11 L8 11 L4 17 L9 17 L9 22 L15 22 L15 17 L20 17 L16 11 L19 11 Z"/>
+                  </svg>
+                  <span class="kicker-accent flex items-center gap-1" style="font-size: 8px;">
+                    <span class="h-1 w-1 rounded-full animate-pulse-dot" style="background: var(--chlorophyll);"></span>
+                    LIVE
+                  </span>
+                </div>
+                <p class="font-display" style="font-size: 13px; font-weight: 700; color: var(--bone);">Vegetation</p>
+                <p class="font-mono mt-1" style="font-size: 9px; color: var(--mist); letter-spacing: 0.04em;">module · v1.2</p>
+              </div>
+              <!-- Urban canopy -->
+              <div class="p-4 relative card-radius" style="background: var(--slate); border: 1px solid var(--steel);">
+                <div class="flex items-center justify-between mb-2.5">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F4B84A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="14" width="5" height="8"/><rect x="10" y="6" width="5" height="16"/><rect x="17" y="10" width="4" height="12"/><line x1="2" y1="22" x2="22" y2="22"/>
+                  </svg>
+                  <span class="kicker" style="font-size: 8px; color: var(--amber);">PILOT</span>
+                </div>
+                <p class="font-display" style="font-size: 13px; font-weight: 700; color: var(--bone);">Urban canopy</p>
+                <p class="font-mono mt-1" style="font-size: 9px; color: var(--mist); letter-spacing: 0.04em;">module · v0.3</p>
+              </div>
+              <!-- Smart ops -->
+              <div class="p-4 relative card-radius" style="background: var(--slate); border: 1px solid var(--steel);">
+                <div class="flex items-center justify-between mb-2.5">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8B95A8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="7" x2="12" y2="10"/><line x1="10.5" y1="13.5" x2="6.5" y2="17.5"/><line x1="13.5" y1="13.5" x2="17.5" y2="17.5"/>
+                  </svg>
+                  <span class="kicker" style="font-size: 8px; color: var(--mist);">NEXT</span>
+                </div>
+                <p class="font-display" style="font-size: 13px; font-weight: 700; color: var(--bone);">Smart ops</p>
+                <p class="font-mono mt-1" style="font-size: 9px; color: var(--mist); letter-spacing: 0.04em;">module · roadmap</p>
+              </div>
+              <!-- + Custom -->
+              <div class="p-4 relative card-radius flex flex-col" style="background: transparent; border: 1px dashed var(--steel);">
+                <div class="flex items-center justify-between mb-2.5">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8B95A8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                  <span class="kicker" style="font-size: 8px; color: var(--mist);">CUSTOM</span>
+                </div>
+                <p class="font-display" style="font-size: 13px; font-weight: 700; color: var(--mist);">Your module</p>
+                <p class="font-mono mt-1" style="font-size: 9px; color: var(--mist); letter-spacing: 0.04em;">module · build it</p>
+              </div>
+            </div>
+
+            <!-- Connector L4↔L3 -->
+            <div class="connector relative px-6" style="height: 36px; border-bottom: 1px solid var(--steel);">
+              <svg viewBox="0 0 800 36" preserveAspectRatio="none" class="w-full h-full">
+                <line x1="120"  y1="0" x2="120"  y2="36" stroke="#5EE26B" stroke-width="0.7" stroke-dasharray="3 4" opacity="0.6"/>
+                <line x1="320"  y1="0" x2="320"  y2="36" stroke="#5EE26B" stroke-width="0.7" stroke-dasharray="3 4" opacity="0.6"/>
+                <line x1="520"  y1="0" x2="520"  y2="36" stroke="#5EE26B" stroke-width="0.7" stroke-dasharray="3 4" opacity="0.6"/>
+                <line x1="720"  y1="0" x2="720"  y2="36" stroke="#5EE26B" stroke-width="0.7" stroke-dasharray="3 4" opacity="0.6"/>
+                <g fill="#5EE26B">
+                  <circle r="1.6"><animateMotion dur="2.4s" repeatCount="indefinite" path="M120 36 L120 0"/></circle>
+                  <circle r="1.6"><animateMotion dur="2.6s" begin="0.3s" repeatCount="indefinite" path="M320 36 L320 0"/></circle>
+                  <circle r="1.6"><animateMotion dur="2.5s" begin="0.6s" repeatCount="indefinite" path="M520 36 L520 0"/></circle>
+                  <circle r="1.6"><animateMotion dur="2.7s" begin="0.9s" repeatCount="indefinite" path="M720 36 L720 0"/></circle>
+                </g>
+                <text x="400" y="22" font-family="JetBrains Mono, monospace" font-size="9" fill="#8B95A8" text-anchor="middle" letter-spacing="0.08em">↑ events · ↓ commands</text>
+              </svg>
+            </div>
+
+            <!-- L3: Agent layer (THE highlight) -->
+            <div class="px-6 py-7 relative" style="border-bottom: 1px solid var(--steel); background: linear-gradient(180deg, rgba(94,226,107,0.08), rgba(94,226,107,0.03));">
+              <div class="card-radius p-5" style="background: var(--graphite); border: 1px solid var(--chlorophyll); box-shadow: 0 0 32px rgba(94,226,107,0.12);">
+                <div class="flex items-center justify-between mb-4">
+                  <div class="flex items-center gap-2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5EE26B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <rect width="16" height="16" x="4" y="4" rx="2"/>
+                      <rect width="6" height="6" x="9" y="9" rx="1"/>
+                      <path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/>
+                    </svg>
+                    <p class="font-display" style="font-size: 16px; font-weight: 700; color: var(--bone);">Agent layer</p>
+                    <span class="kicker-accent ml-2" style="font-size: 9px;">MCP-native</span>
+                  </div>
+                  <span class="kicker" style="font-size: 9px;">streaming · multi-agent</span>
+                </div>
+
+                <!-- 4 sub-pillars of the agent layer -->
+                <div class="grid grid-cols-4 gap-2.5">
+                  {[
+                    { t: 'Tools',     d: 'callable · typed · streamed' },
+                    { t: 'Planners',  d: 'multi-step · re-plan' },
+                    { t: 'APIs',      d: 'REST · gRPC · MCP' },
+                    { t: 'LLMs',      d: 'BYO · Claude · GPT · ours' }
+                  ].map((p) => (
+                    <div class="px-3 py-2.5" style="background: var(--obsidian-d); border: 1px solid var(--steel); border-radius: 6px;">
+                      <p class="font-display" style="font-size: 12px; font-weight: 600; color: var(--chlorophyll);">{p.t}</p>
+                      <p class="font-mono mt-1" style="font-size: 9px; color: var(--mist); letter-spacing: 0.02em;">{p.d}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <!-- Connector L3↔L2 -->
+            <div class="connector relative px-6" style="height: 36px; border-bottom: 1px solid var(--steel);">
+              <svg viewBox="0 0 800 36" preserveAspectRatio="none" class="w-full h-full">
+                <line x1="160"  y1="0" x2="160"  y2="36" stroke="#5EE26B" stroke-width="0.7" stroke-dasharray="3 4" opacity="0.6"/>
+                <line x1="360"  y1="0" x2="360"  y2="36" stroke="#5EE26B" stroke-width="0.7" stroke-dasharray="3 4" opacity="0.6"/>
+                <line x1="560"  y1="0" x2="560"  y2="36" stroke="#5EE26B" stroke-width="0.7" stroke-dasharray="3 4" opacity="0.6"/>
+                <line x1="680"  y1="0" x2="680"  y2="36" stroke="#5EE26B" stroke-width="0.7" stroke-dasharray="3 4" opacity="0.6"/>
+                <g fill="#5EE26B">
+                  <circle r="1.6"><animateMotion dur="2.0s" repeatCount="indefinite" path="M160 0 L160 36"/></circle>
+                  <circle r="1.6"><animateMotion dur="2.3s" begin="0.4s" repeatCount="indefinite" path="M360 0 L360 36"/></circle>
+                  <circle r="1.6"><animateMotion dur="2.1s" begin="0.7s" repeatCount="indefinite" path="M560 0 L560 36"/></circle>
+                  <circle r="1.6"><animateMotion dur="2.4s" begin="1.0s" repeatCount="indefinite" path="M680 0 L680 36"/></circle>
+                </g>
+                <text x="400" y="22" font-family="JetBrains Mono, monospace" font-size="9" fill="#8B95A8" text-anchor="middle" letter-spacing="0.08em">↓ tool calls · ↑ twin state</text>
+              </svg>
+            </div>
+
+            <!-- L2: Twin core -->
+            <div class="px-6 py-7" style="border-bottom: 1px solid var(--steel);">
+              <div class="grid grid-cols-4 gap-3">
+                {[
+                  { name: 'Geometry',   svc: 'twin-geometry-svc',   icon: 'cube',   v: 'v2.4' },
+                  { name: 'Ingestion',  svc: 'twin-ingestion-svc',  icon: 'flow',   v: 'v1.8' },
+                  { name: 'Simulation', svc: 'twin-sim-svc',        icon: 'wave',   v: 'v3.1' },
+                  { name: 'Storage',    svc: 'twin-storage-svc',    icon: 'stack',  v: 'v4.0' }
+                ].map((c) => (
+                  <div class="p-3.5 card-radius" style="background: var(--slate); border: 1px solid var(--steel);">
+                    <div class="flex items-center justify-between mb-2.5">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E6EAF0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        {c.icon === 'cube' && (
+                          <g><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></g>
+                        )}
+                        {c.icon === 'flow' && (
+                          <g><path d="M3 6h18"/><path d="M7 12h10"/><path d="M11 18h2"/></g>
+                        )}
+                        {c.icon === 'wave' && (
+                          <g><path d="M3 12 q3 -5 6 0 t6 0 t6 0"/><path d="M3 17 q3 -5 6 0 t6 0 t6 0" opacity="0.6"/></g>
+                        )}
+                        {c.icon === 'stack' && (
+                          <g><ellipse cx="12" cy="6" rx="9" ry="3"/><path d="M3 6 v6 a9 3 0 0 0 18 0 v-6"/><path d="M3 12 v6 a9 3 0 0 0 18 0 v-6"/></g>
+                        )}
+                      </svg>
+                      <span class="kicker" style="font-size: 8px;">{c.v}</span>
+                    </div>
+                    <p class="font-display" style="font-size: 13px; font-weight: 700; color: var(--bone);">{c.name}</p>
+                    <p class="font-mono mt-1" style="font-size: 9px; color: var(--mist); letter-spacing: 0.02em;">{c.svc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <!-- Connector L2↔L1 -->
+            <div class="connector relative px-6" style="height: 36px; border-bottom: 1px solid var(--steel);">
+              <svg viewBox="0 0 800 36" preserveAspectRatio="none" class="w-full h-full">
+                {[80, 220, 340, 460, 580, 720].map((x) => (
+                  <line x1={x}  y1="0" x2={x}  y2="36" stroke="#5EE26B" stroke-width="0.7" stroke-dasharray="3 4" opacity="0.6"/>
+                ))}
+                <g fill="#5EE26B">
+                  {[80, 220, 340, 460, 580, 720].map((x, i) => (
+                    <circle r="1.6"><animateMotion dur={`${2 + (i * 0.18)}s`} begin={`${i * 0.2}s`} repeatCount="indefinite" path={`M${x} 36 L${x} 0`}/></circle>
+                  ))}
+                </g>
+                <text x="400" y="22" font-family="JetBrains Mono, monospace" font-size="9" fill="#8B95A8" text-anchor="middle" letter-spacing="0.08em">↑ ingest · ↓ refresh</text>
+              </svg>
+            </div>
+
+            <!-- L1: Data inputs -->
+            <div class="grid grid-cols-6 gap-2.5 px-6 py-7">
+              {[
+                { id: 'SAT',  name: 'Satellites', icon: 'satellite' },
+                { id: 'TRAF', name: 'Traffic',    icon: 'traffic'   },
+                { id: 'WX',   name: 'Weather',    icon: 'cloud'     },
+                { id: '3D',   name: '3D maps',    icon: 'box'       },
+                { id: 'SIM',  name: 'Simulations', icon: 'wave'     },
+                { id: 'YOU',  name: 'Your data',  icon: 'plug'      }
+              ].map((s) => (
+                <div class="p-3 card-radius text-center" style="background: var(--obsidian); border: 1px dashed var(--steel);">
+                  <div class="flex items-center justify-center mb-1.5">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5EE26B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      {s.icon === 'satellite' && (
+                        <g><path d="M13 7 9 3 5 7l4 4"/><path d="m17 11 4 4-4 4-4-4"/><path d="m8 12 4 4 6-6-4-4Z"/><path d="m16 8 3-3"/><path d="M9 21a6 6 0 0 0-6-6"/></g>
+                      )}
+                      {s.icon === 'traffic' && (
+                        <g><path d="M3 7 H17 L21 11 V17 H3 Z"/><circle cx="7" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/></g>
+                      )}
+                      {s.icon === 'cloud' && (
+                        <g><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></g>
+                      )}
+                      {s.icon === 'box' && (
+                        <g><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></g>
+                      )}
+                      {s.icon === 'wave' && (
+                        <g><path d="M3 12 q3 -5 6 0 t6 0 t6 0"/></g>
+                      )}
+                      {s.icon === 'plug' && (
+                        <g><path d="M9 2 V6 M15 2 V6"/><rect x="6" y="6" width="12" height="8" rx="1"/><line x1="12" y1="14" x2="12" y2="18"/><path d="M9 22 a3 3 0 0 1 6 0"/></g>
+                      )}
+                    </svg>
+                  </div>
+                  <p class="font-mono" style="font-size: 9px; letter-spacing: 0.14em; color: var(--bone); font-weight: 600;">{s.id}</p>
+                  <p class="font-mono mt-0.5" style="font-size: 8px; color: var(--mist); letter-spacing: 0.04em;">{s.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Right rail — counts -->
+          <div class="flex flex-col" style="border-left: 1px solid var(--steel); background: var(--obsidian);">
+            <div class="flex-1 flex flex-col items-center justify-center py-7" style="border-bottom: 1px solid var(--steel);">
+              <p class="font-display" style="font-size: 22px; font-weight: 700; color: var(--bone);">3<span style="color: var(--chlorophyll);">+</span></p>
+              <p class="kicker mt-0.5" style="font-size: 9px;">modules</p>
+            </div>
+            <div class="connector-cell" style="border-bottom: 1px solid var(--steel);"></div>
+            <div class="flex-1 flex flex-col items-center justify-center py-9" style="border-bottom: 1px solid var(--steel); background: rgba(94,226,107,0.04);">
+              <p class="font-display" style="font-size: 22px; font-weight: 700; color: var(--chlorophyll);">∞</p>
+              <p class="kicker mt-0.5" style="font-size: 9px;">tool calls</p>
+            </div>
+            <div class="connector-cell" style="border-bottom: 1px solid var(--steel);"></div>
+            <div class="flex-1 flex flex-col items-center justify-center py-7" style="border-bottom: 1px solid var(--steel);">
+              <p class="font-display" style="font-size: 22px; font-weight: 700; color: var(--bone);">4</p>
+              <p class="kicker mt-0.5" style="font-size: 9px;">services</p>
+            </div>
+            <div class="connector-cell" style="border-bottom: 1px solid var(--steel);"></div>
+            <div class="flex-1 flex flex-col items-center justify-center py-7">
+              <p class="font-display" style="font-size: 22px; font-weight: 700; color: var(--bone);">6</p>
+              <p class="kicker mt-0.5" style="font-size: 9px;">streams</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer strip -->
+        <div class="flex items-center justify-between px-6 py-3 kicker" style="border-top: 1px solid var(--steel); background: var(--obsidian); font-size: 10px;">
+          <span>Fig. III · System architecture · L1 → L4</span>
+          <span>Cloud · on-prem · air-gapped · hybrid</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Three architecture properties -->
+    <div class="grid md:grid-cols-3 gap-0 plate reveal" style="transition-delay: 260ms;">
+      {props.map((p, i) => (
+        <article class="relative p-8 md:p-10" style={i < 2 ? 'border-right: 1px solid var(--steel);' : ''}>
+          <p class="kicker-accent" style="font-size: 11px;">Property · {p.n}</p>
+          <h3 class="mt-6" style="font-size: 1.5rem; line-height: 1.18;">{p.t}</h3>
+          <p class="mt-5" style="color: var(--fog); line-height: 1.6;">{p.b}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

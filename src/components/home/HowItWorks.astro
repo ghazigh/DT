@@ -1,0 +1,50 @@
+---
+// landing_page/src/components/home/HowItWorks.astro
+// The platform pipeline — same three steps for every module on the twin.
+// Vegetation is shown as the working example.
+const steps = [
+  {
+    n: '01',
+    title: 'We watch your physical world from space',
+    body: 'Satellites and sensors feed a single live model — your assets, terrain, weather, vegetation, all in one place.'
+  },
+  {
+    n: '02',
+    title: 'AI does the work for the use case you care about',
+    body: 'Trees about to hit power lines. Canopy gaps in a city. Crews in the wrong place. The same twin, different questions.'
+  },
+  {
+    n: '03',
+    title: 'You act on it',
+    body: 'A ranked list of decisions goes straight into the system your team already uses. Red first, then amber, then green.'
+  }
+];
+---
+<section id="how-it-works" class="relative" style="border-bottom: 1px solid var(--steel); background: var(--obsidian-d);">
+  <div class="container-page py-24 md:py-32">
+    <div class="chapter reveal">
+      <span class="num">[ 03 ]</span>
+      <span class="rule"></span>
+      <span class="label">How the twin works</span>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10 items-end mb-16">
+      <h2 class="lg:col-span-8 text-balance reveal">
+        Three steps. <em>Same pipeline</em> for every module.
+      </h2>
+      <p class="lg:col-span-4 reveal" style="color: var(--fog); font-size: 17px; line-height: 1.6; transition-delay: 120ms;">
+        Build the twin once. Run as many modules on it as you need.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-0 plate reveal" style="transition-delay: 200ms;">
+      {steps.map((s, i) => (
+        <article class="relative p-10" style={i < 2 ? 'border-right: 1px solid var(--steel);' : ''}>
+          <p class="kicker-accent" style="font-size: 11px;">Step · {s.n}</p>
+          <h3 class="mt-6" style="font-size: 1.5rem; line-height: 1.2;">{s.title}</h3>
+          <p class="mt-5" style="color: var(--fog); line-height: 1.6;">{s.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

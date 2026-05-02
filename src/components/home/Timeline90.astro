@@ -1,0 +1,51 @@
+---
+// landing_page/src/components/home/Timeline90.astro
+// Three steps. No week ranges. No phases.
+const steps = [
+  { n: '01', title: 'Pick 100 km of grid',  body: 'You choose the corridor. We handle the rest.' },
+  { n: '02', title: 'We map it in 90 days', body: 'Satellite scan, AI ranking, joint review with your team.' },
+  { n: '03', title: 'Alerts go live',       body: 'Straight into the work-management system your crews already use.' }
+];
+---
+<section class="relative" style="border-bottom: 1px solid var(--steel); background: var(--obsidian-d);">
+  <div class="container-page py-24 md:py-32">
+    <div class="chapter reveal">
+      <span class="num">[ 07 ]</span>
+      <span class="rule"></span>
+      <span class="label">A pilot</span>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10 items-end mb-16">
+      <h2 class="lg:col-span-8 text-balance reveal">
+        From contract to crew, <em>in 90 days</em>.
+      </h2>
+      <p class="lg:col-span-4 reveal" style="color: var(--fog); font-size: 17px; line-height: 1.6; transition-delay: 120ms;">
+        Fixed fee. No per-seat, no per-tile, no surprises.
+      </p>
+    </div>
+
+    <div class="relative reveal" style="transition-delay: 200ms;">
+      <div class="absolute left-0 right-0 top-7 h-px hidden md:block" style="background: var(--steel);"></div>
+
+      <div class="grid md:grid-cols-3 gap-6 md:gap-0">
+        {steps.map((s, i) => (
+          <div class="relative md:px-4">
+            <div class="relative h-7 hidden md:flex items-center">
+              <div
+                class="h-3.5 w-3.5 rounded-full relative z-10"
+                style={`${i === 0 || i === steps.length - 1 ? 'background: var(--chlorophyll); border: 1px solid var(--chlorophyll);' : 'background: var(--obsidian-d); border: 1px solid var(--bone);'}`}
+              ></div>
+              <span class="ml-3 kicker" style="font-size: 11px;">Step · {s.n}</span>
+            </div>
+            <div class="md:hidden">
+              <span class="kicker" style="font-size: 11px;">Step · {s.n}</span>
+            </div>
+
+            <h3 class="mt-5 md:mt-6" style="font-size: 1.5rem; line-height: 1.18;">{s.title}</h3>
+            <p class="mt-3 pr-4" style="color: var(--fog); line-height: 1.55;">{s.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

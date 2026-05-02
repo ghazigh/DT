@@ -1,0 +1,27 @@
+---
+// landing_page/src/components/home/FooterCTA.astro
+---
+<section class="relative overflow-hidden" style="border-bottom: 1px solid var(--steel); background: var(--obsidian-d);">
+  <div class="absolute inset-0 bg-graticule opacity-40 pointer-events-none mask-radial" aria-hidden="true"></div>
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(ellipse at center, rgba(94,226,107,0.06) 0%, transparent 60%);"></div>
+
+  <div class="container-tight py-32 md:py-40 text-center relative">
+    <h2 class="text-balance reveal" style="font-size: clamp(2rem, 4.4vw + 0.5rem, 4rem);">
+      Operate something at scale? <em>Let's talk.</em>
+    </h2>
+
+    <p class="mt-8 max-w-xl mx-auto reveal" style="color: var(--fog); font-size: 17px; line-height: 1.6; transition-delay: 180ms;">
+      A grid, a city, a port, a corridor — pick a piece of it. We'll build the twin and a use case in 90 days, fixed fee.
+    </p>
+
+    <div class="mt-10 flex flex-wrap justify-center items-center gap-4 reveal" style="transition-delay: 280ms;">
+      <a href="/contact" class="btn-primary">
+        Book a pilot
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <path d="M2 6h8M7 2l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </a>
+      <a href="mailto:hello@satlab.io" class="btn-ghost">hello@satlab.io</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,72 @@
+---
+import Layout      from '@/components/layout/Layout.astro';
+import PageHero    from '@/components/layout/PageHero.astro';
+import ContactForm from '@/components/interactive/ContactForm';
+
+const interest = Astro.url.searchParams.get('interest') ?? undefined;
+---
+<Layout title="Contact — Sat Lab" description="Book a pilot, explore a partnership, or ask us anything.">
+  <PageHero
+    eyebrow="[ CONTACT · OPEN CHANNEL ]"
+    title={`Tell us what you're<br/><em class="display-italic text-signal-phosphor">trying to solve.</em>`}
+    lede="Utility pilots, municipal engagements, partnership conversations, investor inquiries, press requests — one form, we'll route it."
+    accent="phosphor"
+  />
+
+  <section class="relative border-b border-line">
+    <div class="container-page py-20 md:py-28">
+      <div class="grid gap-12 lg:grid-cols-[3fr_2fr]">
+        <!-- Form -->
+        <div class="card-elev p-8 md:p-12 reveal">
+          <div class="flex items-center gap-3 mb-8">
+            <span class="h-1.5 w-1.5 rounded-full bg-signal-phosphor animate-pulse-dot"></span>
+            <span class="eyebrow-signal">TRANSMISSION · SECURE</span>
+          </div>
+          <ContactForm client:load defaultInterest={interest} />
+        </div>
+
+        <!-- Aside -->
+        <aside class="space-y-6 reveal" style="transition-delay: 120ms">
+          <div class="card-elev p-8">
+            <p class="eyebrow">DIRECT CHANNEL</p>
+            <a href="mailto:hello@satlab.io" class="mt-4 block font-display text-2xl text-signal-phosphor no-underline hover:text-ink-paper transition-colors">
+              hello@satlab.io
+            </a>
+            <p class="mt-3 text-sm text-ink-mid">Uptime 24/7. Humans on shift M–F.</p>
+          </div>
+
+          <div class="card-elev p-8">
+            <p class="eyebrow">RESPONSE · SLA</p>
+            <p class="mt-4 font-display text-2xl text-ink-paper">≤ 2 business days</p>
+            <p class="mt-3 text-sm text-ink-mid">Pilot requests routed first. Partnership and investment next.</p>
+          </div>
+
+          <div class="card-elev p-8">
+            <p class="eyebrow">WHAT HAPPENS NEXT</p>
+            <ol class="mt-5 space-y-4">
+              <li class="flex items-start gap-4">
+                <span class="flex-shrink-0 font-mono text-[11px] text-signal-phosphor">01</span>
+                <span class="text-sm text-ink-mid">We read your message personally.</span>
+              </li>
+              <li class="flex items-start gap-4">
+                <span class="flex-shrink-0 font-mono text-[11px] text-signal-phosphor">02</span>
+                <span class="text-sm text-ink-mid">We reply with a 30-minute scoping call.</span>
+              </li>
+              <li class="flex items-start gap-4">
+                <span class="flex-shrink-0 font-mono text-[11px] text-signal-phosphor">03</span>
+                <span class="text-sm text-ink-mid">If there's a fit, we draft a pilot scope together.</span>
+              </li>
+            </ol>
+          </div>
+
+          <div class="card-elev p-8 border-signal-phosphor/30 bg-signal-phosphor/5">
+            <p class="eyebrow !text-signal-phosphor">SHORTCUT · PILOTS</p>
+            <p class="mt-4 text-sm text-ink-mid leading-relaxed">
+              Already decided you want a pilot? Use subject line <code class="font-mono text-signal-phosphor">PILOT · &lt;km&gt;</code> in your message to skip straight to scoping.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Layout>

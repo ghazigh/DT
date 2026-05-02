@@ -1,0 +1,30 @@
+---
+// landing_page/src/components/layout/SEO.astro
+import { DEFAULT_SEO, ORGANIZATION_JSON_LD, type SeoProps } from '@/lib/seo';
+const props = Astro.props as SeoProps;
+const title = props.title ?? DEFAULT_SEO.title;
+const description = props.description ?? DEFAULT_SEO.description;
+const image = props.image ?? DEFAULT_SEO.image;
+const type = props.type ?? DEFAULT_SEO.type;
+const canonical = props.canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.site).toString()} />
+<meta property="og:site_name" content="Sat Lab" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(image, Astro.site).toString()} />
+
+<!-- Organization JSON-LD (every page) -->
+<script type="application/ld+json" set:html={JSON.stringify(ORGANIZATION_JSON_LD)} />

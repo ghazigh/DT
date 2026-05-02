@@ -1,0 +1,110 @@
+---
+// landing_page/src/components/home/UseCases.astro
+// The platform-and-modules story: one twin, multiple modules layered on it.
+// Vegetation is the wedge (live), urban canopy is next (pilot), smart ops is the platform play.
+const cases = [
+  {
+    n: '01',
+    status: 'Live · 2026',
+    statusColor: 'var(--chlorophyll)',
+    title: 'Vegetation management',
+    body: 'Find every tree about to hit your power lines. Rank them by risk. Trim what matters first.',
+    buyer: 'For utilities · transmission · distribution',
+    icon: 'tree'
+  },
+  {
+    n: '02',
+    status: 'Pilot · 2026',
+    statusColor: 'var(--amber)',
+    title: 'Urban canopy',
+    body: 'Plan tree planting and climate resilience. Score every block by cooling, stormwater, and equity.',
+    buyer: 'For cities · sustainability offices · public works',
+    icon: 'city'
+  },
+  {
+    n: '03',
+    status: 'Next · 2027',
+    statusColor: 'var(--mist)',
+    title: 'Smart operations',
+    body: 'Coordinate fleets, crews, and assets across your whole estate. One operating picture for everything you run.',
+    buyer: 'For infrastructure operators · ports · rail · energy',
+    icon: 'network'
+  }
+];
+---
+<section id="use-cases" class="relative" style="border-bottom: 1px solid var(--steel); background: var(--obsidian);">
+  <div class="container-page py-24 md:py-32">
+    <div class="chapter reveal">
+      <span class="num">[ 02 ]</span>
+      <span class="rule"></span>
+      <span class="label">Use cases</span>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10 items-end mb-16">
+      <h2 class="lg:col-span-8 text-balance reveal">
+        Multiple use cases. <em>One model</em> underneath.
+      </h2>
+      <p class="lg:col-span-4 reveal" style="color: var(--fog); font-size: 17px; line-height: 1.6; transition-delay: 120ms;">
+        Pay for the twin once. Layer modules on top as your needs grow. The data, the maps, the integrations — all shared.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-0 plate reveal" style="transition-delay: 200ms;">
+      {cases.map((c, i) => (
+        <article class="relative p-10 group transition-colors duration-300" style={i < 2 ? 'border-right: 1px solid var(--steel);' : ''}>
+          <!-- Status pill -->
+          <div class="flex items-center justify-between mb-8">
+            <span class="kicker" style="font-size: 10px;">Module · {c.n}</span>
+            <span class="inline-flex items-center gap-1.5 kicker" style="font-size: 10px; color: {c.statusColor};">
+              <span class="h-1.5 w-1.5 rounded-full" style={`background: ${c.statusColor};`}></span>
+              {c.status}
+            </span>
+          </div>
+
+          <!-- Icon — Lucide-style brand stroke iconography (Brand §8) -->
+          <div class="mb-8 h-12 w-12 flex items-center justify-center" style="background: var(--obsidian-d); border: 1px solid var(--steel);">
+            {c.icon === 'tree' && (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5EE26B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 2 L5 11 L8 11 L4 17 L9 17 L9 22 L15 22 L15 17 L20 17 L16 11 L19 11 Z"/>
+              </svg>
+            )}
+            {c.icon === 'city' && (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4B84A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="14" width="5" height="8"/>
+                <rect x="10" y="6" width="5" height="16"/>
+                <rect x="17" y="10" width="4" height="12"/>
+                <line x1="2" y1="22" x2="22" y2="22"/>
+                <circle cx="12.5" cy="9.5" r="0.5" fill="#F4B84A"/>
+                <circle cx="12.5" cy="13" r="0.5" fill="#F4B84A"/>
+                <circle cx="12.5" cy="16.5" r="0.5" fill="#F4B84A"/>
+              </svg>
+            )}
+            {c.icon === 'network' && (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8B95A8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="5" r="2"/>
+                <circle cx="5" cy="19" r="2"/>
+                <circle cx="19" cy="19" r="2"/>
+                <circle cx="12" cy="12" r="2"/>
+                <line x1="12" y1="7" x2="12" y2="10"/>
+                <line x1="10.5" y1="13.5" x2="6.5" y2="17.5"/>
+                <line x1="13.5" y1="13.5" x2="17.5" y2="17.5"/>
+              </svg>
+            )}
+          </div>
+
+          <h3 style="font-size: 1.625rem; line-height: 1.15;">{c.title}</h3>
+          <p class="mt-4" style="color: var(--fog); line-height: 1.6;">{c.body}</p>
+
+          <p class="mt-7 pt-5 kicker" style="font-size: 10px; border-top: 1px solid var(--steel);">{c.buyer}</p>
+        </article>
+      ))}
+    </div>
+
+    <!-- Custom modules note -->
+    <div class="mt-10 reveal" style="transition-delay: 320ms;">
+      <p class="text-center text-sm" style="color: var(--fog);">
+        Need something specific? <a href="/contact" class="mark" style="border-bottom: 1px solid var(--chlorophyll);">We build custom modules on the same twin.</a>
+      </p>
+    </div>
+  </div>
+</section>

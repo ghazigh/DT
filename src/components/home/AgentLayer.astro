@@ -1,0 +1,331 @@
+---
+// landing_page/src/components/home/AgentLayer.astro
+// Agentic-first runtime — chrome'd diagram, namespaced tool registry, lifecycle strip.
+const capabilities = [
+  {
+    n: '01',
+    title: 'Ask in plain language',
+    body: 'Which spans need trimming first? What if winds top 90 km/h? Where is canopy shrinking fastest? The agent reads the twin and answers.',
+    example: '"Show me every span with > 2 m encroachment in feeder 04."'
+  },
+  {
+    n: '02',
+    title: 'Run scenarios',
+    body: 'The agent triggers physics simulations on the twin — weather, fire, water, network — and reads the results back. No Python required.',
+    example: '"Simulate a 90 km/h storm from the SW. Rank circuits by load loss."'
+  },
+  {
+    n: '03',
+    title: 'Take action',
+    body: 'Dispatch crews. File compliance reports. Update work orders. The agent calls tools that write back into your operational systems.',
+    example: '"Dispatch crew 04 to S-0042. CC the regional planner."'
+  }
+];
+
+// Tool registry — grouped by namespace
+const namespaces = [
+  {
+    ns: 'twin',
+    label: 'read state',
+    color: 'var(--bone)',
+    tools: [
+      { name: 'query',     sig: '(filter) → state[]',     latency: '12ms' },
+      { name: 'subscribe', sig: '(topic) → stream',       latency: 'live'  },
+      { name: 'snapshot',  sig: '(id) → object',          latency: '8ms'   },
+      { name: 'history',   sig: '(range) → events[]',     latency: '34ms'  }
+    ]
+  },
+  {
+    ns: 'sim',
+    label: 'physics',
+    color: 'var(--chlorophyll)',
+    tools: [
+      { name: 'wind_exposure', sig: '(grid, wind) → spans[]',   latency: '280ms', active: true },
+      { name: 'fire_spread',   sig: '(grid, ignition) → poly[]', latency: '320ms' },
+      { name: 'water_flow',    sig: '(basin, rain) → flow[]',    latency: '410ms' },
+      { name: 'network_load',  sig: '(topo, demand) → loads[]',  latency: '92ms'  }
+    ]
+  },
+  {
+    ns: 'grid',
+    label: 'analytics',
+    color: 'var(--bone)',
+    tools: [
+      { name: 'rank_circuits', sig: '(criteria) → ranked[]', latency: '18ms' },
+      { name: 'find_assets',   sig: '(query) → assets[]',    latency: '24ms' }
+    ]
+  },
+  {
+    ns: 'crews',
+    label: 'write action',
+    color: 'var(--amber)',
+    tools: [
+      { name: 'dispatch', sig: '(crew, target) → wo_id', latency: '45ms' },
+      { name: 'status',   sig: '(crew_id) → status',     latency: '14ms' }
+    ]
+  },
+  {
+    ns: 'workorder',
+    label: 'write action',
+    color: 'var(--amber)',
+    tools: [
+      { name: 'create', sig: '(span, task) → wo_id', latency: '52ms' }
+    ]
+  },
+  {
+    ns: 'weather',
+    label: 'integration',
+    color: 'var(--mist)',
+    tools: [
+      { name: 'forecast', sig: '(loc, horizon) → forecast', latency: '120ms' }
+    ]
+  }
+];
+---
+<section id="agent-layer" class="relative" style="border-bottom: 1px solid var(--steel); background: var(--obsidian);">
+  <div class="container-page py-24 md:py-32">
+    <div class="chapter reveal">
+      <span class="num">[ 04 ]</span>
+      <span class="rule"></span>
+      <span class="label">Agentic layer</span>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10 items-end mb-16">
+      <h2 class="lg:col-span-8 text-balance reveal">
+        <em>Agentic-first.</em> Tools, not chatbots.
+      </h2>
+      <p class="lg:col-span-4 reveal" style="color: var(--fog); font-size: 17px; line-height: 1.6; transition-delay: 120ms;">
+        The twin is built for agents from day one. Every component exposes tools. Agents read state, run scenarios, and take action — through your own LLM, or ours.
+      </p>
+    </div>
+
+    <!-- ============== Agent runtime diagram ============== -->
+    <div class="reveal mb-16" style="transition-delay: 180ms;">
+      <div class="card-radius overflow-hidden relative" style="border: 1px solid var(--steel); background: var(--obsidian-d); box-shadow: 0 24px 64px -16px rgba(0,0,0,0.5);">
+
+        <!-- Header strip -->
+        <div class="flex items-center justify-between px-6 py-3" style="border-bottom: 1px solid var(--steel); background: var(--obsidian);">
+          <div class="flex items-center gap-3">
+            <span class="kicker-accent flex items-center gap-1.5" style="font-size: 10px;">
+              <span class="h-1.5 w-1.5 rounded-full animate-pulse-dot" style="background: var(--chlorophyll);"></span>
+              agent-runtime · v1.4 · live
+            </span>
+            <span class="kicker" style="font-size: 9px; padding: 2px 7px; border: 1px solid var(--chlorophyll); color: var(--chlorophyll); border-radius: 999px;">MCP-native</span>
+          </div>
+          <span class="kicker" style="font-size: 10px;">multi-agent · BYO LLM · streaming</span>
+        </div>
+
+        <!-- 3-col layout: rail | content | rail -->
+        <div class="grid" style="grid-template-columns: 96px 1fr 96px;">
+
+          <!-- Left rail -->
+          <div class="flex flex-col" style="border-right: 1px solid var(--steel); background: var(--obsidian);">
+            <div class="flex-1 flex items-center justify-center py-5" style="border-bottom: 1px solid var(--steel);">
+              <span class="kicker-accent text-center" style="font-size: 9px;">[ A ]<br/>SESSION</span>
+            </div>
+            <div class="flex-1 flex items-center justify-center py-5" style="border-bottom: 1px solid var(--steel);">
+              <span class="kicker-accent text-center" style="font-size: 9px;">[ B ]<br/>REGISTRY</span>
+            </div>
+            <div class="flex-1 flex items-center justify-center py-5">
+              <span class="kicker-accent text-center" style="font-size: 9px;">[ C ]<br/>LIFECYCLE</span>
+            </div>
+          </div>
+
+          <!-- Center content -->
+          <div class="flex flex-col">
+
+            <!-- A + B: session + registry as two columns -->
+            <div class="grid lg:grid-cols-5 gap-0" style="border-bottom: 1px solid var(--steel);">
+
+              <!-- A · Live session pane -->
+              <div class="lg:col-span-2 p-6" style="border-right: 1px solid var(--steel);">
+                <div class="flex items-center justify-between mb-4">
+                  <p class="kicker-accent" style="font-size: 10px;">▸ Live session</p>
+                  <p class="kicker" style="font-size: 9px;">2026-04-29 · 14:22</p>
+                </div>
+
+                <div class="card-radius overflow-hidden" style="background: var(--obsidian); border: 1px solid var(--steel);">
+                  <!-- Session terminal-style content -->
+                  <div class="p-4 space-y-3" style="font-size: 13px;">
+
+                    <!-- USER prompt -->
+                    <div class="flex items-start gap-2">
+                      <span class="font-mono kicker" style="font-size: 8px; color: var(--mist); flex-shrink: 0; margin-top: 4px;">USER</span>
+                      <span style="color: var(--bone); line-height: 1.5;">Storm forecast 90 km/h SW tonight. Pre-stage the 5 most exposed circuits.</span>
+                    </div>
+
+                    <div style="height: 1px; background: var(--steel);"></div>
+
+                    <!-- AGENT thinking -->
+                    <div class="flex items-start gap-2">
+                      <span class="font-mono kicker" style="font-size: 8px; color: var(--chlorophyll); flex-shrink: 0; margin-top: 4px;">AGENT</span>
+                      <span style="color: var(--bone); line-height: 1.5;">Pulling forecast → running corridor exposure → ranking circuits…</span>
+                    </div>
+
+                    <!-- Tool call stream -->
+                    <div class="font-mono space-y-1" style="font-size: 11px; padding: 10px 12px; background: var(--obsidian-d); border-left: 2px solid var(--chlorophyll); border-radius: 0 4px 4px 0;">
+                      <div class="flex items-center gap-2"><span style="color: var(--mist);">▸</span><span style="color: var(--bone);">weather.forecast</span><span style="color: var(--mist); margin-left: auto;">120ms</span><span class="kicker-accent" style="font-size: 8px;">ok</span></div>
+                      <div class="flex items-center gap-2"><span style="color: var(--mist);">▸</span><span style="color: var(--bone);">sim.wind_exposure</span><span style="color: var(--mist); margin-left: auto;">280ms</span><span class="kicker-accent" style="font-size: 8px;">ok</span></div>
+                      <div class="flex items-center gap-2"><span style="color: var(--mist);">▸</span><span style="color: var(--bone);">grid.rank_circuits</span><span style="color: var(--mist); margin-left: auto;">18ms</span><span class="kicker-accent" style="font-size: 8px;">ok</span></div>
+                      <div class="flex items-center gap-2"><span style="color: var(--mist);">▸</span><span style="color: var(--bone);">crews.dispatch ×5</span><span style="color: var(--mist); margin-left: auto;">225ms</span><span class="kicker-accent" style="font-size: 8px;">ok</span></div>
+                    </div>
+
+                    <!-- AGENT response with thinking animation -->
+                    <div class="flex items-start gap-2">
+                      <span class="font-mono kicker" style="font-size: 8px; color: var(--chlorophyll); flex-shrink: 0; margin-top: 4px;">AGENT</span>
+                      <span style="color: var(--bone); line-height: 1.5;">
+                        5 circuits pre-staged. ETA crews on-site: 18:40. Want the restoration plan drafted?
+                        <span class="thinking-dots" aria-hidden="true">
+                          <span style="display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--chlorophyll); margin-left: 4px; opacity: 0.4; animation: blink 1.4s infinite;"></span>
+                          <span style="display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--chlorophyll); margin-left: 2px; opacity: 0.4; animation: blink 1.4s infinite 0.2s;"></span>
+                          <span style="display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--chlorophyll); margin-left: 2px; opacity: 0.4; animation: blink 1.4s infinite 0.4s;"></span>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Session footer -->
+                  <div class="px-4 py-2 flex items-center justify-between font-mono" style="font-size: 9px; border-top: 1px solid var(--steel); color: var(--mist); letter-spacing: 0.04em;">
+                    <span>4 tools · 1 plan · 643ms total</span>
+                    <span>llm · claude-opus-4.7</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- B · Tool registry pane -->
+              <div class="lg:col-span-3 p-6">
+                <div class="flex items-center justify-between mb-4">
+                  <p class="kicker-accent" style="font-size: 10px;">▸ Tool registry</p>
+                  <p class="kicker" style="font-size: 9px;">14 tools · 6 namespaces</p>
+                </div>
+
+                <!-- Two-column grid of namespaces -->
+                <div class="grid grid-cols-2 gap-3">
+                  {namespaces.map((ns) => (
+                    <div class="card-radius overflow-hidden" style="background: var(--obsidian); border: 1px solid var(--steel);">
+                      <!-- namespace header -->
+                      <div class="flex items-center justify-between px-3 py-2" style="border-bottom: 1px solid var(--steel); background: var(--obsidian-d);">
+                        <span class="font-mono" style={`font-size: 11px; font-weight: 600; color: ${ns.color}; letter-spacing: 0.02em;`}>{ns.ns}.*</span>
+                        <span class="kicker" style="font-size: 8px;">{ns.label}</span>
+                      </div>
+                      <!-- tools -->
+                      <div class="p-2 space-y-1">
+                        {ns.tools.map((t) => (
+                          <div class="flex items-center gap-2 px-2 py-1.5" style={`border-radius: 3px; ${(t as any).active ? 'background: rgba(94,226,107,0.06); border: 1px solid rgba(94,226,107,0.4);' : 'border: 1px solid transparent;'}`}>
+                            <span class="font-mono" style={`font-size: 11px; color: ${(t as any).active ? 'var(--chlorophyll)' : 'var(--bone)'}; flex-shrink: 0;`}>{t.name}</span>
+                            <span class="font-mono" style="font-size: 9px; color: var(--mist); margin-left: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{t.sig}</span>
+                            <span class="font-mono" style="font-size: 9px; color: var(--mist); margin-left: auto; flex-shrink: 0;">{t.latency}</span>
+                            {(t as any).active && (
+                              <span class="h-1.5 w-1.5 rounded-full animate-pulse-dot" style="background: var(--chlorophyll); flex-shrink: 0;"></span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <!-- C · Lifecycle strip -->
+            <div class="px-6 py-7">
+              <div class="flex items-center justify-between mb-4">
+                <p class="kicker-accent" style="font-size: 10px;">▸ Request lifecycle</p>
+                <p class="kicker" style="font-size: 9px;">prompt → plan → tools → twin → response · ~280ms p95</p>
+              </div>
+
+              <!-- 5 phase nodes connected by chl line -->
+              <div class="relative">
+                <svg viewBox="0 0 1200 80" class="w-full" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                  <!-- main flow line -->
+                  <line x1="100" y1="40" x2="1100" y2="40" stroke="#3F4859" stroke-width="1"/>
+                  <line x1="100" y1="40" x2="1100" y2="40" stroke="#5EE26B" stroke-width="1.5" stroke-dasharray="6 8" opacity="0.7"/>
+
+                  <!-- traveling pulse along the line -->
+                  <circle r="3" fill="#5EE26B">
+                    <animate attributeName="cx" values="100;1100;100" dur="6s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="40;40;40" dur="6s" repeatCount="indefinite"/>
+                  </circle>
+
+                  <!-- 5 phase nodes -->
+                  {[
+                    { x: 100,  label: 'Prompt',    sub: 'natural language' },
+                    { x: 350,  label: 'Plan',      sub: 'multi-step · re-plan' },
+                    { x: 600,  label: 'Tools',     sub: 'parallel · streaming' },
+                    { x: 850,  label: 'Twin',      sub: 'state read · write' },
+                    { x: 1100, label: 'Response',  sub: 'stream + actions' }
+                  ].map((p) => (
+                    <g>
+                      <circle cx={p.x} cy={40} r="9" fill="#0A0E14" stroke="#5EE26B" stroke-width="1.5"/>
+                      <circle cx={p.x} cy={40} r="3" fill="#5EE26B"/>
+                      <text x={p.x} y={20} font-family="Inter Display, Inter Tight, Inter" font-size="13" font-weight="600" fill="#E6EAF0" text-anchor="middle">{p.label}</text>
+                      <text x={p.x} y={70} font-family="JetBrains Mono, monospace" font-size="9" fill="#8B95A8" text-anchor="middle" letter-spacing="0.04em">{p.sub}</text>
+                    </g>
+                  ))}
+                </svg>
+              </div>
+
+              <!-- 4 metric tiles below the lifecycle -->
+              <div class="grid grid-cols-4 gap-3 mt-6">
+                {[
+                  { v: '14',     l: 'tools registered',  c: 'var(--bone)' },
+                  { v: '6',      l: 'namespaces',         c: 'var(--bone)' },
+                  { v: '~280ms', l: 'p95 · tool call',    c: 'var(--chlorophyll)' },
+                  { v: '4',      l: 'LLM providers',      c: 'var(--bone)' }
+                ].map((m) => (
+                  <div class="px-4 py-3 card-radius" style="background: var(--obsidian); border: 1px solid var(--steel);">
+                    <p class="font-display" style={`font-size: 1.375rem; font-weight: 700; letter-spacing: -0.01em; color: ${m.c};`}>{m.v}</p>
+                    <p class="kicker mt-1" style="font-size: 9px;">{m.l}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <!-- Right rail -->
+          <div class="flex flex-col" style="border-left: 1px solid var(--steel); background: var(--obsidian);">
+            <div class="flex-1 flex flex-col items-center justify-center py-5" style="border-bottom: 1px solid var(--steel);">
+              <p class="font-display" style="font-size: 18px; font-weight: 700; color: var(--chlorophyll);">643<span style="font-size: 11px; color: var(--mist);">ms</span></p>
+              <p class="kicker mt-0.5" style="font-size: 9px;">last run</p>
+            </div>
+            <div class="flex-1 flex flex-col items-center justify-center py-5" style="border-bottom: 1px solid var(--steel);">
+              <p class="font-display" style="font-size: 18px; font-weight: 700; color: var(--bone);">14</p>
+              <p class="kicker mt-0.5" style="font-size: 9px;">tools live</p>
+            </div>
+            <div class="flex-1 flex flex-col items-center justify-center py-5">
+              <p class="font-display" style="font-size: 18px; font-weight: 700; color: var(--chlorophyll);">∞</p>
+              <p class="kicker mt-0.5" style="font-size: 9px;">streams</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer strip -->
+        <div class="flex items-center justify-between px-6 py-3 kicker" style="border-top: 1px solid var(--steel); background: var(--obsidian); font-size: 10px;">
+          <span>Fig. IV · Agent runtime · MCP-native</span>
+          <span>tools exposed via REST · gRPC · MCP · <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener" class="mark" style="border-bottom: 1px solid var(--chlorophyll);">spec ↗</a></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Three capabilities -->
+    <div class="grid md:grid-cols-3 gap-0 plate reveal" style="transition-delay: 280ms;">
+      {capabilities.map((c, i) => (
+        <article class="relative p-8 md:p-10" style={i < 2 ? 'border-right: 1px solid var(--steel);' : ''}>
+          <p class="kicker-accent" style="font-size: 11px;">Capability · {c.n}</p>
+          <h3 class="mt-6" style="font-size: 1.5rem; line-height: 1.18;">{c.title}</h3>
+          <p class="mt-5" style="color: var(--fog); line-height: 1.6;">{c.body}</p>
+          <p class="mt-6 pt-5 italic font-mono" style="color: var(--mist); font-size: 12px; border-top: 1px solid var(--steel);">
+            {c.example}
+          </p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes blink {
+    0%, 80%, 100% { opacity: 0.3; }
+    40%           { opacity: 1; }
+  }
+</style>

@@ -1,0 +1,14 @@
+---
+// landing_page/src/components/ui/ProblemTile.astro
+interface Props {
+  headline: string;
+  body: string;
+  source: string;
+}
+const { headline, body, source } = Astro.props;
+---
+<article class="rounded-xl border border-line bg-bg-deep/60 p-8">
+  <h3 class="font-display text-3xl md:text-4xl text-signal-ember leading-tight">{headline}</h3>
+  <p class="mt-4 text-ink-high">{body}</p>
+  <p class="mt-4 font-mono text-xs text-ink-low">Source: {source}</p>
+</article>

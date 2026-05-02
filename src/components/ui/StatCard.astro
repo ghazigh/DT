@@ -1,0 +1,22 @@
+---
+// landing_page/src/components/ui/StatCard.astro
+interface Props {
+  value: string;
+  label: string;
+  footnote?: string;
+  accent?: 'ember' | 'mint' | 'lime';
+}
+const { value, label, footnote, accent = 'ember' } = Astro.props;
+const accentClass = {
+  ember: 'text-signal-ember',
+  mint: 'text-signal-mint',
+  lime: 'text-signal-lime'
+}[accent];
+---
+<div class="rounded-lg border border-line bg-bg-deep/40 p-6">
+  <div class:list={['font-display text-4xl md:text-5xl leading-none', accentClass]}>
+    {value}
+  </div>
+  <p class="mt-3 text-ink-high text-sm md:text-base">{label}</p>
+  {footnote && <p class="mt-2 font-mono text-xs text-ink-low">{footnote}</p>}
+</div>

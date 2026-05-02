@@ -1,0 +1,337 @@
+---
+// landing_page/src/components/home/TwinStudio.astro
+// Faithful preview of the Twin Studio. Mirrors public/studio/index.html (the actual kit) exactly.
+const navTop = [
+  { label: 'Overview',  count: null,  active: true,  icon: 'grid'    },
+  { label: 'Twins',     count: '42',  active: false, icon: 'circle'  },
+  { label: 'Runs',      count: '7',   active: false, icon: 'trend'   },
+  { label: 'Console',   count: null,  active: false, icon: 'chat'    },
+  { label: 'Datasets',  count: '11',  active: false, icon: 'box'     }
+];
+const navSignals = [
+  { label: 'Streams',     count: null, icon: 'star'   },
+  { label: 'Calibration', count: null, icon: 'clock'  },
+  { label: 'Drift',       count: '3',  countColor: 'var(--amber)', icon: 'alert' }
+];
+const kpis = [
+  { label: '— TWINS ONLINE',    value: '42',     units: ' / 50', delta: '+3 this week',         deltaColor: 'var(--chlorophyll)', glow: false, spark: 'up' },
+  { label: '— P99 INFERENCE',   value: '14.3',   units: 'ms',    delta: '−1.2ms vs last 7d',     deltaColor: 'var(--chlorophyll)', glow: true,  spark: 'down' },
+  { label: '— UPTIME · 30D',    value: '99.92',  units: '%',     delta: 'SLA target met',        deltaColor: 'var(--chlorophyll)', glow: false, spark: 'flat' },
+  { label: '— DRIFT EVENTS',    value: '3',      units: '',      delta: '↗ 2 vs last 7d · review', deltaColor: 'var(--amber)',     glow: false, spark: 'up-amber', valueColor: 'var(--amber)' }
+];
+const twins = [
+  { name: 'atlas-04',  status: 'live',     region: 'us-east-1',  p99: '12.1ms', conf: '0.94', confColor: 'var(--chlorophyll)', last: '2m ago' },
+  { name: 'helio-12',  status: 'live',     region: 'us-east-1',  p99: '14.3ms', conf: '0.91', confColor: 'var(--chlorophyll)', last: '8m ago' },
+  { name: 'orbit-07',  status: 'training', region: 'eu-west-1',  p99: '—',      conf: '—',    confColor: 'var(--mist)',        last: 'running · 62%' },
+  { name: 'vega-22',   status: 'live',     region: 'eu-west-1',  p99: '17.8ms', conf: '0.78', confColor: 'var(--amber)',       last: '1h ago' },
+  { name: 'io-03',     status: 'paused',   region: 'ap-south-1', p99: '—',      conf: '0.88', confColor: 'var(--fog)',         last: '3d ago' },
+  { name: 'titan-19',  status: 'failed',   region: 'us-east-1',  p99: '—',      conf: '—',    confColor: 'var(--mist)',        last: '14m ago' }
+];
+const calibHealth = [
+  { name: 'atlas-04', score: '0.94', pct: 94, color: 'var(--chlorophyll)' },
+  { name: 'helio-12', score: '0.91', pct: 91, color: 'var(--chlorophyll)' },
+  { name: 'vega-22',  score: '0.78', pct: 78, color: 'var(--amber)' },
+  { name: 'io-03',    score: '0.88', pct: 88, color: 'var(--mist)' }
+];
+---
+<section id="studio" class="relative" style="border-bottom: 1px solid var(--steel); background: var(--obsidian-d);">
+  <div class="container-page py-24 md:py-32">
+    <div class="chapter reveal">
+      <span class="num">[ 05 ]</span>
+      <span class="rule"></span>
+      <span class="label">The studio</span>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-10 items-end mb-12">
+      <h2 class="lg:col-span-8 text-balance reveal">
+        Operate your twins. <em>From one screen.</em>
+      </h2>
+      <p class="lg:col-span-4 reveal" style="color: var(--fog); font-size: 17px; line-height: 1.6; transition-delay: 120ms;">
+        Twin Studio is the workspace where your team deploys, monitors, and tunes every twin. Live status, calibration health, drift detection — built in.
+      </p>
+    </div>
+
+    <!-- Browser-chrome wrapper around the studio preview -->
+    <figure class="reveal" style="transition-delay: 200ms;">
+      <div class="card-radius overflow-hidden" style="border: 1px solid var(--steel); background: var(--obsidian-d); box-shadow: 0 24px 64px -16px rgba(0,0,0,0.6);">
+
+        <!-- chrome bar -->
+        <div class="flex items-center gap-3 px-4 py-3" style="border-bottom: 1px solid var(--steel); background: var(--obsidian);">
+          <div class="flex items-center gap-1.5">
+            <span class="h-2.5 w-2.5 rounded-full" style="background: #FF6B57;"></span>
+            <span class="h-2.5 w-2.5 rounded-full" style="background: #F4B84A;"></span>
+            <span class="h-2.5 w-2.5 rounded-full" style="background: #5EE26B;"></span>
+          </div>
+          <span class="ml-3 kicker" style="font-size: 10px;">studio.satlab.io / parallax-bio / overview</span>
+          <span class="ml-auto kicker-accent flex items-center gap-1.5" style="font-size: 10px;">
+            <span class="h-1.5 w-1.5 rounded-full animate-pulse-dot" style="background: var(--chlorophyll);"></span>
+            Live
+          </span>
+        </div>
+
+        <!-- studio body -->
+        <div class="grid" style="grid-template-rows: 44px 1fr;">
+
+          <!-- ===================== Status bar ===================== -->
+          <div class="flex items-center gap-4 px-4" style="border-bottom: 1px solid var(--steel); background: var(--slate); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--mist); letter-spacing: 0.04em;">
+            <span class="flex items-center gap-2" style="color: var(--bone);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <line x1="12" y1="2" x2="12" y2="22" stroke="#E6EAF0" stroke-width="1"/>
+                <line x1="2" y1="12" x2="22" y2="12" stroke="#E6EAF0" stroke-width="1"/>
+                <circle cx="12" cy="12" r="6" stroke="#E6EAF0" stroke-width="1" fill="none"/>
+                <circle cx="12" cy="12" r="2" fill="#5EE26B"/>
+              </svg>
+              <span style="font-family: 'Inter', system-ui; font-size: 13px; font-weight: 500; letter-spacing: -0.01em;">SAT<span style="color: var(--chlorophyll);">.</span>LAB</span>
+            </span>
+            <span style="height: 16px; width: 1px; background: var(--steel);"></span>
+            <span class="px-2 py-0.5" style="background: var(--graphite); border: 1px solid var(--steel); border-radius: 3px; color: var(--fog); font-size: 11px;">parallax-bio</span>
+            <span>/ workspace</span>
+            <span style="height: 16px; width: 1px; background: var(--steel);"></span>
+            <span class="kicker-accent flex items-center gap-1.5" style="font-size: 11px; letter-spacing: 0.04em;">
+              <span class="h-1.5 w-1.5 rounded-full animate-pulse-dot" style="background: var(--chlorophyll);"></span>
+              2,140 TWINS ONLINE
+            </span>
+            <span class="ml-auto flex items-center gap-3.5 hidden md:flex" style="font-size: 11px;">
+              <span>P99 <span style="color: var(--bone);">14.3MS</span></span>
+              <span>REGION <span style="color: var(--bone);">US-EAST-1</span></span>
+              <span style="height: 16px; width: 1px; background: var(--steel);"></span>
+              <span style="color: var(--fog);">⌘K</span>
+            </span>
+          </div>
+
+          <!-- sidebar + main -->
+          <div class="grid" style="grid-template-columns: 240px 1fr; min-height: 640px;">
+
+            <!-- ===================== Sidebar ===================== -->
+            <aside class="px-2 py-3.5" style="border-right: 1px solid var(--steel); background: var(--slate);">
+              {navTop.map((n) => (
+                <div
+                  class="flex items-center gap-2.5 px-3 py-2 mb-0.5"
+                  style={`color: ${n.active ? 'var(--bone)' : 'var(--fog)'}; ${n.active ? 'background: var(--graphite); border-left: 2px solid var(--chlorophyll); padding-left: 10px;' : 'border-left: 2px solid transparent;'} font-size: 13px; border-radius: 3px;`}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                    {n.icon === 'grid' && <g><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></g>}
+                    {n.icon === 'circle' && <g><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3" fill="currentColor"/></g>}
+                    {n.icon === 'trend' && <g><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></g>}
+                    {n.icon === 'chat' && <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>}
+                    {n.icon === 'box' && <path d="M21 16V8l-9-5-9 5v8l9 5z"/>}
+                  </svg>
+                  <span>{n.label}</span>
+                  {n.count && <span class="ml-auto font-mono" style="color: var(--mist); font-size: 10px;">{n.count}</span>}
+                </div>
+              ))}
+
+              <p class="font-mono mt-4 mb-1.5 px-3" style="font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mist);">— SIGNALS</p>
+              {navSignals.map((n) => (
+                <div class="flex items-center gap-2.5 px-3 py-2 mb-0.5" style="color: var(--fog); border-left: 2px solid transparent; font-size: 13px; border-radius: 3px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                    {n.icon === 'star' && <path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/>}
+                    {n.icon === 'clock' && <g><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></g>}
+                    {n.icon === 'alert' && <g><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h0"/></g>}
+                  </svg>
+                  <span>{n.label}</span>
+                  {n.count && <span class="ml-auto font-mono" style={`color: ${n.countColor || 'var(--mist)'}; font-size: 10px;`}>{n.count}</span>}
+                </div>
+              ))}
+
+              <p class="font-mono mt-4 mb-1.5 px-3" style="font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mist);">— WORKSPACE</p>
+              <div class="flex items-center gap-2.5 px-3 py-2" style="color: var(--fog); border-left: 2px solid transparent; font-size: 13px; border-radius: 3px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <span>Members</span>
+              </div>
+              <div class="flex items-center gap-2.5 px-3 py-2" style="color: var(--fog); border-left: 2px solid transparent; font-size: 13px; border-radius: 3px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8M4.6 9a1.7 1.7 0 0 0-.3-1.8"/>
+                </svg>
+                <span>Settings</span>
+              </div>
+            </aside>
+
+            <!-- ===================== Main ===================== -->
+            <main class="overflow-hidden" style="background: var(--obsidian);">
+              <div class="px-9 py-8">
+
+                <!-- page head -->
+                <div class="flex items-start justify-between mb-8">
+                  <div>
+                    <p class="font-mono" style="font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">— PARALLAX-BIO / OVERVIEW</p>
+                    <h3 class="mt-2" style="font-size: 1.875rem; font-weight: 500; letter-spacing: -0.02em; color: var(--bone);">Welcome back, Lena.</h3>
+                  </div>
+                  <div class="flex gap-2.5">
+                    <span class="font-mono" style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 16px; border: 1px solid var(--steel); color: var(--bone); border-radius: 3px;">+ Import dataset</span>
+                    <span class="font-mono" style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 16px; background: var(--chlorophyll); color: var(--obsidian); border: 1px solid var(--chlorophyll); font-weight: 600; border-radius: 3px;">+ Deploy twin →</span>
+                  </div>
+                </div>
+
+                <!-- KPI cards -->
+                <div class="grid grid-cols-4 gap-3.5 mb-8">
+                  {kpis.map((k) => (
+                    <div
+                      class="p-[18px]"
+                      style={`border: 1px solid ${k.glow ? 'rgba(94,226,107,0.25)' : 'var(--steel)'}; background: var(--slate); border-radius: 12px; ${k.glow ? 'box-shadow: 0 0 32px rgba(94,226,107,0.08);' : ''}`}
+                    >
+                      <p class="font-mono" style="font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); margin-bottom: 12px;">{k.label}</p>
+                      <p class="font-mono" style={`font-size: 28px; font-weight: 500; letter-spacing: -0.01em; color: ${k.valueColor || 'var(--bone)'};`}>
+                        {k.value}<span style="font-size: 14px; color: var(--mist); margin-left: 2px;">{k.units}</span>
+                      </p>
+                      <p class="font-mono" style={`font-size: 11px; margin-top: 4px; color: ${k.deltaColor};`}>{k.delta}</p>
+                      <svg viewBox="0 0 100 28" preserveAspectRatio="none" class="mt-2.5 w-full" style="height: 28px;">
+                        {k.spark === 'up' && <polyline points="0,18 10,16 20,17 30,12 40,14 50,10 60,12 70,8 80,10 90,6 100,8" fill="none" stroke="#5EE26B" stroke-width="1.2"/>}
+                        {k.spark === 'down' && <polyline points="0,12 10,14 20,10 30,16 40,11 50,13 60,9 70,11 80,8 90,10 100,7" fill="none" stroke="#5EE26B" stroke-width="1.2"/>}
+                        {k.spark === 'flat' && <polyline points="0,8 10,8 20,7 30,9 40,7 50,8 60,7 70,12 80,8 90,7 100,7" fill="none" stroke="#5EE26B" stroke-width="1.2"/>}
+                        {k.spark === 'up-amber' && <polyline points="0,22 10,20 20,22 30,18 40,20 50,18 60,14 70,16 80,10 90,12 100,8" fill="none" stroke="#F4B84A" stroke-width="1.2"/>}
+                      </svg>
+                    </div>
+                  ))}
+                </div>
+
+                <!-- Active twins section -->
+                <div class="flex items-center gap-3 mb-4">
+                  <h4 style="font-size: 17px; font-weight: 500; color: var(--bone);">Active twins</h4>
+                  <span class="font-mono" style="font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">— SHOWING 6 OF 42</span>
+                  <span class="ml-auto font-mono" style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fog);">View all →</span>
+                </div>
+
+                <!-- Twins table -->
+                <div class="overflow-hidden" style="background: var(--slate); border: 1px solid var(--steel); border-radius: 12px;">
+                  <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                      <tr>
+                        <th style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--steel); font-weight: 500;">Twin</th>
+                        <th style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--steel); font-weight: 500;">Status</th>
+                        <th style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--steel); font-weight: 500;">Region</th>
+                        <th style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--steel); font-weight: 500;">P99</th>
+                        <th style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--steel); font-weight: 500;">Confidence</th>
+                        <th style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--steel); font-weight: 500;">Last calibrated</th>
+                        <th style="border-bottom: 1px solid var(--steel); padding: 12px 16px;"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {twins.map((t, i) => {
+                        const badgeMap = {
+                          live:     { color: 'var(--chlorophyll)', bg: 'rgba(94,226,107,0.07)',  border: 'rgba(94,226,107,0.4)',  pulse: true,  text: 'Live'     },
+                          training: { color: 'var(--amber)',       bg: 'rgba(244,184,74,0.07)',  border: 'rgba(244,184,74,0.4)',  pulse: false, text: 'Training' },
+                          paused:   { color: 'var(--mist)',        bg: 'var(--graphite)',        border: 'var(--steel)',          pulse: false, text: 'Paused'   },
+                          failed:   { color: '#FF6B57',            bg: 'rgba(255,107,87,0.07)',  border: 'rgba(255,107,87,0.4)',  pulse: false, text: 'Failed'   }
+                        };
+                        const badgeStyle = (badgeMap as any)[t.status] || badgeMap.paused;
+                        const cell = `padding: 14px 16px; font-size: 13px; ${i < twins.length - 1 ? 'border-bottom: 1px solid var(--steel);' : ''}`;
+                        return (
+                          <tr>
+                            <td style={`${cell} color: var(--bone); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em;`}>{t.name}</td>
+                            <td style={cell}>
+                              <span style={`display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 999px; border: 1px solid ${badgeStyle.border}; background: ${badgeStyle.bg}; color: ${badgeStyle.color}; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;`}>
+                                <span class={badgeStyle.pulse ? 'animate-pulse-dot' : ''} style="width: 5px; height: 5px; border-radius: 50%; background: currentColor;"></span>
+                                {badgeStyle.text}
+                              </span>
+                            </td>
+                            <td style={`${cell} color: var(--fog); font-family: 'JetBrains Mono', monospace;`}>{t.region}</td>
+                            <td style={`${cell} color: var(--fog); font-family: 'JetBrains Mono', monospace;`}>{t.p99}</td>
+                            <td style={`${cell} color: ${t.confColor}; font-family: 'JetBrains Mono', monospace;`}>{t.conf}</td>
+                            <td style={`${cell} color: var(--fog); font-family: 'JetBrains Mono', monospace;`}>{t.last}</td>
+                            <td style={`${cell} color: var(--mist); text-align: right;`}>›</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Activity + calibration -->
+                <div class="grid grid-cols-3 gap-3.5 mt-6">
+                  <!-- Activity feed (col-span 2) — exact rows from the kit -->
+                  <div class="col-span-2 p-5" style="background: var(--slate); border: 1px solid var(--steel); border-radius: 12px;">
+                    <div class="flex items-center justify-between mb-4">
+                      <h4 style="font-size: 15px; font-weight: 500; color: var(--bone);">Recent activity</h4>
+                      <span class="font-mono" style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fog);">Filter</span>
+                    </div>
+
+                    <div class="grid items-center" style="grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--steel);">
+                      <span class="font-mono" style="font-size: 11px; color: var(--mist); letter-spacing: 0.02em;">14:02:11</span>
+                      <span style="font-size: 13px; color: var(--fog);"><span class="font-mono" style="color: var(--bone);">atlas-04</span> recalibrated · Δ confidence +0.03</span>
+                      <span class="font-mono" style="font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: rgba(94,226,107,0.07); color: var(--chlorophyll);">CALIB</span>
+                    </div>
+
+                    <div class="grid items-center" style="grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--steel);">
+                      <span class="font-mono" style="font-size: 11px; color: var(--mist); letter-spacing: 0.02em;">13:54:08</span>
+                      <span style="font-size: 13px; color: var(--fog);"><span class="font-mono" style="color: var(--bone);">vega-22</span> drift detected on stream <span class="font-mono" style="color: var(--bone);">events.checkout</span></span>
+                      <span class="font-mono" style="font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: rgba(244,184,74,0.07); color: var(--amber);">DRIFT</span>
+                    </div>
+
+                    <div class="grid items-center" style="grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--steel);">
+                      <span class="font-mono" style="font-size: 11px; color: var(--mist); letter-spacing: 0.02em;">13:42:33</span>
+                      <span style="font-size: 13px; color: var(--fog);">Run <span class="font-mono" style="color: var(--bone);">orbit-07/run-94</span> started by <span class="font-mono" style="color: var(--bone);">m.tanaka</span></span>
+                      <span class="font-mono" style="font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: var(--graphite); color: var(--mist);">RUN</span>
+                    </div>
+
+                    <div class="grid items-center" style="grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--steel);">
+                      <span class="font-mono" style="font-size: 11px; color: var(--mist); letter-spacing: 0.02em;">13:18:00</span>
+                      <span style="font-size: 13px; color: var(--fog);">Dataset <span class="font-mono" style="color: var(--bone);">user-events-q2</span> ingested · 1.4M rows</span>
+                      <span class="font-mono" style="font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: rgba(94,226,107,0.07); color: var(--chlorophyll);">INGEST</span>
+                    </div>
+
+                    <div class="grid items-center" style="grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0;">
+                      <span class="font-mono" style="font-size: 11px; color: var(--mist); letter-spacing: 0.02em;">12:49:21</span>
+                      <span style="font-size: 13px; color: var(--fog);"><span class="font-mono" style="color: var(--bone);">titan-19</span> failed health check · auto-paused</span>
+                      <span class="font-mono" style="font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: rgba(244,184,74,0.07); color: var(--amber);">ALERT</span>
+                    </div>
+                  </div>
+
+                  <!-- Calibration health -->
+                  <div class="p-5" style="background: var(--slate); border: 1px solid var(--steel); border-radius: 12px;">
+                    <div class="flex items-center justify-between mb-4">
+                      <h4 style="font-size: 15px; font-weight: 500; color: var(--bone);">Calibration health</h4>
+                      <span class="font-mono" style="font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist);">— 7D</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 14px;">
+                      {calibHealth.map((c) => (
+                        <div>
+                          <div class="flex justify-between font-mono" style="font-size: 11px; margin-bottom: 4px;">
+                            <span style="color: var(--fog);">{c.name}</span>
+                            <span style={`color: ${c.color};`}>{c.score}</span>
+                          </div>
+                          <div style="height: 4px; background: var(--graphite); border-radius: 2px; overflow: hidden;">
+                            <div style={`height: 100%; width: ${c.pct}%; background: ${c.color};`}></div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+
+      <figcaption class="mt-4 flex items-center justify-between kicker" style="font-size: 10px;">
+        <span>Fig. V · Twin Studio · Overview · live screenshot</span>
+        <a href="/studio/index.html" target="_blank" rel="noopener" class="mark" style="border-bottom: 1px solid var(--chlorophyll); padding-bottom: 1px;">
+          Open the live studio →
+        </a>
+      </figcaption>
+    </figure>
+
+    <!-- 3 capability cards under the preview -->
+    <div class="mt-16 grid md:grid-cols-3 gap-0 plate reveal" style="transition-delay: 280ms;">
+      {[
+        { n: '01', t: 'Deploy any twin in a click', b: 'Spin up a new twin from a manifest. Cloud, on-prem, or air-gapped — same one-click flow.' },
+        { n: '02', t: 'Watch every twin in real time', b: 'Live status, P99 latency, calibration drift, uptime. Sparklines and SLAs across the fleet.' },
+        { n: '03', t: 'Tune without writing code', b: 'Recalibrate, retrain, roll back. Every action logged. Every change reversible.' }
+      ].map((c, i) => (
+        <article class="relative p-8 md:p-10" style={i < 2 ? 'border-right: 1px solid var(--steel);' : ''}>
+          <p class="kicker-accent" style="font-size: 11px;">Capability · {c.n}</p>
+          <h3 class="mt-6" style="font-size: 1.5rem; line-height: 1.18;">{c.t}</h3>
+          <p class="mt-5" style="color: var(--fog); line-height: 1.6;">{c.b}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

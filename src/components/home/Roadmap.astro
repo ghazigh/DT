@@ -1,0 +1,41 @@
+---
+import RoadmapColumn from '@/components/ui/RoadmapColumn.astro';
+import MonoCaption from '@/components/ui/MonoCaption.astro';
+---
+<section class="border-b border-line">
+  <div class="container-page py-24">
+    <MonoCaption>MVP + roadmap</MonoCaption>
+    <h2 class="mt-4 max-w-3xl">
+      What's real today. <em class="italic font-normal text-signal-mint">What's next.</em>
+    </h2>
+    <p class="mt-6 max-w-2xl">
+      We don't list features we haven't shipped. Here's exactly where the code is — and what's on the 24-month roadmap.
+    </p>
+
+    <div class="mt-12 grid gap-10 md:grid-cols-2">
+      <RoadmapColumn
+        title="Shipping now"
+        accent="lime"
+        items={[
+          { label: 'Vegetation service (batch)', detail: 'Sentinel-2 + LiDAR ingestion, canopy segmentation, heuristic + ML risk scoring.' },
+          { label: 'Digital Twin thin core',     detail: 'SERIC-lite Postgres entity store + CesiumJS web viewer.' },
+          { label: 'Python SDK + CLI',           detail: 'satlab-dt — every twin operation scriptable. Agent-ready manifest.' },
+          { label: 'Unreal demo (Tile 1, Québec)', detail: 'Cesium for Unreal flythrough with live vegetation overlay.' },
+          { label: 'Honest proof points',        detail: 'Held-out canopy IoU, encroachment P/R on public data, ML calibration curves.' }
+        ]}
+      />
+      <RoadmapColumn
+        title="On the 24-month roadmap"
+        accent="mid"
+        items={[
+          { label: 'Smart-scenario modules',     detail: 'Parking, elevator, lighting, security/fire, water (Project 1).' },
+          { label: 'Interior BIM twin',          detail: 'Buildings from blueprint to live telemetry.' },
+          { label: 'Multi-physics simulation',   detail: 'Heat island, stormwater, carbon, air quality, energy (Project 3).' },
+          { label: 'Hazard XGBoost at scale',    detail: 'Tier-1/2/3 tree hazard scoring across millions of trees.' },
+          { label: 'Citizen portal + carbon credits', detail: 'Public engagement and verified ecosystem-service accounting.' },
+          { label: 'Multi-tenant + RBAC',        detail: 'Enterprise deployment with per-org isolation.' }
+        ]}
+      />
+    </div>
+  </div>
+</section>
