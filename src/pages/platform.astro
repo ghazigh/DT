@@ -1,4 +1,5 @@
 ---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 import { getEntry } from 'astro:content';
 import Layout   from '@/components/layout/Layout.astro';
 import PageHero from '@/components/layout/PageHero.astro';
@@ -141,13 +142,13 @@ const caps = [
       </div>
 
       <div class="mt-16 grid gap-6 md:grid-cols-2 reveal">
-        <a href="/vegetation" class="card-elev group p-10 no-underline hover:border-signal-phosphor/40 transition-colors duration-500">
+        <a href={`${base}/vegetation`} class="card-elev group p-10 no-underline hover:border-signal-phosphor/40 transition-colors duration-500">
           <p class="eyebrow !text-signal-phosphor">MODULE · 01 · SHIPPING</p>
           <p class="mt-6 font-display text-3xl text-ink-paper leading-tight">Vegetation<br/><span class="display-italic text-ink-mid">Intelligence</span></p>
           <p class="mt-6 text-ink-mid text-[15px]">Predict the 5% of any grid corridor where trees will cause the next outage.</p>
           <span class="mt-10 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-signal-phosphor group-hover:gap-3 transition-all">Open module →</span>
         </a>
-        <a href="/urban-canopy" class="card-elev group p-10 no-underline hover:border-signal-telemetry/40 transition-colors duration-500">
+        <a href={`${base}/urban-canopy`} class="card-elev group p-10 no-underline hover:border-signal-telemetry/40 transition-colors duration-500">
           <p class="eyebrow" style="color:#4ca7ff">MODULE · 02 · SHIPPING</p>
           <p class="mt-6 font-display text-3xl text-ink-paper leading-tight">Grid Digital<br/><span class="display-italic text-ink-mid">Twin</span></p>
           <p class="mt-6 text-ink-mid text-[15px]">A streaming 3D twin of the urban grid — terrain, assets, canopy, and risk as composable layers.</p>

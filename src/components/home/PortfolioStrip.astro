@@ -1,4 +1,5 @@
 ---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 import ProductCard from '@/components/ui/ProductCard.astro';
 import MonoCaption from '@/components/ui/MonoCaption.astro';
 ---
@@ -11,7 +12,7 @@ import MonoCaption from '@/components/ui/MonoCaption.astro';
 
     <div class="mt-12 grid gap-6 md:grid-cols-3">
       <ProductCard
-        href="/vegetation"
+        href={`${base}/vegetation`}
         name="Vegetation Intelligence"
         tagline="Satellite + AI that predicts where trees will take down the grid."
         stat="≥95% detection"
@@ -19,14 +20,14 @@ import MonoCaption from '@/components/ui/MonoCaption.astro';
         badge="Wedge"
       />
       <ProductCard
-        href="/platform"
+        href={`${base}/platform`}
         name="Digital Twin Platform"
         tagline="A semantic 3D twin for any sensor, any building, any city."
         stat="≤500 ms"
         tam="$15B+"
       />
       <ProductCard
-        href="/urban-canopy"
+        href={`${base}/urban-canopy`}
         name="Urban Canopy DT"
         tagline="Every tree in your city as a queryable entity, with multi-physics simulation."
         stat="13 models"

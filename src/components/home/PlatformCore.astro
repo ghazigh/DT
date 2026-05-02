@@ -1,4 +1,5 @@
 ---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 // landing_page/src/components/home/PlatformCore.astro
 // "One twin, many use cases" — central thesis. Twin in the middle, modules either side.
 // Naming follows Branding §3 hierarchy: Sat Lab → Twin → Vegetation Intelligence / Urban Canopy.
@@ -23,7 +24,7 @@
     <!-- Triptych -->
     <div class="relative grid md:grid-cols-3 gap-0 plate reveal" style="transition-delay: 200ms;">
       <!-- Module 01 — Vegetation Intelligence -->
-      <a href="/vegetation" class="group relative text-left p-10 md:p-12 transition-colors duration-300"
+      <a href={`${base}/vegetation`} class="group relative text-left p-10 md:p-12 transition-colors duration-300"
          style="border-right: 1px solid var(--steel);">
         <p class="kicker-accent" style="font-size: 10px;">Module 01 · shipping 2026</p>
         <h3 class="mt-7" style="font-size: 1.875rem; line-height: 1.05;">
@@ -78,11 +79,11 @@
           Authoritative live model of the physical world. PostGIS · Kafka · CesiumJS · Neo4j.
         </p>
 
-        <a href="/platform" class="mt-7 btn-link">Enter platform</a>
+        <a href={`${base}/platform`} class="mt-7 btn-link">Enter platform</a>
       </div>
 
       <!-- Module 02 — Urban Canopy -->
-      <a href="/urban-canopy" class="group relative text-left md:text-right p-10 md:p-12 transition-colors duration-300">
+      <a href={`${base}/urban-canopy`} class="group relative text-left md:text-right p-10 md:p-12 transition-colors duration-300">
         <p class="kicker-accent md:text-right" style="font-size: 10px;">Module 02 · 2026 · pilot</p>
         <h3 class="mt-7 md:text-right" style="font-size: 1.875rem; line-height: 1.05;">
           Urban<br/>Canopy

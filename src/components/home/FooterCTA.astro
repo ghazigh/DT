@@ -1,4 +1,5 @@
 ---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 // landing_page/src/components/home/FooterCTA.astro
 ---
 <section class="relative overflow-hidden" style="border-bottom: 1px solid var(--steel); background: var(--obsidian-d);">
@@ -15,7 +16,7 @@
     </p>
 
     <div class="mt-10 flex flex-wrap justify-center items-center gap-4 reveal" style="transition-delay: 280ms;">
-      <a href="/contact" class="btn-primary">
+      <a href={`${base}/contact`} class="btn-primary">
         Book a pilot
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
           <path d="M2 6h8M7 2l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
