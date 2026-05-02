@@ -1,13 +1,14 @@
 ---
 // landing_page/src/components/layout/Footer.astro — dark
 const year = new Date().getFullYear();
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <footer class="relative" style="border-top: 1px solid var(--steel);">
   <div class="container-page pt-24 pb-10">
     <div class="grid lg:grid-cols-12 gap-12">
       <!-- Brand block -->
       <div class="lg:col-span-5">
-        <a href="/" class="inline-flex items-center gap-3">
+        <a href={`${base}/`} class="inline-flex items-center gap-3">
           <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <line x1="12" y1="2" x2="12" y2="22" stroke="#E6EAF0" stroke-width="1"/>
             <line x1="2" y1="12" x2="22" y2="12" stroke="#E6EAF0" stroke-width="1"/>
@@ -26,9 +27,9 @@ const year = new Date().getFullYear();
       <div class="lg:col-span-2">
         <p class="kicker mb-5">Twin</p>
         <ul class="space-y-3">
-          <li><a href="/platform"     style="color: var(--bone);">Platform</a></li>
-          <li><a href="/vegetation"   style="color: var(--bone);">Vegetation Intelligence</a></li>
-          <li><a href="/urban-canopy" style="color: var(--bone);">Urban Canopy</a></li>
+          <li><a href={`${base}/platform`}     style="color: var(--bone);">Platform</a></li>
+          <li><a href={`${base}/vegetation`}   style="color: var(--bone);">Vegetation Intelligence</a></li>
+          <li><a href={`${base}/urban-canopy`} style="color: var(--bone);">Urban Canopy</a></li>
         </ul>
       </div>
 
@@ -36,8 +37,8 @@ const year = new Date().getFullYear();
       <div class="lg:col-span-2">
         <p class="kicker mb-5">Studio</p>
         <ul class="space-y-3">
-          <li><a href="/about"   style="color: var(--bone);">Thesis</a></li>
-          <li><a href="/contact" style="color: var(--bone);">Request a pilot</a></li>
+          <li><a href={`${base}/about`}   style="color: var(--bone);">Thesis</a></li>
+          <li><a href={`${base}/contact`} style="color: var(--bone);">Request a pilot</a></li>
         </ul>
       </div>
 
