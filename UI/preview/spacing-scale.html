@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-app); }
+  body { padding: 18px 24px; }
+  .row { display: flex; align-items: flex-end; gap: 12px; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .box { background: var(--signal-500); width: var(--w); height: 18px; border-radius: 2px; opacity: 0.85; }
+  .lbl { font-family: var(--font-mono); font-size: 10px; color: var(--fg-tertiary); letter-spacing: 0.08em; }
+  .val { font-family: var(--font-mono); font-size: 10px; color: var(--fg-secondary); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="col"><div class="box" style="--w: 4px;"></div><span class="val">4</span><span class="lbl">s-1</span></div>
+    <div class="col"><div class="box" style="--w: 8px;"></div><span class="val">8</span><span class="lbl">s-2</span></div>
+    <div class="col"><div class="box" style="--w: 12px;"></div><span class="val">12</span><span class="lbl">s-3</span></div>
+    <div class="col"><div class="box" style="--w: 16px;"></div><span class="val">16</span><span class="lbl">s-4</span></div>
+    <div class="col"><div class="box" style="--w: 24px;"></div><span class="val">24</span><span class="lbl">s-6</span></div>
+    <div class="col"><div class="box" style="--w: 32px;"></div><span class="val">32</span><span class="lbl">s-8</span></div>
+    <div class="col"><div class="box" style="--w: 48px;"></div><span class="val">48</span><span class="lbl">s-12</span></div>
+    <div class="col"><div class="box" style="--w: 64px;"></div><span class="val">64</span><span class="lbl">s-16</span></div>
+    <div class="col"><div class="box" style="--w: 96px;"></div><span class="val">96</span><span class="lbl">s-24</span></div>
+  </div>
+  <div style="margin-top: 16px; font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); letter-spacing: 0.08em;">— 4PX BASE GRID · POWERS-OF-2 PROGRESSION</div>
+</body>
+</html>

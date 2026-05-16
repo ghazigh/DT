@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>card</title>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-app); color: var(--fg-primary); }
+  body { padding: 20px 24px; box-sizing: border-box; }
+  .card-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .swatch {
+    width: 64px; height: 64px; border-radius: var(--r-md);
+    border: 1px solid var(--border-subtle);
+    display: flex; align-items: flex-end; justify-content: flex-start;
+    padding: 6px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--ink-1000);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    letter-spacing: 0.04em;
+  }
+  .swatch-meta { display: flex; flex-direction: column; }
+  .swatch-meta .name { font-family: var(--font-mono); font-size: 11px; color: var(--fg-primary); letter-spacing: 0.02em; }
+  .swatch-meta .hex { font-family: var(--font-mono); font-size: 10px; color: var(--fg-tertiary); letter-spacing: 0.02em; }
+  .group-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 10px; width: 100%; }
+</style>
+</head>
+<body>
+<div class="card-row">
+  <div class="group-grid">
+    <div>
+      <div class="swatch" style="background: #050608;">000</div>
+      <div class="swatch-meta"><span class="hex">#050608</span></div>
+    </div>
+    <div>
+      <div class="swatch" style="background: #0a0c10;">050</div>
+      <div class="swatch-meta"><span class="hex">#0a0c10</span></div>
+    </div>
+    <div>
+      <div class="swatch" style="background: #0f1218;">100</div>
+      <div class="swatch-meta"><span class="hex">#0f1218</span></div>
+    </div>
+    <div>
+      <div class="swatch" style="background: #161a22;">200</div>
+      <div class="swatch-meta"><span class="hex">#161a22</span></div>
+    </div>
+    <div>
+      <div class="swatch" style="background: #1f242e;">300</div>
+      <div class="swatch-meta"><span class="hex">#1f242e</span></div>
+    </div>
+    <div>
+      <div class="swatch" style="background: #2a303c;">400</div>
+      <div class="swatch-meta"><span class="hex">#2a303c</span></div>
+    </div>
+    <div>
+      <div class="swatch" style="background: #3a4150;">500</div>
+      <div class="swatch-meta"><span class="hex">#3a4150</span></div>
+    </div>
+    <div>
+      <div class="swatch" style="background: #5b6373;">600</div>
+      <div class="swatch-meta"><span class="hex">#5b6373</span></div>
+    </div>
+    <div>
+      <div class="swatch" style="background: #8b94a3; color: #050608; text-shadow: none;">700</div>
+      <div class="swatch-meta"><span class="hex">#8b94a3</span></div>
+    </div>
+    <div>
+      <div class="swatch" style="background: #c5cad4; color: #050608; text-shadow: none;">800</div>
+      <div class="swatch-meta"><span class="hex">#c5cad4</span></div>
+    </div>
+    <div>
+      <div class="swatch" style="background: #e8eaef; color: #050608; text-shadow: none;">900</div>
+      <div class="swatch-meta"><span class="hex">#e8eaef</span></div>
+    </div>
+    <div>
+      <div class="swatch" style="background: #fafbfc; color: #050608; text-shadow: none;">1000</div>
+      <div class="swatch-meta"><span class="hex">#fafbfc</span></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

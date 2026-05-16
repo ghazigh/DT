@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Twin Studio · Sat Lab</title>
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg"/>
+<link rel="stylesheet" href="../../colors_and_type.css"/>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; height: 100vh; overflow: hidden; }
+
+  .app { display: grid; grid-template-columns: 240px 1fr; grid-template-rows: 44px 1fr; height: 100vh; }
+
+  /* Status bar */
+  .status-bar { grid-column: 1 / -1; background: var(--ink-100); border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; padding: 0 14px; gap: 18px; font-family: var(--font-mono); font-size: 11px; color: var(--fg-tertiary); letter-spacing: 0.04em; }
+  .status-bar .brand { display: flex; align-items: center; gap: 8px; color: var(--fg-primary); }
+  .status-bar .brand .word { font-family: var(--font-sans); font-size: 13px; font-weight: 500; letter-spacing: -0.01em; }
+  .status-bar .brand .dot { color: var(--signal-500); }
+  .status-bar .sep { width: 1px; height: 16px; background: var(--border-subtle); }
+  .status-bar .item { display: inline-flex; align-items: center; gap: 6px; }
+  .status-bar .live { color: var(--signal-500); }
+  .status-bar .live .dot-anim { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse 1.4s infinite; }
+  .status-bar .right { margin-left: auto; display: flex; gap: 14px; align-items: center; }
+  .status-bar .ws { background: var(--ink-200); padding: 3px 8px; border-radius: var(--r-sm); border: 1px solid var(--border-subtle); color: var(--fg-secondary); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  /* Sidebar */
+  aside { background: var(--ink-050); border-right: 1px solid var(--border-subtle); padding: 14px 8px; display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+  aside .group-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-muted); padding: 16px 12px 6px; }
+  aside .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: var(--r-sm); color: var(--fg-secondary); font-size: 13px; cursor: pointer; transition: all 120ms; }
+  aside .nav-item:hover { background: var(--ink-200); color: var(--fg-primary); }
+  aside .nav-item.active { background: var(--ink-200); color: var(--fg-primary); border-left: 2px solid var(--signal-500); padding-left: 10px; }
+  aside .nav-item svg { width: 16px; height: 16px; flex: none; }
+  aside .nav-item .count { margin-left: auto; font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); }
+
+  /* Main */
+  main { overflow: auto; background: var(--bg-app); }
+  .page { padding: 32px 36px; max-width: 1400px; }
+
+  .page-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 32px; }
+  .page-head h1 { font-size: 30px; font-weight: 500; letter-spacing: -0.02em; margin: 0; }
+  .page-head .crumb { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-tertiary); margin-bottom: 8px; }
+  .page-head .actions { display: flex; gap: 10px; }
+
+  .btn { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 16px; border-radius: var(--r-sm); cursor: pointer; border: 1px solid transparent; transition: all 120ms; display: inline-flex; align-items: center; gap: 8px; }
+  .btn.primary { background: var(--signal-500); color: var(--ink-000); font-weight: 600; }
+  .btn.primary:hover { background: var(--signal-300); }
+  .btn.secondary { background: transparent; color: var(--fg-primary); border-color: var(--border-default); }
+  .btn.secondary:hover { border-color: var(--signal-500); color: var(--signal-500); }
+  .btn.ghost { background: transparent; color: var(--fg-secondary); padding: 9px 12px; }
+  .btn.ghost:hover { color: var(--fg-primary); background: var(--ink-200); }
+
+  /* KPI cards */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 32px; }
+  .kpi { background: var(--ink-100); border: 1px solid var(--border-subtle); border-radius: var(--r-lg); padding: 18px; }
+  .kpi .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-tertiary); margin-bottom: 12px; }
+  .kpi .val { font-family: var(--font-mono); font-size: 28px; font-weight: 500; color: var(--fg-primary); letter-spacing: -0.01em; }
+  .kpi .val .units { font-size: 14px; color: var(--fg-tertiary); margin-left: 2px; }
+  .kpi .delta { font-family: var(--font-mono); font-size: 11px; margin-top: 4px; color: var(--signal-500); }
+  .kpi .delta.down { color: var(--orbit-500); }
+  .kpi.glow { border-color: rgba(0,232,154,0.25); box-shadow: 0 0 32px rgba(0,232,154,0.08); }
+  .kpi .spark { margin-top: 10px; height: 28px; }
+
+  /* Section title */
+  .section-title { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; }
+  .section-title h2 { font-size: 17px; font-weight: 500; margin: 0; color: var(--fg-primary); }
+  .section-title .ovr { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-tertiary); margin-left: 4px; }
+
+  /* Twins table */
+  .table-wrap { background: var(--ink-100); border: 1px solid var(--border-subtle); border-radius: var(--r-lg); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  th { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-tertiary); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border-subtle); font-weight: 500; }
+  td { padding: 14px 16px; border-bottom: 1px solid var(--border-subtle); font-size: 13px; color: var(--fg-secondary); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.015); }
+  td.name { color: var(--fg-primary); font-family: var(--font-mono); letter-spacing: 0.02em; }
+  td.mono { font-family: var(--font-mono); }
+
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 999px; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; border: 1px solid; }
+  .badge .d { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+  .badge.live { color: var(--signal-500); border-color: rgba(0,232,154,0.4); background: rgba(0,232,154,0.07); }
+  .badge.live .d { animation: pulse 1.4s infinite; }
+  .badge.train { color: var(--orbit-500); border-color: rgba(255,174,61,0.4); background: rgba(255,174,61,0.07); }
+  .badge.paused { color: var(--fg-tertiary); border-color: var(--border-default); background: var(--ink-200); }
+  .badge.failed { color: #ff5a4e; border-color: rgba(255,90,78,0.4); background: rgba(255,90,78,0.07); }
+
+  /* Activity / chart panel */
+  .grid-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; margin-top: 24px; }
+  .panel { background: var(--ink-100); border: 1px solid var(--border-subtle); border-radius: var(--r-lg); padding: 20px; }
+  .panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .panel-head h3 { font-size: 15px; font-weight: 500; margin: 0; }
+
+  .activity { display: flex; flex-direction: column; }
+  .activity .row { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border-subtle); align-items: center; }
+  .activity .row:last-child { border-bottom: none; }
+  .activity .ts { font-family: var(--font-mono); font-size: 11px; color: var(--fg-tertiary); letter-spacing: 0.02em; }
+  .activity .msg { font-size: 13px; color: var(--fg-secondary); }
+  .activity .msg .ref { font-family: var(--font-mono); color: var(--fg-primary); }
+  .activity .tag-mini { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: var(--ink-200); color: var(--fg-tertiary); }
+  .activity .tag-mini.ok { color: var(--signal-500); background: rgba(0,232,154,0.07); }
+  .activity .tag-mini.warn { color: var(--orbit-500); background: rgba(255,174,61,0.07); }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Status bar -->
+  <div class="status-bar">
+    <a class="brand">
+      <img src="../../assets/logo-mark.svg" width="20" height="20" alt=""/>
+      <span class="word">SAT<span class="dot">.</span>LAB</span>
+    </a>
+    <div class="sep"></div>
+    <span class="ws">parallax-bio</span>
+    <span class="item">/ workspace</span>
+    <div class="sep"></div>
+    <span class="item live"><span class="dot-anim"></span>2,140 TWINS ONLINE</span>
+    <div class="right">
+      <span class="item">P99 <span style="color: var(--fg-primary);">14.3MS</span></span>
+      <span class="item">REGION US-EAST-1</span>
+      <div class="sep"></div>
+      <span class="item" style="color: var(--fg-secondary);">⌘K</span>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside>
+    <div class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Overview
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
+      Twins <span class="count">42</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+      Runs <span class="count">7</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Console
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M21 16V8l-9-5-9 5v8l9 5z"/></svg>
+      Datasets <span class="count">11</span>
+    </div>
+
+    <div class="group-label">— SIGNALS</div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/></svg>
+      Streams
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>
+      Calibration
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h0"/></svg>
+      Drift <span class="count" style="color: var(--orbit-500);">3</span>
+    </div>
+
+    <div class="group-label">— WORKSPACE</div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Members
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8M4.6 9a1.7 1.7 0 0 0-.3-1.8"/></svg>
+      Settings
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main>
+    <div class="page">
+      <div class="page-head">
+        <div>
+          <div class="crumb">— PARALLAX-BIO / OVERVIEW</div>
+          <h1>Welcome back, Lena.</h1>
+        </div>
+        <div class="actions">
+          <button class="btn secondary">+ Import dataset</button>
+          <button class="btn primary">+ Deploy twin →</button>
+        </div>
+      </div>
+
+      <!-- KPI cards -->
+      <div class="kpis">
+        <div class="kpi">
+          <div class="lbl">— TWINS ONLINE</div>
+          <div class="val">42<span class="units"> / 50</span></div>
+          <div class="delta">+3 this week</div>
+          <svg class="spark" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,18 10,16 20,17 30,12 40,14 50,10 60,12 70,8 80,10 90,6 100,8" fill="none" stroke="var(--signal-500)" stroke-width="1.2"/></svg>
+        </div>
+        <div class="kpi glow">
+          <div class="lbl">— P99 INFERENCE</div>
+          <div class="val">14.3<span class="units">ms</span></div>
+          <div class="delta">−1.2ms vs last 7d</div>
+          <svg class="spark" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,12 10,14 20,10 30,16 40,11 50,13 60,9 70,11 80,8 90,10 100,7" fill="none" stroke="var(--signal-500)" stroke-width="1.2"/></svg>
+        </div>
+        <div class="kpi">
+          <div class="lbl">— UPTIME · 30D</div>
+          <div class="val">99.92<span class="units">%</span></div>
+          <div class="delta">SLA target met</div>
+          <svg class="spark" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,8 10,8 20,7 30,9 40,7 50,8 60,7 70,12 80,8 90,7 100,7" fill="none" stroke="var(--signal-500)" stroke-width="1.2"/></svg>
+        </div>
+        <div class="kpi">
+          <div class="lbl">— DRIFT EVENTS</div>
+          <div class="val" style="color: var(--orbit-500);">3</div>
+          <div class="delta down">↗ 2 vs last 7d · review</div>
+          <svg class="spark" viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="0,22 10,20 20,22 30,18 40,20 50,18 60,14 70,16 80,10 90,12 100,8" fill="none" stroke="var(--orbit-500)" stroke-width="1.2"/></svg>
+        </div>
+      </div>
+
+      <!-- Twins table -->
+      <div class="section-title">
+        <h2>Active twins</h2>
+        <span class="ovr">— SHOWING 6 OF 42</span>
+        <span style="margin-left: auto;"><button class="btn ghost">View all →</button></span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Twin</th><th>Status</th><th>Region</th><th>P99</th><th>Confidence</th><th>Last calibrated</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="name">atlas-04</td><td><span class="badge live"><span class="d"></span>Live</span></td><td class="mono">us-east-1</td><td class="mono">12.1ms</td><td class="mono" style="color: var(--signal-500);">0.94</td><td class="mono">2m ago</td><td>›</td></tr>
+            <tr><td class="name">helio-12</td><td><span class="badge live"><span class="d"></span>Live</span></td><td class="mono">us-east-1</td><td class="mono">14.3ms</td><td class="mono" style="color: var(--signal-500);">0.91</td><td class="mono">8m ago</td><td>›</td></tr>
+            <tr><td class="name">orbit-07</td><td><span class="badge train"><span class="d"></span>Training</span></td><td class="mono">eu-west-1</td><td class="mono">—</td><td class="mono">—</td><td class="mono">running · 62%</td><td>›</td></tr>
+            <tr><td class="name">vega-22</td><td><span class="badge live"><span class="d"></span>Live</span></td><td class="mono">eu-west-1</td><td class="mono">17.8ms</td><td class="mono" style="color: var(--orbit-500);">0.78</td><td class="mono">1h ago</td><td>›</td></tr>
+            <tr><td class="name">io-03</td><td><span class="badge paused"><span class="d"></span>Paused</span></td><td class="mono">ap-south-1</td><td class="mono">—</td><td class="mono">0.88</td><td class="mono">3d ago</td><td>›</td></tr>
+            <tr><td class="name">titan-19</td><td><span class="badge failed"><span class="d"></span>Failed</span></td><td class="mono">us-east-1</td><td class="mono">—</td><td class="mono">—</td><td class="mono">14m ago</td><td>›</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Activity + side -->
+      <div class="grid-2">
+        <div class="panel activity">
+          <div class="panel-head"><h3>Recent activity</h3><button class="btn ghost">Filter</button></div>
+          <div class="row"><span class="ts">14:02:11</span><span class="msg"><span class="ref">atlas-04</span> recalibrated · Δ confidence +0.03</span><span class="tag-mini ok">CALIB</span></div>
+          <div class="row"><span class="ts">13:54:08</span><span class="msg"><span class="ref">vega-22</span> drift detected on stream <span class="ref">events.checkout</span></span><span class="tag-mini warn">DRIFT</span></div>
+          <div class="row"><span class="ts">13:42:33</span><span class="msg">Run <span class="ref">orbit-07/run-94</span> started by <span class="ref">m.tanaka</span></span><span class="tag-mini">RUN</span></div>
+          <div class="row"><span class="ts">13:18:00</span><span class="msg">Dataset <span class="ref">user-events-q2</span> ingested · 1.4M rows</span><span class="tag-mini ok">INGEST</span></div>
+          <div class="row"><span class="ts">12:49:21</span><span class="msg"><span class="ref">titan-19</span> failed health check · auto-paused</span><span class="tag-mini warn">ALERT</span></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Calibration health</h3><span class="ovr" style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--fg-tertiary);">— 7D</span></div>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div>
+              <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; margin-bottom: 4px;"><span style="color: var(--fg-secondary);">atlas-04</span><span style="color: var(--signal-500);">0.94</span></div>
+              <div style="height: 4px; background: var(--ink-200); border-radius: 2px; overflow: hidden;"><div style="height: 100%; width: 94%; background: var(--signal-500);"></div></div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; margin-bottom: 4px;"><span style="color: var(--fg-secondary);">helio-12</span><span style="color: var(--signal-500);">0.91</span></div>
+              <div style="height: 4px; background: var(--ink-200); border-radius: 2px; overflow: hidden;"><div style="height: 100%; width: 91%; background: var(--signal-500);"></div></div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; margin-bottom: 4px;"><span style="color: var(--fg-secondary);">vega-22</span><span style="color: var(--orbit-500);">0.78</span></div>
+              <div style="height: 4px; background: var(--ink-200); border-radius: 2px; overflow: hidden;"><div style="height: 100%; width: 78%; background: var(--orbit-500);"></div></div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; margin-bottom: 4px;"><span style="color: var(--fg-secondary);">io-03</span><span style="color: var(--fg-tertiary);">0.88</span></div>
+              <div style="height: 4px; background: var(--ink-200); border-radius: 2px; overflow: hidden;"><div style="height: 100%; width: 88%; background: var(--fg-tertiary);"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</div>
+</body>
+</html>

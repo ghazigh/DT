@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-app); }
+  body { padding: 18px 24px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 999px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    border: 1px solid;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .live { color: var(--signal-500); border-color: rgba(0,232,154,0.4); background: rgba(0,232,154,0.07); }
+  .training { color: var(--orbit-500); border-color: rgba(255,174,61,0.4); background: rgba(255,174,61,0.07); }
+  .paused { color: var(--fg-tertiary); border-color: var(--border-default); background: var(--ink-200); }
+  .err { color: #ff5a4e; border-color: rgba(255,90,78,0.4); background: rgba(255,90,78,0.07); }
+  .info { color: #4ea1ff; border-color: rgba(78,161,255,0.4); background: rgba(78,161,255,0.07); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  .live .dot { animation: pulse 1.4s ease-in-out infinite; }
+</style>
+</head>
+<body>
+  <span class="badge live"><span class="dot"></span>Live</span>
+  <span class="badge training"><span class="dot"></span>Training</span>
+  <span class="badge paused"><span class="dot"></span>Paused</span>
+  <span class="badge err"><span class="dot"></span>Failed</span>
+  <span class="badge info"><span class="dot"></span>Syncing</span>
+</body>
+</html>

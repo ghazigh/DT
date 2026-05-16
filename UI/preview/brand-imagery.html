@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-app); }
+  body { padding: 16px 20px; display: flex; gap: 16px; align-items: stretch; }
+  .panel { flex: 1; border-radius: var(--r-md); overflow: hidden; height: 200px; position: relative; border: 1px solid var(--border-subtle); }
+  .panel img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .lbl { position: absolute; bottom: 8px; left: 10px; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(232,234,239,0.7); }
+</style>
+</head>
+<body>
+  <div class="panel"><img src="../assets/bg-orbit.svg" alt="orbit"/><span class="lbl">— BG · ORBIT</span></div>
+  <div class="panel"><img src="../assets/illustration-twin.svg" alt="twin"/><span class="lbl">— ILLUSTRATION · TWIN</span></div>
+</body>
+</html>

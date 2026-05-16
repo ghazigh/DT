@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-app); }
+  body { padding: 22px 28px; }
+  .row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .ovr { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--signal-500); }
+  .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-tertiary); }
+  .mono { font-family: var(--font-mono); font-size: 13px; color: var(--fg-secondary); letter-spacing: 0.02em; }
+  .num { font-family: var(--font-mono); font-size: 28px; color: var(--fg-primary); font-weight: 500; }
+  .units { font-family: var(--font-mono); font-size: 11px; color: var(--fg-tertiary); margin-left: 2px; }
+</style>
+</head>
+<body>
+  <div class="row" style="margin-bottom: 14px;">
+    <span class="ovr">— OVERLINE · ACCENT</span>
+    <span class="lbl">— OVERLINE · MUTED</span>
+  </div>
+  <div class="row" style="gap: 32px; align-items: baseline;">
+    <div><span class="num">99.92</span><span class="units">%</span><div class="lbl" style="margin-top:4px;">Uptime</div></div>
+    <div><span class="num">14</span><span class="units">ms</span><div class="lbl" style="margin-top:4px;">P99 Latency</div></div>
+    <div><span class="num">2.1k</span><div class="lbl" style="margin-top:4px;">Twins online</div></div>
+  </div>
+  <div style="margin-top: 18px;" class="mono">$ satlab twin deploy --region us-east-1 ✓</div>
+</body>
+</html>

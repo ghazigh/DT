@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-app); }
+  body { padding: 18px 24px; }
+  .row { display: flex; gap: 14px; align-items: stretch; }
+  .item { flex: 1; padding: 12px 14px; border-radius: var(--r-md); border: 1px solid; display: flex; flex-direction: column; gap: 6px; }
+  .name { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .desc { font-size: 11px; color: var(--fg-tertiary); }
+  .ok    { border-color: rgba(0,232,154,0.4);  background: rgba(0,232,154,0.07);  color: var(--signal-500); }
+  .warn  { border-color: rgba(255,174,61,0.4); background: rgba(255,174,61,0.07); color: var(--orbit-500); }
+  .err   { border-color: rgba(255,90,78,0.4);  background: rgba(255,90,78,0.07);  color: #ff5a4e; }
+  .info  { border-color: rgba(78,161,255,0.4); background: rgba(78,161,255,0.07); color: #4ea1ff; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="item ok"><span class="name">● OK</span><span class="desc">Telemetry nominal · #00e89a</span></div>
+    <div class="item warn"><span class="name">● WARN</span><span class="desc">Caution / drift · #ffae3d</span></div>
+    <div class="item err"><span class="name">● ERROR</span><span class="desc">Failure / abort · #ff5a4e</span></div>
+    <div class="item info"><span class="name">● INFO</span><span class="desc">Notice / sync · #4ea1ff</span></div>
+  </div>
+</body>
+</html>

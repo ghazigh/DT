@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-app); }
+  body { padding: 20px 24px; box-sizing: border-box; }
+  .stack { display: flex; gap: 24px; align-items: flex-start; }
+  .col { flex: 1; }
+  .head { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-tertiary); margin-bottom: 10px; }
+  .row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .sw { aspect-ratio: 1.2; border-radius: 4px; border: 1px solid var(--border-subtle); display:flex; align-items:flex-end; padding: 4px; font-family: var(--font-mono); font-size: 9px; }
+  .sw.dark { color: white; }
+  .sw.light { color: var(--ink-000); }
+</style>
+</head>
+<body>
+  <div class="stack">
+    <div class="col">
+      <div class="head">— Signal · primary accent</div>
+      <div class="row">
+        <div class="sw light" style="background:#d4fff0">100</div>
+        <div class="sw light" style="background:#6effc4">300</div>
+        <div class="sw light" style="background:#00e89a">500</div>
+        <div class="sw light" style="background:#00c787">600</div>
+        <div class="sw dark" style="background:#009f6b">700</div>
+      </div>
+      <div style="margin-top:10px; font-family: var(--font-mono); font-size: 10px; color: var(--fg-tertiary);">SIGNAL.500 / #00e89a · phosphor · primary brand accent</div>
+    </div>
+    <div class="col">
+      <div class="head">— Orbit · warm</div>
+      <div class="row" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="sw light" style="background:#ffd479">300</div>
+        <div class="sw light" style="background:#ffae3d">500</div>
+        <div class="sw dark" style="background:#c6791d">700</div>
+      </div>
+      <div class="head" style="margin-top: 14px;">— Plasma · viz</div>
+      <div class="row" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="sw light" style="background:#b794ff">300</div>
+        <div class="sw dark" style="background:#7c5cff">500</div>
+        <div class="sw dark" style="background:#5638c2">700</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--bg-app); }
+  body { padding: 22px 28px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .label { font-family: var(--font-mono); font-size: 10px; color: var(--fg-tertiary); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 8px; }
+  .specimen { color: var(--fg-primary); }
+  .mono { font-family: var(--font-mono); font-size: 22px; font-weight: 500; }
+  .sans { font-family: var(--font-sans); font-size: 22px; font-weight: 500; letter-spacing: -0.01em; }
+  .serif { font-family: var(--font-serif); font-size: 28px; font-style: italic; }
+  .meta { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); margin-top: 6px; letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div>
+      <div class="label">— Sans · UI</div>
+      <div class="specimen sans">Inter Tight</div>
+      <div class="meta">300 · 400 · 500 · 600 · 700</div>
+    </div>
+    <div>
+      <div class="label">— Mono · data</div>
+      <div class="specimen mono">JetBrains Mono</div>
+      <div class="meta">400 · 500 · 600 · 700</div>
+    </div>
+    <div>
+      <div class="label">— Serif · accent</div>
+      <div class="specimen serif">Instrument <span style="font-style:normal">Serif</span></div>
+      <div class="meta">italic accents only</div>
+    </div>
+  </div>
+</body>
+</html>

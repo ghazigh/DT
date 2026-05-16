@@ -1,0 +1,272 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   SAT LAB — Foundations
+   Colors, typography, spacing, radii, shadows
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* Fonts: substituted from Google Fonts. Replace with licensed files if available.
+   - JetBrains Mono → primary mono (UI, code, data)
+   - Inter Tight     → display + UI sans
+   - Instrument Serif → editorial accents */
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
+
+:root {
+  /* ── Color: Core neutrals (dark-first) ─────────────────────────────── */
+  --ink-000: #050608;          /* deepest space */
+  --ink-050: #0a0c10;          /* app bg */
+  --ink-100: #0f1218;          /* surface */
+  --ink-200: #161a22;          /* elevated surface */
+  --ink-300: #1f242e;          /* hairline / divider strong */
+  --ink-400: #2a303c;          /* border */
+  --ink-500: #3a4150;          /* muted text on dark */
+  --ink-600: #5b6373;          /* secondary text on dark */
+  --ink-700: #8b94a3;          /* tertiary text */
+  --ink-800: #c5cad4;          /* primary text on dark (slightly off-white) */
+  --ink-900: #e8eaef;          /* high emphasis on dark */
+  --ink-1000: #fafbfc;         /* pure */
+
+  /* ── Color: Light surfaces (paper) ─────────────────────────────────── */
+  --paper-000: #ffffff;
+  --paper-050: #fafaf7;        /* warm paper */
+  --paper-100: #f4f3ee;        /* card on paper */
+  --paper-200: #e7e5dc;        /* divider */
+  --paper-300: #c9c6b8;
+
+  /* ── Color: Signal (the "satellite" accent) ────────────────────────── */
+  /* A precise phosphor cyan-green — reads as instrumentation/telemetry */
+  --signal-100: #d4fff0;
+  --signal-300: #6effc4;
+  --signal-500: #00e89a;       /* primary brand accent */
+  --signal-600: #00c787;
+  --signal-700: #009f6b;
+  --signal-glow: 0 0 24px rgba(0, 232, 154, 0.35);
+
+  /* ── Color: Orbit (secondary accent — warm) ────────────────────────── */
+  --orbit-300: #ffd479;
+  --orbit-500: #ffae3d;        /* warning / highlight */
+  --orbit-700: #c6791d;
+
+  /* ── Color: Plasma (data viz / tertiary) ───────────────────────────── */
+  --plasma-300: #b794ff;
+  --plasma-500: #7c5cff;
+  --plasma-700: #5638c2;
+
+  /* ── Color: Semantic ───────────────────────────────────────────────── */
+  --ok: var(--signal-500);
+  --warn: var(--orbit-500);
+  --error: #ff5a4e;
+  --info: #4ea1ff;
+
+  /* ── Color: Foreground/Background tokens (dark mode default) ───────── */
+  --bg-app: var(--ink-050);
+  --bg-surface: var(--ink-100);
+  --bg-elevated: var(--ink-200);
+  --bg-overlay: rgba(5, 6, 8, 0.72);
+  --bg-paper: var(--paper-050);
+
+  --fg-primary: var(--ink-900);
+  --fg-secondary: var(--ink-700);
+  --fg-tertiary: var(--ink-600);
+  --fg-muted: var(--ink-500);
+  --fg-on-accent: var(--ink-000);
+  --fg-on-paper: var(--ink-100);
+
+  --border-subtle: var(--ink-300);
+  --border-default: var(--ink-400);
+  --border-strong: var(--ink-500);
+
+  /* ── Typography ────────────────────────────────────────────────────── */
+  --font-sans: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-serif: 'Instrument Serif', 'Times New Roman', serif;
+
+  /* Type scale — generous, with a tight, technical feel */
+  --t-display-xl: 96px;
+  --t-display-lg: 72px;
+  --t-display: 56px;
+  --t-h1: 40px;
+  --t-h2: 30px;
+  --t-h3: 22px;
+  --t-h4: 17px;
+  --t-body-lg: 17px;
+  --t-body: 15px;
+  --t-body-sm: 13px;
+  --t-caption: 11px;
+  --t-overline: 10px;
+
+  /* Line heights */
+  --lh-tight: 1.05;
+  --lh-snug: 1.2;
+  --lh-normal: 1.45;
+  --lh-relaxed: 1.6;
+
+  /* Letter-spacing — mono labels get a slight track-out, display gets tightened */
+  --ls-display: -0.025em;
+  --ls-tight: -0.015em;
+  --ls-normal: 0;
+  --ls-mono: 0.02em;
+  --ls-overline: 0.14em;
+
+  /* Weights */
+  --w-light: 300;
+  --w-regular: 400;
+  --w-medium: 500;
+  --w-semibold: 600;
+  --w-bold: 700;
+
+  /* ── Spacing — 4px base ────────────────────────────────────────────── */
+  --s-0: 0;
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-20: 80px;
+  --s-24: 96px;
+
+  /* ── Radii — modest, technical, never pill except on chips ─────────── */
+  --r-none: 0;
+  --r-xs: 2px;
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 10px;
+  --r-xl: 14px;
+  --r-2xl: 20px;
+  --r-full: 999px;
+
+  /* ── Shadows + glows ───────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --glow-signal: 0 0 0 1px var(--signal-500), 0 0 24px rgba(0, 232, 154, 0.35);
+  --glow-soft: 0 0 32px rgba(0, 232, 154, 0.18);
+
+  /* ── Motion ────────────────────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+  --dur-slow: 320ms;
+
+  /* ── Layout ────────────────────────────────────────────────────────── */
+  --container-narrow: 720px;
+  --container-base: 1080px;
+  --container-wide: 1280px;
+  --container-full: 1440px;
+}
+
+/* Light surface override (apply to .paper containers — used on marketing) */
+.paper, [data-theme="paper"] {
+  --bg-app: var(--paper-050);
+  --bg-surface: var(--paper-000);
+  --bg-elevated: var(--paper-100);
+  --fg-primary: var(--ink-100);
+  --fg-secondary: var(--ink-500);
+  --fg-tertiary: var(--ink-600);
+  --fg-muted: var(--ink-700);
+  --border-subtle: var(--paper-200);
+  --border-default: var(--paper-300);
+  --border-strong: var(--ink-700);
+  --shadow-sm: 0 1px 2px rgba(15, 18, 24, 0.06);
+  --shadow-md: 0 4px 12px rgba(15, 18, 24, 0.08);
+  --shadow-lg: 0 24px 48px rgba(15, 18, 24, 0.12);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Semantic element styles
+   ────────────────────────────────────────────────────────────────────────── */
+
+html, body {
+  background: var(--bg-app);
+  color: var(--fg-primary);
+  font-family: var(--font-sans);
+  font-size: var(--t-body);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.display-xl, .display-lg, .display, h1, h2, h3, h4 {
+  font-family: var(--font-sans);
+  letter-spacing: var(--ls-display);
+  line-height: var(--lh-tight);
+  font-weight: var(--w-medium);
+}
+
+.display-xl { font-size: var(--t-display-xl); font-weight: var(--w-light); letter-spacing: -0.04em; }
+.display-lg { font-size: var(--t-display-lg); font-weight: var(--w-light); letter-spacing: -0.035em; }
+.display    { font-size: var(--t-display);    font-weight: var(--w-light); letter-spacing: -0.03em; }
+
+h1 { font-size: var(--t-h1); letter-spacing: var(--ls-tight); }
+h2 { font-size: var(--t-h2); letter-spacing: var(--ls-tight); line-height: var(--lh-snug); }
+h3 { font-size: var(--t-h3); line-height: var(--lh-snug); font-weight: var(--w-semibold); }
+h4 { font-size: var(--t-h4); line-height: var(--lh-snug); font-weight: var(--w-semibold); }
+
+p, .body { font-size: var(--t-body); line-height: var(--lh-relaxed); color: var(--fg-secondary); }
+.body-lg { font-size: var(--t-body-lg); line-height: var(--lh-relaxed); }
+.body-sm { font-size: var(--t-body-sm); line-height: var(--lh-normal); }
+
+.serif       { font-family: var(--font-serif); font-style: italic; letter-spacing: 0; }
+.serif-roman { font-family: var(--font-serif); font-style: normal; }
+
+.mono, code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  letter-spacing: var(--ls-mono);
+}
+
+.overline, .label {
+  font-family: var(--font-mono);
+  font-size: var(--t-overline);
+  letter-spacing: var(--ls-overline);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  font-weight: var(--w-medium);
+}
+
+.caption { font-size: var(--t-caption); color: var(--fg-tertiary); }
+
+a { color: var(--signal-500); text-decoration: none; transition: opacity var(--dur-fast) var(--ease-out); }
+a:hover { opacity: 0.75; }
+
+::selection { background: var(--signal-500); color: var(--ink-000); }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Utility primitives reused across the system
+   ────────────────────────────────────────────────────────────────────────── */
+
+.hairline {
+  border: none;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: var(--r-sm);
+  background: var(--ink-200);
+  border: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: var(--t-overline);
+  letter-spacing: var(--ls-overline);
+  text-transform: uppercase;
+  color: var(--fg-secondary);
+}
+
+.tag.signal { color: var(--signal-500); border-color: rgba(0, 232, 154, 0.35); background: rgba(0, 232, 154, 0.06); }
+
+.dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
